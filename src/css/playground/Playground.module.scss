@@ -1,0 +1,20 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Playground {
+	width: 100%;
+	@include flex_col(center, center);
+
+	&_actions {
+		width: 100%;
+		@include flex_row(center, center);
+		gap: 2rem;
+	}
+	&_settings {
+		width: 100%;
+		@include flex_col(center, center);
+		gap: 2rem;
+		margin-top: 4rem;
+	}
+}

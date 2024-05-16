@@ -1,0 +1,109 @@
+:root {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+
+	/* Grey Tints */
+	--greyTintMain: #64748b;
+	--greyTint800: #728196;
+	--greyTint700: #818ea1;
+	--greyTint600: #909cad;
+	--greyTint500: #9fa9b8;
+	--greyTint400: #afb7c4;
+	--greyTint300: #bec5cf;
+	--greyTint200: #ced3db;
+	--greyTint100: #dee2e7;
+	--greyTint50: #eef0f3;
+
+	/* BLUE-GREY SHADES */
+	--blueGrey50: rgb(248, 250, 252);
+	--blueGrey100: rgb(241, 245, 249);
+	--blueGrey200: rgb(226, 232, 240);
+	--blueGrey300: rgb(203, 213, 225);
+	--blueGrey400: rgb(148, 163, 184);
+	--blueGrey500: rgb(100, 116, 139);
+	--blueGrey600: rgb(71, 85, 105);
+	--blueGrey700: rgb(51, 65, 85);
+	--blueGrey800: rgb(30, 41, 59);
+	--blueGrey900: rgb(15, 23, 42);
+
+	/* Red Shades */
+	--red50: rgb(254, 242, 242);
+	--red100: rgb(254, 226, 226);
+	--red200: rgb(254, 202, 202);
+	--red300: rgb(252, 165, 165);
+	--red400: rgb(248, 113, 113);
+	--red500: rgb(239, 68, 68);
+	--red600: rgb(220, 38, 38);
+	--red700: rgb(185, 28, 28);
+	--red800: rgb(153, 27, 27);
+	--red900: rgb(127, 29, 29);
+
+	/* BACKGROUNDS */
+	--bg100: rgb(255, 255, 255);
+	--bg200: rgb(230, 230, 231);
+	--bg300: rgb(205, 206, 206);
+	--bg400: rgb(181, 181, 182);
+	--bg500: rgb(156, 157, 157);
+	--bg600: rgb(131, 132, 133);
+	--bg700: rgb(106, 107, 109);
+	--bg800: rgb(81, 83, 84);
+	--bg900: rgb(57, 58, 60);
+	--bg1000: rgb(32, 34, 35);
+	--bg1100: rgb(7, 9, 11);
+	--bg1200: rgb(6, 8, 10);
+	--bg1300: rgb(6, 7, 9);
+	--bg1400: rgb(5, 6, 8);
+	--bg1500: rgb(4, 5, 7);
+	--bg1600: rgb(4, 5, 6);
+	--bg1700: rgb(3, 4, 4);
+	--bg1800: rgb(2, 3, 3);
+	--bg1900: rgb(1, 2, 2);
+	--bg2000: rgb(1, 1, 1);
+	--bg2100: rgb(0, 0, 0);
+
+	/* CUSTOM VARIABLES */
+	--main-bg: rgba(13, 17, 21, 0.975);
+	--bg-dashboard: rgba(10, 14, 22, 1);
+	--bg-editor: rgba(15, 23, 42, 1);
+	--border: var(--greyTint800);
+	--text-color: var(--greyTint700);
+
+	/* MAIN ACCENTS */
+	--accent: rgb(124, 58, 237);
+	--alt-accent: rgb(0, 226, 189);
+	/* Extra Color Accents */
+	--accent-red: #ed254e;
+	--accent-bright-red: #ff0066;
+	--accent-purple: #8a4fff;
+	--accent-blue: #009ddc;
+	--accent-green: #21d19f;
+	--accent-lime: #80ff72;
+	--accent-bright-green: #2cda9d;
+	--accent-seaweed: #00e2bd;
+	--accent-yellow: #fff07c;
+}
+
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+html {
+	font-size: 62.5%;
+}
+body {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	background-color: var(--bg1300);
+}

@@ -1,0 +1,17 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Nav {
+	width: 100%;
+	height: 5rem;
+	font-size: 1.5rem;
+	margin-bottom: 2rem;
+
+	&_list {
+		@include fill_container;
+		@include flex_row(flex-start, center);
+		list-style: none;
+		gap: 2rem;
+	}
+}

@@ -1,0 +1,23 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Synth {
+	width: 90rem;
+	height: 50rem;
+	border-radius: 1rem;
+	border: 1px solid var(--border);
+
+	&_bottom {
+		@include flex_row(flex-start, flex-start, nowrap);
+		width: calc(100% - 10rem);
+		height: 100%;
+		max-height: fit-content;
+	}
+}
+
+@media only screen and (max-width: 901px) {
+	.Synth {
+		width: 100%;
+	}
+}

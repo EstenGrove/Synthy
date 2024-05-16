@@ -1,0 +1,17 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.PlaygroundPage {
+	width: 100%;
+
+	& h1 {
+		margin-bottom: 2rem;
+	}
+
+	&_main {
+		@include fill_container;
+		@include flex_col(center, center);
+		padding: 4rem 0;
+	}
+}

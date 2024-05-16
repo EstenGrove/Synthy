@@ -1,0 +1,10 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Slider {
+	width: 15rem;
+	height: auto;
+	max-height: 20rem;
+	min-height: 10rem;
+}

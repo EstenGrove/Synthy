@@ -1,0 +1,18 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Select {
+	width: auto;
+	font-size: 1.6rem;
+	@include flex_col(flex-start, flex-start);
+
+	&_label {
+		font-size: 1.6rem;
+	}
+	&_select {
+		width: 20rem;
+		height: 3rem;
+		border-radius: 0.5rem;
+	}
+}

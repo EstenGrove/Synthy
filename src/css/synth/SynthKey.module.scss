@@ -1,0 +1,9 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.SynthKey {
+	position: relative;
+	width: min-content;
+	height: 100%;
+}
