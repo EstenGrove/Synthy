@@ -6,4 +6,7 @@
 	position: relative;
 	width: min-content;
 	height: 100%;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
 }

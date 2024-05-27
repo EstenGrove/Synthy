@@ -4,6 +4,7 @@ import React, {
 	useCallback,
 	useState,
 	ChangeEvent,
+	KeyboardEvent,
 } from "react";
 import styles from "../../css/synth/Synth.module.scss";
 import { INote } from "../../utils/utils_notes";
@@ -16,8 +17,6 @@ import SynthControls from "./SynthControls";
 import SynthKey from "./SynthKey";
 import MasterPanel from "../controls/MasterPanel";
 import Fader from "../controls/Fader";
-
-type Props = {};
 
 type ActiveOscs = {
 	[key in INote["label"]]: OscillatorNode;
@@ -143,7 +142,13 @@ const Synth = () => {
 		const { label } = note;
 		const active = activeOscillators.current;
 		// fadeOutAudio(gainNode, audioCtx);
+		if (!active) return;
 		active[label].stop(0.015);
+	};
+
+	// handle keyboard events
+	const handleKeyDown = (e: KeyboardEvent) => {
+		console.log("Event:", e);
 	};
 
 	// watches for 'volume' changes & updates the gainNode's value
@@ -189,7 +194,6 @@ const Synth = () => {
 						val={"0.5"}
 						id="volume"
 						name="volume"
-						label="Master"
 						min={0.0}
 						max={1.0}
 						step={0.01}

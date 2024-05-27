@@ -1,4 +1,10 @@
-import { Effect, IEffectInput, IEffectOutput, ISettings } from "./Effect";
+import {
+	Effect,
+	IEffectInput,
+	IEffectOutput,
+	ISettings,
+	TLevel,
+} from "./Effect";
 
 export interface VCOSettings extends ISettings {
 	freq: number;
@@ -17,8 +23,8 @@ class VCO extends Effect {
 		super(audioCtx, settings);
 
 		this.audioCtx = audioCtx;
-		this.level = settings?.level ?? 0.5;
-		this._type = settings?.type ?? "sine";
+		this.level = (settings?.level ?? 0.5) as TLevel;
+		this._type = (settings?.type ?? "sine") as OscillatorType;
 		this._freq = settings.freq ?? 440.0;
 		this._semitones = settings?.semitones ?? 4;
 

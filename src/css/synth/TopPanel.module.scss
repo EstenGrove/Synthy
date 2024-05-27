@@ -1,0 +1,13 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.TopPanel {
+	width: 100%;
+	height: 5rem;
+	border-bottom: 1px solid var(--border);
+	&_inner {
+		@include fill_container;
+		@include flex_row(flex-start, flex-start);
+	}
+}

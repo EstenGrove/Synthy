@@ -1,0 +1,29 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+// line styles
+$stroke: 1;
+$strokeColor: var(--accent-yellow);
+
+.SineWave {
+	width: 40rem;
+	height: 25rem;
+	border-radius: 1rem;
+	border: 1px solid var(--border);
+	margin-bottom: 4rem;
+
+	&_svg {
+		@include fill_container;
+
+		& line {
+			// stroke: $strokeColor;
+			stroke-width: $stroke;
+		}
+	}
+}
+
+.Line {
+	// stroke: $strokeColor;
+	stroke-width: $stroke;
+}

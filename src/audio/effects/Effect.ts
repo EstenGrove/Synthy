@@ -23,8 +23,8 @@ export type TVolumeRange = NumericRange<0.0, 1.0>;
 export type TLevel = NumericRange<0.0, 1.0>;
 
 export interface ISettings {
-	// @ts-ignore
 	[key: string]: any;
+	// [key: string]: string | number | boolean | undefined | TLevel;
 }
 
 export type IEffectInput =
@@ -49,6 +49,7 @@ class Effect {
 	private _node!: AudioNode;
 	// Main level control - Accessible in all classes that extend Effect
 	public level!: TLevel; // range
+	// public level!: TLevel; // range
 	// Object/map of settings stored
 	private _settings: ISettings;
 

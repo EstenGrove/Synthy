@@ -2,28 +2,48 @@
 @import "../../sass/mixins";
 @import "../../sass/custom";
 
-$width: 5rem;
-$height: 5rem;
+$size: 6rem;
+// dot handle is 1/5 the size of the knob's circle
+// $handle: calc($size / 7);
+$handle: calc($size / 8);
+
+// $highlight: rgb(0, 226, 189);
+$highlight: var(--accent);
+
+:root {
+	user-select: none;
+}
 
 .Knob {
 	position: relative;
 	display: block;
-	width: 20rem;
-	min-width: 20rem;
-	min-height: 20rem;
-	height: 20rem;
-	min-height: 20rem;
+	width: $size;
+	min-width: $size;
+	min-height: $size;
+	height: $size;
+	min-height: $size;
 	border-radius: 50%;
 	border: 1px solid #ccc;
-	// pointer-events: none;
+	user-select: none;
+	border: calc($size / 25) solid #000;
+	background-color: var(--bg1100);
+	&:hover {
+		cursor: pointer;
+		box-shadow: 1px 1px 1px 1px $highlight;
+	}
+	&:focus-within {
+		box-shadow: 1px 1px 1px 1px $highlight;
+	}
 
 	&_handle {
 		position: absolute;
-		bottom: 0;
-		left: 50%;
-		width: 2rem;
-		height: 2rem;
-		background-color: green;
+		bottom: 10%;
+		left: 40%;
+		width: $handle;
+		min-width: $handle;
+		height: $handle;
+		min-height: $handle;
+		background-color: $highlight;
 		border-radius: 50%;
 	}
 }

@@ -1,0 +1,16 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.SinePlayground {
+	@include fill_container;
+	padding: 2rem;
+
+	&_container {
+		width: 100%;
+		height: auto;
+		@include flex_row(center, flex-start, wrap);
+		@include flex_row(space-evenly, flex-start, wrap);
+		gap: 2rem;
+	}
+}

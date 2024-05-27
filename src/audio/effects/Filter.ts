@@ -1,4 +1,10 @@
-import { Effect, IEffectInput, IEffectOutput, ISettings } from "./Effect";
+import {
+	Effect,
+	IEffectInput,
+	IEffectOutput,
+	ISettings,
+	TLevel,
+} from "./Effect";
 
 export interface IEnvelopeSettings extends ISettings {
 	multiplier?: number;
@@ -24,7 +30,7 @@ class EnvelopeFilter extends Effect {
 	constructor(audioCtx: AudioContext, settings: IEnvelopeSettings) {
 		super(audioCtx, settings);
 
-		this.level = settings?.level ?? 0.5;
+		this.level = (settings?.level ?? 0.5) as TLevel;
 		this._multiplier = settings?.multiplier ?? 2.0;
 		// Envelope settings
 		this._attack = settings?.attack ?? 0.8;

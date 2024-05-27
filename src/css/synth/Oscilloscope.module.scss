@@ -1,0 +1,15 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Oscilloscope {
+	width: 100%;
+	height: auto;
+
+	&_canvas {
+		display: block;
+		margin: 0 auto;
+		border: 1px solid #ccc;
+		border-radius: 1rem;
+	}
+}

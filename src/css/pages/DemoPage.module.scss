@@ -4,6 +4,7 @@
 
 .DemoPage {
 	width: 100%;
+	touch-action: none;
 
 	& h1 {
 		margin-bottom: 2rem;
@@ -13,6 +14,8 @@
 		@include fill_container;
 		@include flex_col(center, center);
 		padding: 4rem 0;
+		overflow: hidden;
+		margin: 2rem 0;
 
 		&_wrapper {
 			position: relative;
@@ -28,4 +31,18 @@
 	width: 25rem;
 	height: 10rem;
 	border: 1px solid white;
+}
+
+.SynthWrapper {
+	width: 90rem;
+	height: 50rem;
+	border-radius: 1rem;
+	border: 1px solid var(--border);
+
+	&_bottom {
+		@include flex_row(flex-start, flex-start, nowrap);
+		width: calc(100% - 10rem);
+		height: 100%;
+		max-height: fit-content;
+	}
 }

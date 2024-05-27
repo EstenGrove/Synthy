@@ -3,7 +3,8 @@
 @import "../../sass/custom";
 
 .Select {
-	width: auto;
+	width: 20rem;
+	height: 3rem;
 	font-size: 1.6rem;
 	@include flex_col(flex-start, flex-start);
 
@@ -11,8 +12,22 @@
 		font-size: 1.6rem;
 	}
 	&_select {
-		width: 20rem;
-		height: 3rem;
+		width: 100%;
+		height: 100%;
 		border-radius: 0.5rem;
+		border: 1px solid var(--border);
+		outline: none;
+		color: rgba(255, 255, 255, 0.87);
+		background-color: transparent;
+		&:hover {
+			cursor: pointer;
+		}
+
+		&_option {
+			padding: 0.2rem 0.4rem;
+			color: white;
+			background-color: var(--main-bg);
+			// background-color: transparent;
+		}
 	}
 }

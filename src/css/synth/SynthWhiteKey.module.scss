@@ -12,6 +12,9 @@
 	border: 1px solid var(--border);
 	@include flex_row(center, flex-end);
 	background-color: white;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
 	&:hover {
 		cursor: pointer;
 		background-color: var(--greyTint100);

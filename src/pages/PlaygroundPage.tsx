@@ -4,6 +4,8 @@ import Playground from "../components/playground/Playground";
 import Knob from "../components/controls/Knob";
 import DelayPlayground from "../components/playground/DelayPlayground";
 import Fader from "../components/controls/Fader";
+import SinePlayground from "../components/playground/SinePlayground";
+import OscilloscopePlayground from "../components/playground/OscilloscopePlayground";
 
 type Props = {};
 
@@ -18,7 +20,9 @@ const PlaygroundPage = ({}: Props) => {
 			<h1>Playground Page</h1>
 			<main className={styles.PlaygroundPage_main}>
 				{/* <Playground /> */}
-				<DelayPlayground />
+				{/* <DelayPlayground /> */}
+				{/* <SinePlayground /> */}
+				{/* <OscilloscopePlayground /> */}
 				<br />
 				<br />
 				<br />

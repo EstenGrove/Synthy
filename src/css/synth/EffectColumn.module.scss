@@ -1,0 +1,10 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.EffectColumn {
+	width: max-content;
+	height: auto;
+	@include flex_col(flex-start, center);
+	gap: 1rem 1rem;
+}

@@ -1,0 +1,15 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ControlsPanel {
+	width: 100%;
+	height: auto;
+
+	&_main {
+		display: block;
+		width: 100%;
+		height: fit-content;
+		padding: 1rem 1rem;
+	}
+}

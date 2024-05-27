@@ -1,21 +1,21 @@
 import { LocalNodes } from "../nodes/nodes";
-import { ISettings } from "./Effect";
+import { ISettings, TLevel } from "./Effect";
 
 class MultiOsc {
 	private _node: GainNode;
 	private _audioCtx: AudioContext;
 	// Settings, config
 	private _level: number;
-	private _oscCount: number;
+	private _oscCount!: number;
 	private _freq: number;
 
 	public nodes: LocalNodes = {};
 
 	constructor(audioCtx: AudioContext, settings: ISettings) {
 		this._audioCtx = audioCtx;
-		this._level = settings?.level ?? 0.5;
-		this._oscCount = settings?.oscCount ?? 1;
-		this._freq = settings?.freq ?? 440.0;
+		this._level = (settings?.level ?? 0.5) as TLevel;
+		this._oscCount = (settings?.oscCount ?? 1) as number;
+		this._freq = (settings?.freq ?? 440.0) as number;
 
 		this.nodes = {
 			osc1: new OscillatorNode(this._audioCtx, {
@@ -59,3 +59,5 @@ class MultiOsc {
 		return stepped;
 	}
 }
+
+export { MultiOsc };

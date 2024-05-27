@@ -164,4 +164,13 @@ const transpose = (freq: number, steps: number) => {
 	return freq * Math.pow(2, steps / 12);
 };
 
+// MAP MUSICAL NOTES TO KEYBOARD KEYS //
+
+export interface NoteToKeysMap {}
+
+const mapNotesToKeys = (notes: INote[]): NoteToKeysMap => {
+	//
+	return {} as NoteToKeysMap;
+};
+
 export { BASE_OCTAVE, generateOctave, generateOctavesFromBase, transpose };

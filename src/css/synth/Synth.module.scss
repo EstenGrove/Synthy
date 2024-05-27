@@ -7,6 +7,8 @@
 	height: 50rem;
 	border-radius: 1rem;
 	border: 1px solid var(--border);
+	user-select: none;
+	-webkit-touch-callout: none;
 
 	&_bottom {
 		@include flex_row(flex-start, flex-start, nowrap);

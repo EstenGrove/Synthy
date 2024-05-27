@@ -1,0 +1,49 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$onColor: rgb(102, 255, 0);
+$offColor: rgba(238, 75, 43, 1);
+
+.PowerButton {
+	width: max-content;
+	height: max-content;
+	@include flex_col(center, center);
+
+	&_btn {
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+		border: 1px solid #ccc;
+		@include flex_row(center, center);
+		border: none;
+		outline: none;
+		background-color: var(--red500);
+		background-color: var(--green500);
+		margin-bottom: 0.5rem;
+		&:hover {
+			cursor: pointer;
+		}
+
+		&_icon {
+			@include flex_row(center, center);
+			width: 2.5rem;
+			height: 2.5rem;
+			fill: var(--border);
+			background-color: transparent;
+		}
+	}
+	&_indicator {
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+		background-color: $offColor;
+		box-shadow: 0px 0px 216px 0px $offColor;
+		opacity: 0.3;
+	}
+}
+
+// 'On' styles for button icon
+[data-on="true"] .PowerButton_btn_icon {
+	fill: white;
+}

@@ -1,30 +1,17 @@
-# React + TypeScript + Vite
+# Synthy: React Synth
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React synthesizer using the Web Audio API.
 
-Currently, two official plugins are available:
+## Todos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [ ] Add "Save as Preset" functionality
+- [ ] Finish styling & building controls panel
+- [ ] Update code to leverage new custom audio classes for effects
 
-## Expanding the ESLint configuration
+## VCO Builder
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- [ ] Ability add/remove oscillators that look like rack mount effects
+- [ ] Ability to control each one independently and chain them together
+- [ ] Ability to add effects to each
+- [ ] Ability to turn each one on/off with a click
+- [ ] Build the instrument interface like the Korg Kaoss

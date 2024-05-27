@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import { CSSProperties, ChangeEvent } from "react";
 import styles from "../../css/shared/Select.module.scss";
 
 type Props = {
@@ -12,6 +12,7 @@ type Props = {
 	handleChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 	options: Array<string>;
 	disabledOptions?: Array<string>;
+	customStyles?: CSSProperties;
 };
 
 const isItemDisabled = (item: string, disabledList: string[]): boolean => {
@@ -23,13 +24,14 @@ const Select = ({
 	id,
 	name,
 	val,
-	handleChange,
 	label,
 	options,
+	handleChange,
 	disabledOptions,
+	customStyles,
 }: Props) => {
 	return (
-		<div className={styles.Select}>
+		<div className={styles.Select} style={customStyles}>
 			<label htmlFor={id} className={styles.Select_label}>
 				{label}
 			</label>
@@ -48,6 +50,7 @@ const Select = ({
 							disabled={
 								disabledOptions && isItemDisabled(option, disabledOptions)
 							}
+							className={styles.Select_select_option}
 						>
 							{option}
 						</option>

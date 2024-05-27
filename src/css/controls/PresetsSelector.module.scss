@@ -1,0 +1,149 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.PresetsSelector {
+	width: 30rem;
+	height: 100%;
+	margin: 0 auto;
+
+	&_main {
+		width: 100%;
+		height: 100%;
+		@include flex_row(flex-start, center);
+		gap: 0 0.5rem;
+	}
+}
+
+.PrevButton {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 0.3rem;
+	border: none;
+	outline: none;
+	@include flex_row(center, center);
+	background-color: var(--bg2100);
+	border: 1px solid var(--border);
+	&:hover {
+		cursor: pointer;
+	}
+
+	&_icon {
+		width: 2rem;
+		height: 2rem;
+		min-width: 2rem;
+		min-height: 2rem;
+		fill: #fff;
+	}
+}
+.NextButton {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 0.3rem;
+	border: none;
+	outline: none;
+	@include flex_row(center, center);
+	background-color: var(--bg2100);
+	border: 1px solid var(--border);
+	&:hover {
+		cursor: pointer;
+	}
+
+	&_icon {
+		width: 2rem;
+		height: 2rem;
+		min-width: 2rem;
+		min-height: 2rem;
+		fill: #fff;
+	}
+}
+
+// Actual dropdown selector
+.PresetSelector {
+	width: 15rem;
+	height: 100%;
+	height: 2rem;
+	position: relative;
+	border-radius: 0.2rem;
+	background-color: none;
+
+	&_btn {
+		@include fill_container;
+		@include flex_row(flex-start, center);
+		padding-left: 1rem;
+		border-radius: 0.3rem;
+		border: none;
+		outline: none;
+		background-color: transparent;
+		border: 1px solid var(--border);
+		&:hover {
+			cursor: pointer;
+		}
+
+		&_icon {
+			width: 1.8rem;
+			height: 1.8rem;
+			fill: white;
+			margin-left: auto;
+		}
+	}
+}
+
+.PresetsMenu {
+	position: absolute;
+	top: 2.2rem;
+	left: 0;
+	width: 100%;
+	height: 16rem;
+	border-radius: 0.5rem;
+	background-color: var(--bg2100);
+	z-index: 10;
+	border: 1px solid var(--border);
+
+	&_list {
+		width: 100%;
+		height: 100%;
+		list-style: none;
+		border-radius: 0.5rem;
+		background-color: var(--bg2100);
+		// overflow-y: auto;
+	}
+}
+
+.PresetOption {
+	width: 100%;
+	height: 2.2rem;
+	padding: 0 0.2rem;
+	border-radius: 0.5rem;
+	@include flex_row(flex-start, center);
+	background-color: var(--bg2100);
+
+	&:hover {
+		background-color: var(--purple200);
+		cursor: pointer;
+	}
+	&:hover &_value {
+		color: var(--accent);
+	}
+
+	&_selected {
+		width: 1.3rem;
+		height: 1.3rem;
+		min-width: 1.3rem;
+		min-height: 1.3rem;
+
+		&_icon {
+			width: 1.3rem;
+			height: 1.3rem;
+			min-width: 1.3rem;
+			min-height: 1.3rem;
+			fill: var(--accent);
+		}
+	}
+	&_value {
+		height: 100%;
+		font-size: 1.4rem;
+		margin-left: 0.3rem;
+		color: var(--border);
+	}
+}
