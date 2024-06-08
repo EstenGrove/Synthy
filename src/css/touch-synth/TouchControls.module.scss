@@ -1,0 +1,11 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.TouchControls {
+	width: 100%;
+	height: auto;
+	padding: 0 8rem;
+	// @include flex_col(flex-start, flex-start);
+	@include flex_row(space-between, flex-start);
+}

@@ -1,0 +1,39 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.TouchOsc {
+	width: 80rem;
+	height: 80rem;
+	padding: 2rem;
+	border: 1px solid var(--border);
+	border-radius: 1rem;
+	@include flex_col(center, center);
+
+	&_controls {
+		width: 100%;
+		height: auto;
+	}
+
+	&_pad {
+		position: relative;
+		width: 60rem;
+		height: 60rem;
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+.Cursor {
+	position: absolute;
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
+	background-color: var(--accent);
+}
+
+@media only screen and (max-width: 600px) {
+	.TouchOsc {
+		width: 100%;
+	}
+}

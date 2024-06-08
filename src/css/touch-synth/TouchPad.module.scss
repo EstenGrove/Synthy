@@ -1,0 +1,21 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+// $lineColor: rgba(114, 129, 150, 0.2);
+$lineColor: rgba(120, 48, 255, 0.1);
+$lineSize: 6rem 6rem;
+
+.TouchPad {
+	width: 100%;
+	height: 100%;
+	background-color: var(--blueGrey900);
+
+	&_pad {
+		width: 100%;
+		height: 100%;
+		background-size: $lineSize;
+		background-image: linear-gradient(to right, $lineColor 1px, transparent 1px),
+			linear-gradient(to bottom, $lineColor 1px, transparent 1px);
+	}
+}

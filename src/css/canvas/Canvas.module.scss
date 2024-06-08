@@ -1,0 +1,12 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Canvas {
+	width: auto;
+	height: auto;
+
+	&_canvas {
+		border: 1px solid var(--border);
+	}
+}

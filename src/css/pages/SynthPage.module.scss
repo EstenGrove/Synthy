@@ -15,3 +15,17 @@
 		padding: 4rem 0;
 	}
 }
+
+.KeyCodes {
+	width: 25rem;
+	height: auto;
+	border: 1px solid var(--border);
+	padding: 2rem;
+
+	h3 {
+		margin-bottom: 1rem;
+	}
+	&_info {
+		font-size: 1.4rem;
+	}
+}

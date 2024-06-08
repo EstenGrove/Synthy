@@ -1,3 +1,4 @@
+import { IScalesMap, TScaleType } from "../scales/allScales";
 import { INote } from "../utils/utils_notes";
 
 const NOTES_LIST: INote[] = [
@@ -855,4 +856,131 @@ const NOTES_LIST: INote[] = [
 	},
 ];
 
-export { NOTES_LIST };
+const SCALE_NAMES: string[] = [
+	"Major",
+	"Minor",
+	"HarmonicMinor",
+	"Ionian",
+	"Dorian",
+	"Phrygian",
+	"Lydian",
+	"Mixolydian",
+	"Aeolian",
+	"Locrian",
+	"MajorPentatonic",
+	"MinorPentatonic",
+	"MajorBlues",
+	"MinorBlues",
+	"WholeTone",
+	"DiminishedW-H",
+	"DiminishedH-W",
+	"Chromatic",
+];
+
+const SCALES_MAP: IScalesMap = {
+	Major: {
+		C: ["C", "D", "E", "F", "G", "A", "B", "C"],
+		D: ["D", "E", "F#", "G", "A", "B", "C#", "D"],
+		E: ["E", "F#", "G#", "A", "B", "C#", "D#", "E"],
+		F: ["F", "G", "A", "Bb", "C", "D", "E", "F"],
+		G: ["G", "A", "B", "C", "D", "E", "F#", "G"],
+		A: ["A", "B", "C#", "D", "E", "F#", "G#", "A"],
+		B: ["B", "C#", "D#", "E", "F#", "G#", "A#", "B"],
+		// 🔻 MIGHT REMOVE THESE FOR EASE-OF-USE 🔻
+		"F#": ["F#", "G#", "A#", "B", "C#", "D#", "Db", "F#"],
+		Gb: ["Gb", "Ab", "Bb", "B", "Db", "Eb", "F", "Gb"],
+	},
+	Minor: {
+		A: ["A", "B", "C", "D", "E", "F", "G", "A"],
+		B: ["B", "C", "D", "E", "F", "G", "A", "B"],
+		C: ["C", "D", "Eb", "F", "G", "Ab", "Bb", "C"],
+		D: ["D", "E", "F", "G", "A", "B", "C", "D"],
+		E: ["E", "F♯", "G", "A", "B", "C", "D", "E"],
+		F: ["F", "G", "Ab", "Bb", "C", "Db", "Eb", "F"],
+		G: ["G", "A", "Bb", "C", "D", "Eb", "F", "G"],
+		Gb: [],
+		"F#": [],
+	},
+	// 6th note is different: W-W-H-W-H-W&H-H
+	// - Whole, Whole, Half, Whole, Half, Whole & a Half, Half
+	HarmonicMajor: {
+		C: ["C", "D", "E", "F", "G", "Ab", "B", "C"],
+		D: ["D", "E", "F#", "G", "A", "Bb", "C#", "D"],
+		E: ["E", "F#", "G#", "A", "B", "C", "D#", "E"],
+		F: ["F", "G", "A", "Bb", "C", "Db", "E", "F"],
+		G: ["G", "A", "B", "C", "D", "Eb", "F#", "G"],
+		A: ["A", "B", "C#", "D", "E", "F", "G#", "A"],
+		B: ["B", "C#", "D#", "E", "F#", "G", "A#", "B"],
+	},
+	HarmonicMinor: {
+		C: ["C", "D", "Eb", "F", "G", "Ab", "B", "C"],
+		D: ["D", "E", "Fb", "G", "A", "Bb", "C#", "D"],
+		E: ["E", "F#", "Gb", "A", "B", "C", "D#", "E"],
+		F: ["F", "G", "Ab", "Bb", "C", "Db", "E", "F"],
+		G: ["G", "A", "Bb", "C", "D", "Eb", "F#", "G"],
+		A: ["A", "B", "Cb", "D", "E", "F", "G#", "A"],
+		B: ["B", "C#", "Db", "E", "F#", "G", "A#", "B"],
+	},
+	Ionian: {
+		A: ["A", "B", "C♯", "D", "E", "F♯", "G♯"],
+		C: ["C", "D", "E", "F", "G", "A", "B"],
+		D: ["D", "E", "F♯", "G", "A", "B", "C♯"],
+		E: ["E", "F♯", "G♯", "A", "B", "C♯", "D♯"],
+	},
+};
+
+// Contains extra info about each scale type
+// - 'label': human-readable alias
+// - 'desc': descriptive tone pattern for scale type
+// - 'scales': the actual scales under that type
+const SCALES_INFO_MAP = {
+	Major: {
+		label: "Major",
+		desc: "Major scales: W-W-H-W-W-W-H",
+		scales: { ...SCALES_MAP?.Major },
+	},
+	Minor: {
+		label: "Minor",
+		desc: "Minor scales: ",
+		scales: { ...SCALES_MAP?.Minor },
+	},
+	HarmonicMajor: {
+		label: "Minor",
+		desc: "Minor scales: ",
+		scales: { ...SCALES_MAP?.HarmonicMajor },
+	},
+};
+
+// C_Major: ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C']
+// A_Minor: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'A']
+export type TScale = Array<string>;
+
+export interface IScaleOpts {
+	baseOctave: number;
+}
+
+const getScaleByNotesList = (scale: TScale, options: IScaleOpts) => {
+	const { baseOctave } = options;
+	// find our starting point by finding the 1st occurrence of our base octave (eg 1st note of base octave)
+	const baseIdx = NOTES_LIST.findIndex((note) => note.octave === baseOctave);
+	// trim off all notes before our baseIdx since they're out of scope
+	const candidates = NOTES_LIST.slice(baseIdx);
+	const notesScale = candidates.filter((note) => {
+		const isMatch = note.octave === baseOctave && scale.includes(note.label);
+		// handle last note, in next octave
+		const isLastNote =
+			note.octave === baseOctave + 1 && note.label === scale[scale.length - 1];
+		return isMatch || isLastNote;
+	});
+
+	return notesScale;
+};
+
+export {
+	NOTES_LIST,
+	// Scales & Utils
+	SCALES_MAP,
+	SCALE_NAMES,
+	SCALES_INFO_MAP,
+	getScaleByNotesList,
+};

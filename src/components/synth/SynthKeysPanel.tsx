@@ -8,10 +8,10 @@ type Props = {
 const SynthKeysPanel = ({ children }: Props) => {
 	const [isPressed, setIsPressed] = useState<boolean>(false);
 
-	const handleMousedown = (e) => {
+	const handleMousedown = () => {
 		setIsPressed(true);
 	};
-	const handleMouseup = (e) => {
+	const handleMouseup = () => {
 		setIsPressed(false);
 	};
 

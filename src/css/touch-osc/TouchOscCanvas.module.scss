@@ -1,0 +1,13 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.TouchOscCanvas {
+	width: auto;
+	height: auto;
+	user-select: none;
+
+	&_canvas {
+		border: 1px solid var(--border);
+	}
+}

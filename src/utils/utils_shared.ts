@@ -18,6 +18,25 @@ const range = (start: number, end: number) => {
 	return rangeVals;
 };
 
+const getRandomNumInRange = (min: number, max: number) => {
+	return Math.random() * (max - min) + min;
+};
+
+const generateRandomList = (
+	min: number = 0.0,
+	max: number = 1.0,
+	count = 10
+): number[] => {
+	const list: number[] = [];
+
+	for (let i = min; i <= count; i++) {
+		const int = getRandomNumInRange(min, max);
+		list.push(int);
+	}
+
+	return list;
+};
+
 export interface CRange {
 	min: number;
 	max: number;
@@ -31,6 +50,21 @@ const clamp = (val: number, range: CRange) => {
 	return clampedValue;
 };
 
+// Uses for..loop instead of Array.prototype.reduce
+const groupBy = <T, K extends string | number>(
+	key: K,
+	list: T[]
+): Record<keyof T, T[]> => {
+	return list.reduce((acc, item) => {
+		const mapKey = item[key as keyof object];
+		if (!acc[mapKey as keyof T]) {
+			acc[mapKey as keyof T] = [];
+		}
+		acc[mapKey as keyof T].push(item);
+		return acc;
+	}, {} as Record<keyof T, T[]>);
+};
+
 export {
 	// empty checkers
 	isEmptyObj,
@@ -38,4 +72,7 @@ export {
 	// data utils
 	range,
 	clamp,
+	groupBy,
+	getRandomNumInRange,
+	generateRandomList,
 };

@@ -1,16 +1,11 @@
-import React, {
-	useRef,
-	useEffect,
-	useCallback,
-	useState,
-	ChangeEvent,
-	KeyboardEvent,
-} from "react";
+import { useRef, useEffect, useCallback, useState, ChangeEvent } from "react";
 import styles from "../../css/synth/Synth.module.scss";
 import { INote } from "../../utils/utils_notes";
 import { isEmptyObj } from "../../utils/utils_shared";
 import { fadeOutAudio, initAudio } from "../../utils/utils_audio";
 import { NOTES_LIST as allNotes } from "../../data/synthNotes";
+import { getNoteFromKey, notesByOctave } from "../../data/keyToNoteMap";
+
 // components
 import SynthKeysPanel from "./SynthKeysPanel";
 import SynthControls from "./SynthControls";
@@ -28,11 +23,16 @@ const initialVol: string = "0.5";
 
 // NOTE:
 // - Consider useReducer for the effects chain
+// - 'isPlaying' is what allows dragging the mouse over notes, while mousing down and playing them like a sliding note
+
+// OCTAVE 3 IS PREFERRED BASE OCTAVE FOR TESTING
+const octave3: INote[] = notesByOctave[3 as keyof object];
 
 const Synth = () => {
 	const activeOscillators = useRef<ActiveOscs>({});
 	// local states
 	const [isPoweredOn, setIsPoweredOn] = useState<boolean>(false);
+	// this tracks whether the mouse is down, allowing note dragging/sliding
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
 	const [volume, setVolume] = useState<string>(initialVol);
 	const [waveType, setWaveType] = useState<OscillatorType>("square");
@@ -46,6 +46,7 @@ const Synth = () => {
 
 	const togglePower = () => {
 		const turnOn = !isPoweredOn;
+
 		if (turnOn) {
 			const vol = Number(volume);
 			const { audioCtx: ctx, gainNode: gain } = initAudio(vol);
@@ -93,14 +94,14 @@ const Synth = () => {
 		}
 		osc.frequency.value = freq;
 		osc.start(0.05);
-		console.log(`${freq} PLAYING`);
 		return osc;
 	};
 
 	const handlePress = (note: INote) => {
 		const { freq, label } = note;
 		const active = activeOscillators.current;
-		if (!isPoweredOn) return;
+		if (!isPoweredOn || !note) return;
+
 		// play note
 		const osc: OscillatorNode = playNote(freq);
 		active[label] = osc;
@@ -148,7 +149,33 @@ const Synth = () => {
 
 	// handle keyboard events
 	const handleKeyDown = (e: KeyboardEvent) => {
-		console.log("Event:", e);
+		console.log("e.repeat", e.repeat);
+		if (e.repeat || !isPoweredOn) return;
+
+		const { code } = e;
+		const note = getNoteFromKey(code, octave3) as INote;
+
+		const { freq, label } = note;
+		const active = activeOscillators.current;
+
+		// play note
+		const osc: OscillatorNode = playNote(freq);
+		active[label] = osc;
+	};
+	const handleKeyUp = (e: KeyboardEvent) => {
+		const { code } = e;
+		const note = getNoteFromKey(code, octave3) as INote;
+		const { label } = note;
+		const active = activeOscillators.current;
+		// if (!isPoweredOn || isEmptyObj(active)) return;
+		// fade-out audio before killing oscillator
+		// NOTE: THIS WILL KILL AUDIO GAIN ENTIRELY
+		fadeOutAudio(gainNode, audioCtx);
+		// remove 'last' active oscillator
+		if (active[label]) {
+			active[label].stop(0.05);
+			delete active[label];
+		}
 	};
 
 	// watches for 'volume' changes & updates the gainNode's value
@@ -162,6 +189,25 @@ const Synth = () => {
 			isMounted = false;
 		};
 	}, [updateVolume]);
+
+	// add keyboard event listeners
+	useEffect(() => {
+		let isMounted = true;
+		if (!isMounted) {
+			return;
+		}
+
+		window.addEventListener("keydown", handleKeyDown);
+		window.addEventListener("keyup", handleKeyUp);
+
+		return () => {
+			isMounted = false;
+
+			window.removeEventListener("keydown", handleKeyDown);
+			window.removeEventListener("keyup", handleKeyUp);
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<div className={styles.Synth}>
@@ -198,7 +244,7 @@ const Synth = () => {
 						max={1.0}
 						step={0.01}
 						size="SM"
-						// handleChange={handleMaster}
+						handleChange={handleVolume}
 					/>
 				</MasterPanel>
 			</div>

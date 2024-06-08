@@ -12,6 +12,8 @@ import CustomFader from "../components/controls/CustomFader";
 import SineWave from "../components/visuals/SineWave";
 import EffectColumn from "../components/synth/EffectColumn";
 import Knob from "../components/controls/Knob";
+import TouchSynth from "../components/touch-synth/TouchSynth";
+import TouchOsc from "../components/touch-osc/TouchOsc";
 
 type Props = {};
 
@@ -76,19 +78,10 @@ const DemoPage = ({}: Props) => {
 			<div className={styles.DemoPage_main}>
 				{/* <SineWave amplitude={30} freq={440} rarity={1} phase={180} /> */}
 
-				{/* <CustomFader
-					initialVal={"45"}
-					stripeColor="var(--accent)"
-					min={0}
-					max={100}
-				/> */}
-				{/* <FxFader /> */}
-				<Fader />
-				<br />
-				<br />
-				<br />
-				<br />
-				<Knob key="test" size="LG" />
+				{/* <TouchSynth /> */}
+				<TouchOsc />
+
+				{/* <Knob key="test" size="LG" /> */}
 			</div>
 
 			{/* SYNTH CONTROLS UI */}

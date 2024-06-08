@@ -1,0 +1,47 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$minColor: var(--border);
+$maxColor: var(--title-color);
+
+@mixin meterColors($max, $min) {
+	background-image: linear-gradient(to bottom in oklch, $max 0%, $min 100%);
+}
+
+.PeakMeter {
+	width: 15rem;
+	height: 30rem;
+	border-radius: 1rem;
+	border: 1px solid #ccc;
+	&_channels {
+		position: relative;
+		width: 20rem;
+		height: 30rem;
+		@include flex_row(flex-start, flex-start);
+		gap: 0.3rem;
+		background-color: transparent;
+	}
+}
+
+.ChannelLeft {
+	position: absolute;
+	bottom: 0;
+	width: 2rem;
+	height: 2rem;
+	min-width: 2rem;
+	min-height: 2rem;
+	border-radius: 0.3rem 0.3rem 0 0;
+	@include meterColors($maxColor, $minColor);
+}
+.ChannelRight {
+	position: absolute;
+	bottom: 0;
+	left: 2.1rem;
+	width: 2rem;
+	height: 2rem;
+	min-width: 2rem;
+	min-height: 2rem;
+	border-radius: 0.3rem 0.3rem 0 0;
+	@include meterColors($maxColor, $minColor);
+}

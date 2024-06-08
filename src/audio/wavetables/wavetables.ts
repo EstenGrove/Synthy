@@ -1,4 +1,6 @@
 import { bass } from "./bass";
+import { fuzzBass } from "./bass-fuzz";
+import { deepBass } from "./deep-bass";
 import { organ } from "./organ";
 import { organ2 } from "./organ2";
 import { sine } from "./sine";
@@ -18,9 +20,11 @@ export type PresetsMap = {
 const PRESETS = {
 	organ: organ,
 	organ2: organ2,
-	bass: bass,
 	sine: sine,
 	triangle: triangle,
+	bass: bass,
+	deepBass: deepBass.waveData,
+	fuzzBass: fuzzBass.waveData,
 };
 
 export {

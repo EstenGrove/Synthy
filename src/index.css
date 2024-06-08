@@ -122,6 +122,7 @@
 	--bg-editor: rgba(15, 23, 42, 1);
 	--border: var(--greyTint800);
 	--text-color: var(--greyTint700);
+	--title-color: #fff;
 
 	/* MAIN ACCENTS */
 	--accent: rgb(124, 58, 237);

@@ -1,35 +1,45 @@
 import { LocalNodes } from "../nodes/nodes";
-import { ISettings, TLevel } from "./Effect";
+import { ISettings } from "./Effect";
 
+export interface OscSettings extends ISettings {
+	freq?: number;
+	steps?: number;
+}
 class MultiOsc {
-	private _node: GainNode;
 	private _audioCtx: AudioContext;
 	// Settings, config
 	private _level: number;
-	private _oscCount!: number;
 	private _freq: number;
+	private _steps: number;
 
+	public node: GainNode;
 	public nodes: LocalNodes = {};
 
 	constructor(audioCtx: AudioContext, settings: ISettings) {
 		this._audioCtx = audioCtx;
-		this._level = (settings?.level ?? 0.5) as TLevel;
-		this._oscCount = (settings?.oscCount ?? 1) as number;
+		this._level = (settings?.level ?? 0.5) as number;
 		this._freq = (settings?.freq ?? 440.0) as number;
+		this._steps = settings?.steps ?? (12 as number);
 
 		this.nodes = {
 			osc1: new OscillatorNode(this._audioCtx, {
 				frequency: this._freq,
 			}) as OscillatorNode,
 			osc2: new OscillatorNode(this._audioCtx, {
-				frequency: this._freq,
+				frequency: this._transpose(this._freq, 12),
 			}) as OscillatorNode,
 		};
 
 		// Set main effect out node
-		this._node = this._audioCtx.createGain() as GainNode;
+		this.node = this._audioCtx.createGain() as GainNode;
 
-		const main = this._node as GainNode;
+		const main = this.node as GainNode;
+		const osc1 = this.nodes.osc1 as OscillatorNode;
+		const osc2 = this.nodes.osc2 as OscillatorNode;
+
+		osc1.connect(main);
+		osc2.connect(main);
+
 		main.gain.value = this._level;
 
 		// Connect nodes
@@ -54,7 +64,7 @@ class MultiOsc {
 		}
 	}
 
-	public transpose(freq: number, steps: number): number {
+	private _transpose(freq: number, steps: number): number {
 		const stepped = freq * Math.pow(2, steps / 12);
 		return stepped;
 	}

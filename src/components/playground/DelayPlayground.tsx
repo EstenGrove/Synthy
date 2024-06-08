@@ -7,6 +7,7 @@ import { IKeyNote, getRandomKeyNote } from "../../audio/notes/notes";
 import { VCO } from "../../audio/effects/VCO";
 import { transpose } from "../../utils/utils_notes";
 import { EnvelopeFilter } from "../../audio/effects/Filter";
+import { Distortion } from "../../audio/effects/Distortion";
 
 let audioCtx: AudioContext;
 let masterOut: GainNode;
@@ -23,6 +24,8 @@ const DelayPlayground = () => {
 	const [attack, setAttack] = useState("0.5");
 	// release time
 	const [release, setRelease] = useState("0.5");
+	// distortion
+	const [distortion, setDistortion] = useState<string>(".7");
 
 	const handleDuration = (e: ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value;
@@ -40,6 +43,10 @@ const DelayPlayground = () => {
 	const handleRelease = (e: ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value;
 		setRelease(value);
+	};
+	const handleDistortion = (e: ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		setDistortion(value);
 	};
 
 	const init = () => {
@@ -140,6 +147,12 @@ const DelayPlayground = () => {
 			type: "sine",
 			frequency: transpose(freq, 7),
 		});
+		// add distortion node & connect to delay
+		const distNode = new Distortion(audioCtx, {
+			level: 400,
+			oversamples: "2x",
+		});
+		console.log("level", 400);
 		// add delay node & connect controls to it's settings for reactive changes
 		const delay = new Delay(audioCtx, {
 			level: 0.4,
@@ -147,9 +160,16 @@ const DelayPlayground = () => {
 			feedback: Number(feedback),
 		});
 
+		// OLD WORKING VERSION WITH ONLY DELAY
+		// distNode.input = envelope.node;
+		// distNode.output = delay.node;
 		envelope.input = osc1;
 		envelope.input = osc2;
-		envelope.output = delay.node;
+		envelope.output = delay.node; // enable for full delay
+		envelope.output = distNode.node;
+
+		distNode.output = delay.node;
+		delay.input = distNode.node;
 		delay.input = osc1;
 		delay.input = osc2;
 		delay.output = masterOut;
@@ -169,6 +189,7 @@ const DelayPlayground = () => {
 	};
 
 	console.log("audioCtx", audioCtx);
+	console.log("feedback", feedback);
 
 	return (
 		<div className={styles.DelayPlayground}>
@@ -187,7 +208,8 @@ const DelayPlayground = () => {
 			<div className={styles.DelayPlayground_settings}>
 				{/* DELAY SETTINGS */}
 				<div className={styles.DelayPlayground_settings_label}>
-					Delay Settings
+					Delay Settings {"=> "}
+					{Number(feedback) >= 0.6 ? "))))))" : ")))"}
 				</div>
 				<RangeInput
 					key="duration"
@@ -215,7 +237,7 @@ const DelayPlayground = () => {
 			<div className={styles.DelayPlayground_settings}>
 				{/* ENVELOPE-FILTER SETTINGS */}
 				<div className={styles.DelayPlayground_settings_label}>
-					Envelope (ADSR) Settings
+					Envelope (ADSR) Settings {"__/\\__"}
 				</div>
 				<RangeInput
 					key="attack"
@@ -238,6 +260,23 @@ const DelayPlayground = () => {
 					step={0.01}
 					label={`Release: ${Math.round(Number(release) * 1000)} ms`}
 					handleChange={handleRelease}
+				/>
+			</div>
+			<div className={styles.DelayPlayground_settings}>
+				{/* DISTORTION SETTINGS */}
+				<div className={styles.DelayPlayground_settings_label}>
+					Distortion Settings {"---"}
+				</div>
+				<RangeInput
+					key="distortion"
+					name="distortion"
+					id="distortion"
+					val={distortion}
+					min={0.0}
+					max={1.0}
+					step={0.01}
+					label={`Distortion: ${Number(distortion)}`}
+					handleChange={handleDistortion}
 				/>
 			</div>
 		</div>

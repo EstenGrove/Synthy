@@ -49,7 +49,6 @@ const SynthControls = ({
 	killAudio,
 	togglePower,
 }: Props) => {
-	console.log("waveType", waveType);
 	return (
 		<div className={styles.SynthControls}>
 			<div className={styles.SynthControls_row}>

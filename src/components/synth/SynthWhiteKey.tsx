@@ -34,6 +34,7 @@ const SynthWhiteKey = ({
 		setIsPressed(false);
 	};
 
+	// mouse over (when mouse is down)
 	const enter = () => {
 		if (!isPlaying) return;
 		// don't play note again, if it's already pressed...
@@ -44,6 +45,7 @@ const SynthWhiteKey = ({
 		setIsPressed(true);
 	};
 
+	// mouse leave (when mouse is NO LONGER down)
 	const exit = () => {
 		if (!isPlaying) return;
 

@@ -14,10 +14,48 @@ const createAudioContext = (): AudioContext => {
 };
 
 // Waveforms
-const createCustomWave = (audioCtx: AudioContext): PeriodicWave => {
+const createDefaultCustomWave = (audioCtx: AudioContext): PeriodicWave => {
 	const sineTerms = new Float32Array([0, 0, 1, 0, 1]);
 	const cosineTerms = new Float32Array(sineTerms.length);
 	return audioCtx.createPeriodicWave(cosineTerms, sineTerms);
+};
+
+export interface WaveTable {
+	real: number[];
+	imag: number;
+}
+
+const defaultTerms: WaveTable = {
+	real: [0, 0, 1, 0, 1],
+	imag: [0, 0, 1, 0, 1].length,
+};
+
+const createCustomWave = (
+	audioCtx: AudioContext,
+	waveTerms: WaveTable = defaultTerms
+): PeriodicWave => {
+	const real: Float32Array = new Float32Array(waveTerms.real);
+	const imag: Float32Array = new Float32Array(waveTerms.imag);
+	const customWave = audioCtx.createPeriodicWave(real, imag);
+
+	return customWave;
+};
+
+// Note: 'base' MUST be at least 2 as that's the minimum bound for a wave
+const generateCustomWave = (
+	audioCtx: AudioContext,
+	base: number = 4096
+): PeriodicWave => {
+	const real = new Float32Array(base);
+	const imag = new Float32Array(base);
+
+	for (let i = 1; i < base; i += 2) {
+		imag[i] = 4.0 / (Math.PI * i);
+	}
+
+	const wave = audioCtx.createPeriodicWave(real, imag);
+
+	return wave;
 };
 
 const createAnalyser = (audioCtx: AudioContext): AnalyserNode => {
@@ -62,13 +100,64 @@ const initAudio = (initialVol: number = 0.7): AudioChain => {
 	};
 };
 
+const getReverbArrayBuffer = async (
+	url: string
+): Promise<ArrayBuffer | unknown> => {
+	try {
+		const request = await fetch(url);
+		const arrayBuffer = await request.arrayBuffer();
+		return arrayBuffer;
+	} catch (error: unknown) {
+		return error;
+	}
+};
+
+// accepts an array buffer & decode's it's audio data
+const convertBufferToAudioBuffer = async (
+	audioCtx: AudioContext,
+	arrayBuffer: ArrayBuffer
+): Promise<AudioBuffer> => {
+	const decoded = await audioCtx.decodeAudioData(arrayBuffer);
+	return decoded;
+};
+
+const getReverbIR = async (
+	audioCtx: AudioContext,
+	url: string
+): Promise<AudioBuffer> => {
+	const arrayBuffer = (await getReverbArrayBuffer(url)) as ArrayBuffer;
+	const audioBuffer = await convertBufferToAudioBuffer(audioCtx, arrayBuffer);
+
+	// return the impulse response as an AudioBuffer
+	return audioBuffer;
+};
+
+// VU/PEAK METER UTILS //
+
+const getBaseLog = (x: number, y: number): number => {
+	return Math.log(y) / Math.log(x);
+};
+const getDecibelsFromFloat = (float: number) => {
+	return getBaseLog(10, float) * 20;
+};
+
 export {
 	createAudioContext,
 	createGain,
 	createAnalyser,
-	createCustomWave,
 	fadeOutAudio,
 	fadeOutOsc,
+	// Wavetables & Periodic waves
+	generateCustomWave,
+	createDefaultCustomWave,
+	createCustomWave,
+	// Reverb Utils
+	convertBufferToAudioBuffer,
+	getReverbArrayBuffer,
+	getReverbIR,
+	// Peak Meter Utils
+	getBaseLog,
+	getDecibelsFromFloat,
 	// Custom audio
 	initAudio,
 };

@@ -1,0 +1,11 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.KeyboardSynth {
+	width: auto;
+
+	& button {
+		margin: 0 2rem;
+	}
+}

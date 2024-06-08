@@ -1,0 +1,42 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.SoundsPlayground {
+	width: 100%;
+
+	&_actions {
+		width: 100%;
+		@include flex_row(center, flex-start);
+		gap: 0 2rem;
+
+		& button {
+			padding: 0.5rem 1.4rem;
+			border-radius: 0.5rem;
+			border: none;
+			outline: none;
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+
+	&_settings {
+		width: 100%;
+		@include flex_col(center, center);
+		gap: 2rem;
+		margin-top: 4rem;
+		margin-bottom: 2rem;
+
+		&_label {
+			font-size: 1.5rem;
+		}
+	}
+}
+
+[data-label="start"] {
+	background-color: var(--accent-green);
+}
+[data-label="stop"] {
+	background-color: var(--red600);
+}

@@ -1,5 +1,13 @@
 import { Effect, ISettings } from "./Effect";
 
+export interface IEnvelopeSettings extends ISettings {
+	attack: number;
+	decay?: number;
+	sustain?: number;
+	release?: number;
+	multiplier?: number;
+}
+
 class Envelope extends Effect {
 	// Scale multiplier (eg. currentTime * timeScale)
 	private _multiplier: number;
@@ -10,7 +18,7 @@ class Envelope extends Effect {
 	private _sustain: number;
 	private _release: number;
 
-	constructor(audioCtx: AudioContext, settings: ISettings) {
+	constructor(audioCtx: AudioContext, settings: IEnvelopeSettings) {
 		super(audioCtx);
 
 		// Effect settings

@@ -1,0 +1,109 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+// $minColor: oklch(90% 0.3 200);
+// $maxColor: oklch(80% 0.3 34);
+
+// $minColor: oklch(90% 0.3 200);
+// $maxColor: rgb(95, 23, 230);
+
+// $minColor: rgb(124, 58, 237);
+// $maxColor: rgb(237, 38, 78);
+
+$minColor: var(--border);
+$maxColor: #fff;
+
+@mixin meterColors($max, $min) {
+	background-image: linear-gradient(to bottom in oklch, $max 0%, $min 100%);
+}
+
+@mixin main() {
+	background-image: linear-gradient(
+		to bottom in oklch,
+		hsl(0, 100%, 50%) 0%,
+		oklch(80% 0.3 34) 5%,
+		oklch(90% 0.3 200) 100%
+	);
+}
+
+@mixin meterLines() {
+	background-image: linear-gradient(90deg, #000 2px, transparent 2px);
+	background-size: 0.25rem 0.25rem;
+}
+
+.VUMeter {
+	width: auto;
+	height: auto;
+	// width: 15rem;
+	// height: 30rem;
+	border-radius: 1rem;
+	border: 1px solid #ccc;
+
+	&_inner {
+		position: relative;
+		width: 20rem;
+		height: 30rem;
+		@include flex_row(flex-start, flex-start);
+		gap: 0.3rem;
+		background-color: transparent;
+
+		&_left {
+			position: absolute;
+			bottom: 0;
+			width: 2rem;
+			height: 2rem;
+			border: 1px solid #000;
+			border-radius: 0.5rem 0.5rem 0 0;
+			@include meterColors($maxColor, $minColor);
+			background-image: linear-gradient(
+				to bottom,
+				rgb(76, 162, 161) 15%,
+				rgb(226, 232, 240) 45%,
+				rgb(226, 232, 240) 100%
+			);
+
+			&_lines {
+				width: 100%;
+				height: 100%;
+			}
+		}
+		&_right {
+			position: absolute;
+			bottom: 0;
+			left: 2rem;
+			width: 2rem;
+			height: 2rem;
+			border-radius: 0.5rem 0.5rem 0 0;
+			@include meterColors($maxColor, $minColor);
+			background-image: linear-gradient(
+				to bottom,
+				rgb(76, 162, 161) 15%,
+				rgb(226, 232, 240) 45%,
+				rgb(226, 232, 240) 100%
+			);
+		}
+	}
+}
+
+.MeterLeft {
+	position: absolute;
+	bottom: 0;
+	width: 2rem;
+	height: 2rem;
+	min-width: 2rem;
+	min-height: 2rem;
+	border-radius: 0.3rem 0.3rem 0 0;
+	@include meterColors($maxColor, $minColor);
+}
+.MeterRight {
+	position: absolute;
+	bottom: 0;
+	left: 2.1rem;
+	width: 2rem;
+	height: 2rem;
+	min-width: 2rem;
+	min-height: 2rem;
+	border-radius: 0.3rem 0.3rem 0 0;
+	@include meterColors($maxColor, $minColor);
+}
