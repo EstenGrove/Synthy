@@ -1,0 +1,14 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.WaveForms {
+	width: auto;
+	height: auto;
+	// width: 5rem;
+	// height: 5rem;
+
+	& svg {
+		border: 1px solid #ccc;
+	}
+}

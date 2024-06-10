@@ -9,13 +9,16 @@ const Nav = ({}: Props) => {
 		<nav className={styles.Nav}>
 			<ul className={styles.Nav_list}>
 				<li className={styles.Nav_list_item}>
-					<NavLink to="/">Synth Page</NavLink>
+					<NavLink to="/">Synth</NavLink>
 				</li>
 				<li className={styles.Nav_list_item}>
-					<NavLink to="/demo">Demo Page</NavLink>
+					<NavLink to="/demo">Demo</NavLink>
 				</li>
 				<li className={styles.Nav_list_item}>
-					<NavLink to="/playground">Playground Page</NavLink>
+					<NavLink to="/module">Module(s)</NavLink>
+				</li>
+				<li className={styles.Nav_list_item}>
+					<NavLink to="/playground">Playground</NavLink>
 				</li>
 			</ul>
 		</nav>

@@ -1,0 +1,147 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+:root {
+	--white: #e9e9e9;
+	--grey: #bcc1b6;
+	--black: #0e0e11;
+	--greyDark: #3d3d3f;
+	--accent: rgb(252, 211, 77);
+	// --rackBg: #0d1115;
+	// --rackBg: rgb(13, 17, 21);
+	--rackBg: var(--white);
+}
+
+.RackMount {
+	width: 55rem;
+	height: 12rem;
+	// background-color: var(--white);
+	// background-color: var(--main-bg);
+	background-color: var(--rackBg);
+	border: 3px solid #000;
+	border-radius: 1rem;
+
+	&_inner {
+		position: relative;
+		@include fill_container;
+		padding: 0.5rem;
+
+		&_bolt {
+			position: absolute;
+			width: 1.2rem;
+			height: 1.2rem;
+			border-radius: 50%;
+			border: 1px solid var(--black);
+			background-color: transparent;
+			text-align: center;
+			color: var(--black);
+			@include flex_row(center, center);
+			font-size: 0.8rem;
+			font-weight: 700;
+			transform: rotate(-40deg);
+			font-family: "Nunito";
+			& > div {
+				margin-top: -0.4px;
+			}
+		}
+		[data-bolt="2"] {
+			right: 0.5rem;
+			transform: rotate(10deg);
+		}
+		[data-bolt="3"] {
+			bottom: 0.5rem;
+			transform: rotate(-20deg);
+		}
+		[data-bolt="4"] {
+			right: 0.5rem;
+			bottom: 0.5rem;
+			transform: rotate(50deg);
+		}
+		&_main {
+			@include fill_container;
+			@include flex_row(flex-start, center);
+			padding: 0 2rem;
+		}
+	}
+}
+
+.PowerBlock {
+	width: fit-content;
+	min-width: fit-content;
+	min-width: 10rem;
+	height: 100%;
+	padding-top: 1rem;
+	color: var(--black);
+	margin-right: 2rem;
+
+	&_labels {
+		width: auto;
+		height: auto;
+
+		&_title {
+			color: var(--accent-bright-red);
+			font-weight: 600;
+			font-size: 1.7rem;
+		}
+		&_subtitle {
+			font-size: 1.1rem;
+		}
+	}
+
+	&_controls {
+		width: auto;
+		height: auto;
+		padding-top: 1rem;
+		@include flex_row(flex-start, center);
+		gap: 0 0.5rem;
+
+		&_power {
+			padding: 0.1rem 0.4rem;
+			font-size: 1.1rem;
+			background-color: var(--white);
+			border-radius: 0.5rem;
+			border: 1px solid #0e0e11;
+			outline: none;
+			color: #0e0e11;
+			box-shadow: 0px 7px 17px -5px rgba(0, 0, 0, 0.25);
+			&:hover {
+				cursor: pointer;
+				opacity: 1;
+				background-color: rgba(237, 37, 78, 1);
+				color: #fff;
+			}
+		}
+		&_light {
+			width: 0.6rem;
+			height: 0.6rem;
+			margin-left: 0.5rem;
+			border-radius: 50%;
+			background-color: var(--accent-red);
+			box-shadow: -1px -1px 8px 2px rgba(237, 37, 78, 0.4);
+		}
+	}
+}
+
+[data-power="false"] {
+	opacity: 0.5;
+}
+
+.Controls {
+	width: 100%;
+	height: 100%;
+
+	&_inner {
+		padding-top: 1rem;
+		@include fill_container;
+		@include flex_row(flex-start, flex-end);
+		gap: 0 4rem;
+	}
+}
+
+@media only screen and (max-width: 550px) {
+	.RackMount {
+		width: 100vw;
+		min-width: 100vw;
+	}
+}

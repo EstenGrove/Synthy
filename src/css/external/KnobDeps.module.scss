@@ -1,0 +1,14 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ComponentContainer {
+	position: relative;
+	display: inline;
+	margin: 0 1rem;
+	vertical-align: top;
+	cursor: pointer;
+	&:hover {
+		cursor: pointer;
+	}
+}

@@ -2,48 +2,51 @@
 @import "../../sass/mixins";
 @import "../../sass/custom";
 
-$size: 6rem;
-// dot handle is 1/5 the size of the knob's circle
-// $handle: calc($size / 7);
-$handle: calc($size / 8);
-
-// $highlight: rgb(0, 226, 189);
-$highlight: var(--accent);
-
-:root {
-	user-select: none;
-}
-
 .Knob {
 	position: relative;
-	display: block;
-	width: $size;
-	min-width: $size;
-	min-height: $size;
-	height: $size;
-	min-height: $size;
-	border-radius: 50%;
-	border: 1px solid #ccc;
+	width: fit-content;
+	height: fit-content;
+	@include flex_col(center, center);
 	user-select: none;
-	border: calc($size / 25) solid #000;
-	background-color: var(--bg1100);
+	border-radius: 50%;
+
+	&_wrapper {
+		border-radius: 50%;
+	}
+}
+
+.KnobDial {
+	position: relative;
+	width: 15rem;
+	height: 15rem;
+	min-width: 15rem;
+	min-height: 15rem;
+	border-radius: 50%;
+	background-color: var(--main-bg);
+	// background-color: var(--bg1300);
+	// background-color: #000;
+	border: 1px solid var(--border);
 	&:hover {
 		cursor: pointer;
-		box-shadow: 1px 1px 1px 1px $highlight;
-	}
-	&:focus-within {
-		box-shadow: 1px 1px 1px 1px $highlight;
 	}
 
 	&_handle {
+		width: 2.2px;
+		min-width: 2.2px;
+		max-width: 2.2px;
+		border-radius: 3rem;
+		height: 30%;
 		position: absolute;
-		bottom: 10%;
-		left: 40%;
-		width: $handle;
-		min-width: $handle;
-		height: $handle;
-		min-height: $handle;
-		background-color: $highlight;
-		border-radius: 50%;
+		top: 2px;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: #fff;
+		// background-color: var(--border);
 	}
+}
+.Label {
+	font-size: 1.4rem;
+	margin-top: 0.5rem;
+	color: var(--text-color);
+	font-family: var(--choco-font);
 }

@@ -178,6 +178,24 @@ const Synth = () => {
 		}
 	};
 
+	const handleTouchStart = (note: INote) => {
+		handlePress(note);
+	};
+	const handleTouchEnd = (note: INote) => {
+		handleRelease(note);
+	};
+
+	const handleTouchMove = (note: INote) => {
+		if (!audioCtx) return;
+		if (!isPlaying) return;
+		const active = activeOscillators.current;
+		// Object.keys((key: string) => active[key as keyof ActiveOscs].stop());
+		const { label, freq } = note;
+		const osc = playNote(freq);
+		active[label] = osc;
+		setIsPlaying(true);
+	};
+
 	// watches for 'volume' changes & updates the gainNode's value
 	useEffect(() => {
 		let isMounted = true;
@@ -197,14 +215,24 @@ const Synth = () => {
 			return;
 		}
 
+		// mouse events
 		window.addEventListener("keydown", handleKeyDown);
 		window.addEventListener("keyup", handleKeyUp);
+		// touch events
+		// window.addEventListener("touchstart", handleTouchStart);
+		// window.addEventListener("touchmove", handleTouchMove);
+		// window.addEventListener("touchend", handleTouchEnd);
 
 		return () => {
 			isMounted = false;
 
+			// mouse events
 			window.removeEventListener("keydown", handleKeyDown);
 			window.removeEventListener("keyup", handleKeyUp);
+			// touch events
+			// window.removeEventListener("touchstart", handleTouchStart);
+			// window.removeEventListener("touchmove", handleTouchMove);
+			// window.removeEventListener("touchend", handleTouchEnd);
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -230,8 +258,13 @@ const Synth = () => {
 								isPlaying={isPlaying}
 								handlePress={() => handlePress(note)}
 								handleRelease={() => handleRelease(note)}
+								// mouse events
 								handleMouseOver={() => handleMouseOver(note)}
 								handleMouseLeave={() => handleMouseLeave(note)}
+								// touch events
+								handleTouchStart={() => handlePress(note)}
+								handleTouchMove={() => handlePress(note)}
+								handleTouchEnd={() => handleRelease(note)}
 							/>
 						))}
 				</SynthKeysPanel>

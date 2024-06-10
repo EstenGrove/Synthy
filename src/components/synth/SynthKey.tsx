@@ -8,6 +8,7 @@ type Props = {
 	note: INote;
 	isPlaying: boolean;
 	handleKey?: () => void;
+	// MOUSE EVENTS
 	// Handles mousedown/touchstart
 	handlePress: () => void;
 	// Handles mouseleave/mouseup/touchend
@@ -16,15 +17,24 @@ type Props = {
 	handleMouseOver: () => void;
 	// Handles mouseleave/touchcancel?
 	handleMouseLeave: () => void;
+	// TOUCH EVENTS
+	handleTouchStart: () => void;
+	handleTouchMove: () => void;
+	handleTouchEnd: () => void;
 };
 
 const SynthKey = ({
 	note,
 	isPlaying,
+	// mouse events
 	handlePress,
 	handleRelease,
 	handleMouseOver,
 	handleMouseLeave,
+	// touch events
+	handleTouchStart,
+	handleTouchMove,
+	handleTouchEnd,
 }: Props) => {
 	const { type } = note;
 
@@ -38,6 +48,10 @@ const SynthKey = ({
 					handleRelease={handleRelease}
 					handleMouseOver={handleMouseOver}
 					handleMouseLeave={handleMouseLeave}
+					// touch
+					handleTouchStart={handleTouchStart}
+					handleTouchMove={handleTouchMove}
+					handleTouchEnd={handleTouchEnd}
 				/>
 			)}
 			{type === "black" && (
@@ -48,6 +62,10 @@ const SynthKey = ({
 					handleRelease={handleRelease}
 					handleMouseOver={handleMouseOver}
 					handleMouseLeave={handleMouseLeave}
+					// touch
+					handleTouchStart={handleTouchStart}
+					handleTouchMove={handleTouchMove}
+					handleTouchEnd={handleTouchEnd}
 				/>
 			)}
 		</div>

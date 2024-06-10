@@ -1,0 +1,17 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$size: var(--svgNotch);
+// $size: 2.8rem;
+
+.TriangleWave {
+	width: $size;
+	height: $size;
+	margin-left: -0.3rem;
+
+	& svg {
+		width: 100%;
+		height: 100%;
+	}
+}

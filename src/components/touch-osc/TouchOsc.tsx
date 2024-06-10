@@ -58,7 +58,6 @@ let osc: OscillatorNode;
 
 const notes = groupBy("label", NOTES_LIST);
 const objKeys = Object.keys(notes);
-console.log("notes", notes);
 
 const getNoteFromCellPosition = (cellPos: ICellPosition): number => {
 	const { cellX, cellY } = cellPos;
@@ -73,8 +72,6 @@ const major_c = SCALES_MAP.Major.C as string[];
 const scale1 = getScaleByNotesList(major_c, {
 	baseOctave: 3,
 });
-
-console.log("scale1", scale1);
 
 const TouchOsc = () => {
 	// synth states

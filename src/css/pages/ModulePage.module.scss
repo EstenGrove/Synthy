@@ -1,0 +1,13 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ModulePage {
+	@include fill_container;
+
+	&_main {
+		padding: 4rem 0;
+		@include fill_container;
+		@include flex_col(flex-start, center);
+	}
+}

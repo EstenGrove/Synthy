@@ -1,0 +1,13 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.KnobArc {
+	width: auto;
+	height: auto;
+	position: absolute;
+	top: 30%;
+	left: 50%;
+	// background-color: var(--border);
+	transform: translate(-50%, -50%);
+}

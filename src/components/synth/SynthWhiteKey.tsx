@@ -8,8 +8,13 @@ type Props = {
 	isPressed?: boolean;
 	handlePress: () => void;
 	handleRelease: () => void;
+	// MOUSE EVENTS
 	handleMouseOver: () => void;
 	handleMouseLeave: () => void;
+	// TOUCH EVENTS
+	handleTouchStart: () => void;
+	handleTouchMove: () => void;
+	handleTouchEnd: () => void;
 };
 
 const SynthWhiteKey = ({
@@ -19,6 +24,10 @@ const SynthWhiteKey = ({
 	handleRelease,
 	handleMouseOver,
 	handleMouseLeave,
+	// TOUCH EVENTS
+	handleTouchStart,
+	handleTouchMove,
+	handleTouchEnd,
 }: Props) => {
 	const { octave, label } = note;
 	const [isPressed, setIsPressed] = useState<boolean>(false);

@@ -9,6 +9,10 @@ type Props = {
 	handleRelease: () => void;
 	handleMouseOver: () => void;
 	handleMouseLeave: () => void;
+	// TOUCH EVENTS
+	handleTouchStart: () => void;
+	handleTouchMove: () => void;
+	handleTouchEnd: () => void;
 };
 
 const SynthBlackKey = ({
@@ -18,6 +22,10 @@ const SynthBlackKey = ({
 	handleRelease,
 	handleMouseOver,
 	handleMouseLeave,
+	// touch events
+	handleTouchStart,
+	handleTouchMove,
+	handleTouchEnd,
 }: Props) => {
 	const { octave, label } = note;
 	const [isPressed, setIsPressed] = useState<boolean>(false);

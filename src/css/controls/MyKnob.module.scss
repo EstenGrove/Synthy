@@ -1,0 +1,79 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+:root {
+	--knobSize: 5rem;
+	--knobRadius: var(--knobSize / 2);
+	--knobBorder: 1%;
+	--dotSize: calc(var(--knobSize) * 0.15);
+	--tickSize: calc(var(--knobSize) * 0.05);
+	--tickTop: calc(var(--knobSize) - (var(--knobSize) * 0.3));
+	--tickLeft: 0;
+	user-select: none;
+}
+
+.MyKnobContainer {
+	width: auto;
+	height: auto;
+	@include flex_col(center, center);
+
+	&_label {
+		color: var(--text-color);
+		font-size: 1.3rem;
+		font-weight: 400;
+		@include flex_col(center, center);
+	}
+}
+
+.MyKnob {
+	position: relative;
+	width: fit-content;
+	height: fit-content;
+	margin-top: 5rem;
+	transform: rotate(-180deg);
+	z-index: 100;
+	&_knob {
+		position: relative;
+		width: var(--knobSize);
+		height: var(--knobSize);
+		border-radius: 50%;
+		border: 3px solid #000;
+		background-color: var(--main-bg);
+		margin-bottom: 4rem;
+		z-index: 100;
+		&:hover {
+			cursor: pointer;
+			box-shadow: 0px 0px 1px 2px rgb(124, 58, 237);
+		}
+		&:focus-within {
+			cursor: pointer;
+			box-shadow: 0px 0px 1px 2px rgb(124, 58, 237);
+		}
+
+		&_handle {
+			position: absolute;
+			// top: var(--tickTop);
+			top: 2px;
+			// left: calc((var(--knobSize) / 2) - var(--tickSize));
+			left: 50%;
+			transform: translateX(-50%);
+			// width: var(--tickSize);
+			width: 2px;
+			min-width: 2px;
+			height: 25%;
+			min-height: 25%;
+			border-radius: 0.5rem;
+			background-color: #fff;
+		}
+	}
+}
+
+.Arc {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: rotate(180deg);
+	background-color: transparent;
+	z-index: 90;
+}

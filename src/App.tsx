@@ -9,18 +9,22 @@ import SynthPage from "./pages/SynthPage";
 import DemoPage from "./pages/DemoPage";
 import PlaygroundPage from "./pages/PlaygroundPage";
 import Nav from "./components/shared/Nav";
+import ModulePage from "./pages/ModulePage";
 
 function App() {
 	// console.log("notesList", notesList);
 	return (
 		<Router>
 			<div className="App">
-				<Nav />
-				<Routes>
-					<Route path="/" element={<SynthPage />} />
-					<Route path="/demo" element={<DemoPage />} />
-					<Route path="/playground" element={<PlaygroundPage />} />
-				</Routes>
+				<div className="App_main">
+					<Nav />
+					<Routes>
+						<Route path="/" element={<SynthPage />} />
+						<Route path="/demo" element={<DemoPage />} />
+						<Route path="/module" element={<ModulePage />} />
+						<Route path="/playground" element={<PlaygroundPage />} />
+					</Routes>
+				</div>
 			</div>
 		</Router>
 	);

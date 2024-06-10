@@ -10,6 +10,9 @@
 	color-scheme: light dark;
 	color: rgba(255, 255, 255, 0.87);
 
+	/* FONTS */
+	--choco-sans: "Chocolate Classical Sans", sans-serif;
+
 	/* Grey Tints */
 	--greyTintMain: #64748b;
 	--greyTint800: #728196;
@@ -137,6 +140,15 @@
 	--accent-bright-green: #2cda9d;
 	--accent-seaweed: #00e2bd;
 	--accent-yellow: #fff07c;
+
+	/* CUSTOM VARIABLES - COMPONENTS */
+	--svgNotch: 1.5rem;
+	--svgNotchColor: #000;
+}
+
+:root[data-theme="light"] {
+}
+:root[data-theme="dark"] {
 }
 
 *,
@@ -154,4 +166,9 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: var(--bg1300);
+}
+
+#root {
+	width: 100vw;
+	height: 100vh;
 }

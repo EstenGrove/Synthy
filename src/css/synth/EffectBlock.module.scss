@@ -2,22 +2,25 @@
 @import "../../sass/mixins";
 @import "../../sass/custom";
 
-.EffectColumn {
-	width: max-content;
+.EffectBlock {
+	width: auto;
 	height: 25rem;
 	padding: 1rem 2rem;
 	border-radius: 0.5rem;
 	border: 1px solid var(--border);
-	@include flex_col(flex-start, center);
-	gap: 0 1rem;
-	background-color: var(--bg1300);
+	// font-family: var(--choco-sans);
 
 	&_label {
+		text-align: center;
 		font-size: 2rem;
 		margin-bottom: 2rem;
 	}
 	&_main {
-		@include flex_col(flex-start, center);
-		gap: 2rem;
+		@include fill_container;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(3, 1fr);
+		place-items: center;
+		gap: 2rem 2rem;
 	}
 }

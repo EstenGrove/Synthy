@@ -15,3 +15,10 @@
 		padding: 4rem 0;
 	}
 }
+
+.KnobWrapper {
+	width: 100%;
+	@include flex_row(center, center);
+	margin-top: 5rem;
+	margin-bottom: 15rem;
+}

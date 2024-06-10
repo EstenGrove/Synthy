@@ -20,6 +20,20 @@ import { useKeyboardSynth } from "../hooks/useKeyboardSynth";
 import Button from "../components/shared/Button";
 import VUMeter from "../components/visuals/VUMeter";
 import PeakMeter from "../components/visuals/PeakMeter";
+import MyKnob from "../components/controls/MyKnob";
+import AltKnob from "../components/controls/AltKnob";
+import KnobArc from "../components/controls/KnobArc";
+import EffectColumn from "../components/synth/EffectColumn";
+import EffectBlock from "../components/synth/EffectBlock";
+import RackMount from "../components/visuals/RackMount";
+import KnotchedKnob, { IOption } from "../components/controls/KnotchedKnob";
+import Bubbles from "../components/shapes/Bubbles";
+import WaveForms from "../components/shapes/WaveForms";
+// notch wave options
+import SquareWave from "../components/shapes/SquareWave";
+import TriangleWave from "../components/shapes/TriangleWave";
+import SawtoothWave from "../components/shapes/SawtoothWave";
+import SineWave from "../components/shapes/SineWave";
 
 const customCSS = {
 	on: {
@@ -35,11 +49,33 @@ const customCSS = {
 let sourceNode: MediaElementAudioSourceNode;
 let audioCtx: AudioContext;
 
+const options: IOption[] = [
+	{
+		value: "Triangle",
+		element: TriangleWave,
+	},
+	{
+		value: "Square",
+		element: SquareWave,
+	},
+	{
+		value: "Sine",
+		element: SineWave,
+	},
+	{
+		value: "Sawtooth",
+		element: SawtoothWave,
+	},
+];
+
 const PlaygroundPage = () => {
 	const isPlaying = useRef(false);
 	const audioElem = useRef<HTMLMediaElement>(null);
 	const [file, setFile] = useState(null);
 	const [fileUrl, setFileUrl] = useState("");
+	// knob val
+	const [value, setValue] = useState<number>(15);
+	const [waveType, setWaveType] = useState<string>("Sine");
 
 	const setupMeter = () => {
 		console.log("WAS RUN");
@@ -61,21 +97,68 @@ const PlaygroundPage = () => {
 		// sourceNode = audioCtx.createMediaElementSource(audioEl);
 	};
 
-	console.log("fileUrl", fileUrl);
-	console.log("file", file);
+	const handleVal = (val) => {
+		setValue(val);
+	};
+
+	const handleWaveType = (type: string) => {
+		setWaveType(type);
+		console.log("type", type);
+	};
 
 	return (
 		<div className={styles.PlaygroundPage}>
 			<h1>Playground Page</h1>
 			<main className={styles.PlaygroundPage_main}>
-				<input type="file" name="file" id="file" onChange={handleFile} />
-				<audio ref={audioElem} src={fileUrl} controls loop></audio>
+				<SquareWave color="var(--accent-red)" />
+				<TriangleWave color="var(--accent-red)" />
+				<SawtoothWave color="var(--accent-red)" />
+				<SineWave color="var(--accent-red)" />
+			</main>
+			<main className={styles.PlaygroundPage_main}>
+				<RackMount title="Osc-1">
+					<KnotchedKnob options={options} onChange={handleWaveType} />
+					<Knob size="SM" name="freq" label="Freq" onChange={handleVal} />
+					<Knob size="SM" name="lpf" label="LPF" onChange={handleVal} />
+					<Knob size="SM" name="reverb" label="Reverb" onChange={handleVal} />
+				</RackMount>
+				<RackMount title="Osc-2" subtitle="Hi-Freq Oscillator">
+					<KnotchedKnob options={options} onChange={handleWaveType} />
+					<Knob size="SM" name="freq2" label="Freq" onChange={handleVal} />
+					<Knob size="SM" name="lpf2" label="LPF" onChange={handleVal} />
+					<Knob size="SM" name="reverb2" label="Reverb" onChange={handleVal} />
+				</RackMount>
 
+				<div className={styles.KnobWrapper}>
+					{/* <KnobArc value={15} /> */}
+
+					<EffectBlock label="Reverb">
+						<Knob name="time" label="Time" size="SM" onChange={handleVal} />
+						<Knob name="decay" label="Decay" size="SM" onChange={handleVal} />
+						<Knob name="wet" label="Wet" size="SM" onChange={handleVal} />
+						<Knob name="dry" label="Dry" size="SM" onChange={handleVal} />
+					</EffectBlock>
+
+					<EffectColumn label="Osc">
+						<Knob name="freq3" label="Freq." size="SM" onChange={handleVal} />
+						<Knob name="flevel" label="Level" size="SM" onChange={handleVal} />
+					</EffectColumn>
+					<EffectColumn label="Delay">
+						<Knob name="time2" size="SM" label="Time" onChange={handleVal} />
+						<Knob name="wet2" size="SM" label="Wet" onChange={handleVal} />
+					</EffectColumn>
+					<EffectColumn label="Osc">
+						<Knob name="gain1" size="SM" label="Gain" onChange={handleVal} />
+					</EffectColumn>
+					<EffectColumn label="Osc">
+						<Knob name="gain2" size="SM" label="Gain" onChange={handleVal} />
+					</EffectColumn>
+				</div>
 				{/* {audioCtx && sourceNode && (
 					<PeakMeter audioCtx={audioCtx} sourceNode={sourceNode} />
 				)} */}
 				{/* <VUMeter /> */}
-				<KeyboardSynth />
+				{/* <KeyboardSynth /> */}
 				{/* <CustomOscPlayground /> */}
 				{/* <SoundsPlayground /> */}
 				{/* <Playground /> */}
@@ -92,7 +175,7 @@ const PlaygroundPage = () => {
 					label="Master"
 					handleChange={handleVal}
 				/> */}
-				<Knob />
+				{/* <Knob /> */}
 			</main>
 		</div>
 	);
