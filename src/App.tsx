@@ -10,9 +10,10 @@ import DemoPage from "./pages/DemoPage";
 import PlaygroundPage from "./pages/PlaygroundPage";
 import Nav from "./components/shared/Nav";
 import ModulePage from "./pages/ModulePage";
+import RecorderPage from "./pages/RecorderPage";
+import UIPlayground from "./components/playground/UIPlayground";
 
 function App() {
-	// console.log("notesList", notesList);
 	return (
 		<Router>
 			<div className="App">
@@ -23,6 +24,8 @@ function App() {
 						<Route path="/demo" element={<DemoPage />} />
 						<Route path="/module" element={<ModulePage />} />
 						<Route path="/playground" element={<PlaygroundPage />} />
+						<Route path="/recorder" element={<RecorderPage />} />
+						<Route path="/ui" element={<UIPlayground />} />
 					</Routes>
 				</div>
 			</div>

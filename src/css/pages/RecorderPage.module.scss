@@ -1,0 +1,12 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.RecorderPage {
+	width: auto;
+
+	&_main {
+		@include fill_container;
+		padding: 4rem;
+	}
+}

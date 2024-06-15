@@ -67,6 +67,15 @@ const createAnalyser = (audioCtx: AudioContext): AnalyserNode => {
 	return analyser;
 };
 
+// Create a media stream node (used with oscillators to create a stream source)
+const createStreamNode = (
+	audioCtx: AudioContext
+): MediaStreamAudioDestinationNode => {
+	const streamNode = audioCtx.createMediaStreamDestination();
+
+	return streamNode;
+};
+
 const fadeOutAudio = (gainNode: GainNode, audioCtx: AudioContext) => {
 	if (!gainNode) return;
 	// 0.0001 is the ramp value
@@ -141,10 +150,51 @@ const getDecibelsFromFloat = (float: number) => {
 	return getBaseLog(10, float) * 20;
 };
 
+// AUDIO PLAYER UTILS //
+
+// converts seconds to mins & returns a number (eg 92 secs => 1.53 mins)
+const secondsToMins = (secs: number): number => {
+	const mins = secs / 60;
+	return mins;
+};
+
+interface IFloorMins {
+	mins: number;
+	secs: number;
+}
+const secondsToMinsFloor = (secs: number): IFloorMins => {
+	const mins = Math.floor(secs / 60);
+	const remainSecs = secs - mins * 60;
+
+	return {
+		mins,
+		secs: remainSecs,
+	};
+};
+
+// converts seconds to mins
+const formatDuration = (durationInSecs: number): string => {
+	const mins = Math.floor(durationInSecs / 60);
+	const remainingSecs = durationInSecs - mins * 60;
+
+	if (mins <= 0 && remainingSecs <= 0) {
+		return `0:00`;
+	}
+
+	const time = `${mins}:${remainingSecs}`;
+	return time;
+};
+
 export {
+	// Audio Player Utils
+	secondsToMins,
+	secondsToMinsFloor,
+	formatDuration,
+	// Audio Node Utils
 	createAudioContext,
 	createGain,
 	createAnalyser,
+	createStreamNode,
 	fadeOutAudio,
 	fadeOutOsc,
 	// Wavetables & Periodic waves

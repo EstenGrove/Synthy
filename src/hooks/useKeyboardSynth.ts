@@ -47,6 +47,7 @@ const defaultKeyMap: IKeyMap = {
 
 type KeySynthProps = {
 	keyMap?: IKeyMap;
+	waveType?: OscillatorType;
 };
 
 interface KeySynthReturn {
@@ -64,6 +65,7 @@ let audioCtx: AudioContext;
 
 const useKeyboardSynth = ({
 	keyMap = defaultKeyMap,
+	waveType = "square",
 }: KeySynthProps = {}): KeySynthReturn => {
 	const localOscs = useRef<IActiveOscs>({});
 
@@ -107,11 +109,11 @@ const useKeyboardSynth = ({
 	// plays 2 oscillators simulataneously (base & transposed)
 	const playNotes = (noteFreq: number): PlayReturn => {
 		const osc: OscillatorNode = new OscillatorNode(audioCtx, {
-			type: "square",
+			type: waveType,
 			frequency: noteFreq,
 		});
 		const osc2: OscillatorNode = new OscillatorNode(audioCtx, {
-			type: "square",
+			type: waveType,
 			frequency: transpose(noteFreq, 12),
 		});
 

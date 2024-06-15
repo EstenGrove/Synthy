@@ -189,7 +189,7 @@ const Knob = ({
 		knob.style.transform = `rotate(${newAngle}deg)`;
 	};
 
-	// set default values
+	// set default values on mount
 	useEffect(() => {
 		let isMounted = true;
 		if (!isMounted) {

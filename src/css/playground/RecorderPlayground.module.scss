@@ -1,0 +1,13 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.RecorderPlayground {
+	@include fill_container;
+
+	&_main {
+		@include fill_container;
+		@include flex_col(flex-start, center);
+		gap: 0.5rem 0;
+	}
+}

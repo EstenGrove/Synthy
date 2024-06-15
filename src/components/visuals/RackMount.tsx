@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { useState, ReactNode } from "react";
 import styles from "../../css/visuals/RackMount.module.scss";
 
 type Props = {
@@ -39,9 +39,36 @@ type PowerProps = {
 	title?: string;
 	subtitle?: string;
 	children?: ReactNode;
+	togglePower: () => void;
+};
+const onShadow = "-1px -1px 8px 2px rgba(237, 37, 78, 0.3)";
+const offShadow = "0px 0px 0px 0px rgba(237, 37, 78, 0.3)";
+
+const IndicatorLight = ({ isOn = false }) => {
+	const css = {
+		boxShadow: isOn ? onShadow : offShadow,
+		opacity: isOn ? 1 : 0.5,
+	};
+
+	// merges default styles class w/ animation class
+	const mergeCss = (style: string) => {
+		if (!isOn) return styles.IndicatorLight2;
+		return `${styles.IndicatorLight2} ${style}`;
+	};
+
+	return (
+		<div className={styles.IndicatorLight} style={css}>
+			<div className={mergeCss(styles.ping)} style={css}></div>
+		</div>
+	);
 };
 
-const PowerBlock = ({ title, subtitle, isOn = false }: PowerProps) => {
+const PowerBlock = ({
+	title,
+	subtitle,
+	isOn = false,
+	togglePower,
+}: PowerProps) => {
 	return (
 		<div className={styles.PowerBlock}>
 			<div className={styles.PowerBlock_labels}>
@@ -49,10 +76,14 @@ const PowerBlock = ({ title, subtitle, isOn = false }: PowerProps) => {
 				<div className={styles.PowerBlock_labels_subtitle}>{subtitle}</div>
 			</div>
 			<div className={styles.PowerBlock_controls}>
-				<button data-power={isOn} className={styles.PowerBlock_controls_power}>
+				<button
+					data-power={isOn}
+					onClick={togglePower}
+					className={styles.PowerBlock_controls_power}
+				>
 					On
 				</button>
-				<div className={styles.PowerBlock_controls_light}></div>
+				<IndicatorLight isOn={isOn} />
 			</div>
 		</div>
 	);
@@ -73,12 +104,26 @@ const RackMount = ({
 	subtitle = "Low-Freq Oscillator",
 	children,
 }: Props) => {
+	const [isOn, setIsOn] = useState(false);
+	const css = {
+		opacity: isOn ? 1 : 0.6,
+	};
+
+	const togglePower = () => {
+		setIsOn(!isOn);
+	};
+
 	return (
-		<div className={styles.RackMount}>
+		<div className={styles.RackMount} style={css}>
 			<div className={styles.RackMount_inner}>
 				<Bolts />
 				<div className={styles.RackMount_inner_main}>
-					<PowerBlock title={title} subtitle={subtitle} />
+					<PowerBlock
+						title={title}
+						subtitle={subtitle}
+						isOn={isOn}
+						togglePower={togglePower}
+					/>
 					<Controls>{children}</Controls>
 				</div>
 			</div>

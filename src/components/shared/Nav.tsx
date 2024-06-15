@@ -20,6 +20,12 @@ const Nav = ({}: Props) => {
 				<li className={styles.Nav_list_item}>
 					<NavLink to="/playground">Playground</NavLink>
 				</li>
+				<li className={styles.Nav_list_item}>
+					<NavLink to="/recorder">Recorder</NavLink>
+				</li>
+				<li className={styles.Nav_list_item}>
+					<NavLink to="/ui">UI</NavLink>
+				</li>
 			</ul>
 		</nav>
 	);

@@ -1,0 +1,12 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.MultiRecorderPlayground {
+	width: 100%;
+
+	&_state {
+		font-size: 1.6rem;
+		margin-bottom: 4rem;
+	}
+}

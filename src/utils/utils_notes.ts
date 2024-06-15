@@ -131,7 +131,7 @@ const BASE_OCTAVE: BaseOctave = {
 	B: 30.87,
 };
 
-const generateOctave = (base: BaseOctave, octave: number) => {
+const generateOctave = (base: BaseOctave, octave: number): INote[] => {
 	const keys = Object.keys(base);
 	const notes: INote[] = [];
 	keys.forEach((key) => {
@@ -150,7 +150,10 @@ const generateOctave = (base: BaseOctave, octave: number) => {
 	return notes;
 };
 
-const generateOctavesFromBase = (base: BaseOctave, octaveCount: number) => {
+const generateOctavesFromBase = (
+	base: BaseOctave,
+	octaveCount: number
+): INote[] => {
 	const octList = Array.from(Array(octaveCount).keys()).filter((x) => x !== 0);
 	const allNotes: INote[] = [];
 	octList.forEach((octNum) => {

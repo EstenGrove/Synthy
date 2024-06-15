@@ -1,0 +1,98 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+@mixin btn() {
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 50%;
+	background-color: transparent;
+	@include flex_row(center, center);
+	border: 1px solid var(--border);
+	cursor: pointer;
+
+	&_icon {
+		width: 2.7rem;
+		height: 2.7rem;
+	}
+
+	&:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+}
+
+.RecorderIsland {
+	position: absolute;
+	bottom: 2rem;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 25rem;
+	height: 5rem;
+	padding: 0.2rem 0.8rem;
+	border-radius: 5rem;
+	border: 1px solid var(--accent-bright-red);
+	@include flex_row(flex-start, center);
+	@include flex_row(space-between, center);
+	gap: 0 1rem;
+
+	&_time {
+		font-size: 1.5rem;
+	}
+}
+
+.RecordButton {
+	@include btn();
+	background-color: transparent;
+
+	&:hover &_icon {
+		fill: #fff;
+	}
+	&_icon {
+		fill: var(--accent-bright-red);
+		// fill: #fff;
+	}
+}
+.StopButton {
+	@include btn();
+
+	&:hover &_icon {
+		fill: #fff;
+	}
+
+	&_icon {
+		fill: var(--accent-bright-red);
+		fill: #fff;
+	}
+}
+.PauseButton {
+	@include btn();
+
+	&:hover &_icon {
+		fill: #fff;
+	}
+
+	&_icon {
+		fill: #fff;
+	}
+}
+.ResumeButton {
+	@include btn();
+
+	&:hover &_icon {
+		fill: #fff;
+	}
+
+	&_icon {
+		// fill: var(--accent-bright-red);
+		fill: #fff;
+		margin-left: 2px;
+	}
+}
+.Time {
+	width: max-content;
+	height: auto;
+	&_value {
+		font-size: 1.5rem;
+	}
+}
