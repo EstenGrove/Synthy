@@ -6,9 +6,9 @@
 	position: relative;
 	width: fit-content;
 	height: fit-content;
+	border-radius: 50%;
 	@include flex_col(center, center);
 	user-select: none;
-	border-radius: 50%;
 
 	&_wrapper {
 		border-radius: 50%;
@@ -22,10 +22,8 @@
 	min-width: 15rem;
 	min-height: 15rem;
 	border-radius: 50%;
-	background-color: var(--main-bg);
-	// background-color: var(--bg1300);
-	// background-color: #000;
-	border: 1px solid var(--border);
+	background-color: var(--synthyKnobColor);
+	border: 1px solid var(--synthyKnobBorder);
 	&:hover {
 		cursor: pointer;
 	}
@@ -40,8 +38,7 @@
 		top: 2px;
 		left: 50%;
 		transform: translateX(-50%);
-		background-color: #fff;
-		// background-color: var(--border);
+		background-color: #eaecef;
 	}
 }
 .Label {
@@ -49,4 +46,28 @@
 	margin-top: 0.5rem;
 	color: var(--text-color);
 	font-family: var(--choco-font);
+	@extend .fadeIn;
+	&:hover {
+		cursor: pointer;
+	}
+}
+.LabelValue {
+	font-size: 1.4rem;
+	margin-top: 0.5rem;
+	color: var(--text-color);
+	font-family: var(--choco-font);
+	// transition: all 0.3s ease-in-out;
+	@extend .fadeIn;
+}
+
+.fadeIn {
+	animation: fade-in 0.3s;
+}
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 100%;
+	}
 }

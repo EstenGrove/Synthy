@@ -3,19 +3,22 @@
 @import "../../sass/custom";
 
 .EffectColumn {
-	width: max-content;
-	height: 25rem;
-	padding: 1rem 2rem;
-	border-radius: 0.5rem;
-	border: 1px solid var(--border);
+	width: 15rem;
+	height: var(--synthyFXHeight);
+	border-radius: 1rem;
+	padding: var(--synthyFXPadding);
+	border-color: var(--synthyBorder);
 	@include flex_col(flex-start, center);
 	gap: 0 1rem;
-	background-color: var(--bg1300);
 
-	&_label {
-		font-size: 2rem;
-		margin-bottom: 2rem;
+	& legend {
+		text-align: center;
+		font-size: 1.8rem;
+		border-color: var(--border);
+		color: var(--synthyFXLabel);
+		padding: 0 1rem;
 	}
+
 	&_main {
 		@include flex_col(flex-start, center);
 		gap: 2rem;

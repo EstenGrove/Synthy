@@ -1,0 +1,24 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$size: var(--synthyFXWaveSize);
+
+.BandPassWave {
+	width: $size;
+	height: $size;
+	border-radius: 1rem;
+
+	& svg {
+		width: 100%;
+		height: 100%;
+		&:hover {
+			cursor: pointer;
+		}
+
+		&:hover polyline {
+			cursor: pointer;
+			stroke: var(--synthyFXWaveActiveColor);
+		}
+	}
+}

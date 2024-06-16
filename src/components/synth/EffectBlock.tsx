@@ -10,10 +10,11 @@ type Props = {
 
 const EffectBlock = ({ label, children }: Props) => {
 	return (
-		<div className={styles.EffectBlock}>
-			<div className={styles.EffectBlock_label}>{label}</div>
+		<fieldset className={styles.EffectBlock}>
+			<legend>{label}</legend>
+			{/* <div className={styles.EffectBlock_label}>{label}</div> */}
 			<div className={styles.EffectBlock_main}>{children}</div>
-		</div>
+		</fieldset>
 	);
 };
 

@@ -1,0 +1,26 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$size: var(--synthyFXWaveSize);
+
+.LPFWave {
+	width: $size;
+	height: $size;
+	// border: 1px solid var(--border);
+	border-radius: 1rem;
+	transform: rotateY(180deg);
+
+	& svg {
+		width: 100%;
+		height: 100%;
+		&:hover {
+			cursor: pointer;
+		}
+
+		&:hover polyline {
+			cursor: pointer;
+			stroke: var(--synthyFXWaveActiveColor);
+		}
+	}
+}

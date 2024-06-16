@@ -1,0 +1,46 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.OctavesPicker {
+	width: max-content;
+	height: 100%;
+	padding: 0.5rem 0;
+	@include flex_col(flex-start, flex-start);
+
+	&_label {
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: var(--synthyAccent);
+
+		& > b {
+			font-weight: 700;
+		}
+	}
+
+	&_inner {
+		@include fill_container;
+		@include flex_row(space-evenly, center);
+		gap: 0 0.5rem;
+	}
+}
+
+.OctaveButton {
+	width: 1.1rem;
+	height: 1.1rem;
+	outline: none;
+	border-radius: 50%;
+	border: 1px solid var(--synthyBorder);
+	background-color: transparent;
+	font-size: 1rem;
+	&:hover {
+		cursor: pointer;
+		background-color: var(--synthyAccent);
+		border: 1px solid var(--synthyAccent);
+	}
+}
+
+.isActive {
+	background-color: var(--synthyAccent);
+	border: 1px solid var(--synthyAccent);
+}

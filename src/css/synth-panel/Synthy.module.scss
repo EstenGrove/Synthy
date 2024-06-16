@@ -1,0 +1,21 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$accentColor: var(--border);
+// $accentColor: var(--accent-bright-red);
+
+.Synthy {
+	display: block;
+	// width: 115rem;
+	max-width: 100%;
+	width: 130.7rem;
+	// width: auto;
+	height: auto;
+	min-height: 55rem;
+	margin: 0 auto;
+	border-radius: 1rem;
+	// border: 1px solid var(--accent-bright-red);
+	border: 1px solid var(--border);
+	// background-image: var(--synthyGradient);
+}

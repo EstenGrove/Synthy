@@ -1,0 +1,21 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.EffectRow {
+	width: auto;
+	height: 15rem;
+	max-height: 15rem;
+	padding: 1rem 1rem;
+	// border: 1px solid var(--border);
+	&_label {
+		font-size: 1.7rem;
+		@include flex_row(center, flex-start);
+	}
+
+	&_inner {
+		@include fill_container;
+		@include flex_row(space-evenly, center);
+		gap: 0 3rem;
+	}
+}

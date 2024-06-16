@@ -65,6 +65,23 @@ const groupBy = <T, K extends string | number>(
 	}, {} as Record<keyof T, T[]>);
 };
 
+export type TCallback = (params?: unknown) => void;
+
+// debounce a fn call for 'wait' time
+const debounce = <T extends (...args: unknown[]) => void>(
+	callback: T,
+	wait: number = 100
+) => {
+	let timerID: ReturnType<typeof setTimeout>;
+
+	return (...args: Parameters<typeof callback>) => {
+		clearTimeout(timerID);
+		timerID = setTimeout(() => {
+			callback(...args);
+		}, wait);
+	};
+};
+
 export {
 	// empty checkers
 	isEmptyObj,
@@ -75,4 +92,6 @@ export {
 	groupBy,
 	getRandomNumInRange,
 	generateRandomList,
+	// Performance Utils
+	debounce,
 };

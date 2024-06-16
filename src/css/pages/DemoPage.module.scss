@@ -34,10 +34,13 @@
 }
 
 .SynthWrapper {
-	width: 90rem;
+	width: 130rem;
+	max-width: 100%;
 	height: 50rem;
 	border-radius: 1rem;
 	border: 1px solid var(--border);
+	display: block;
+	margin: 0 auto;
 
 	&_bottom {
 		@include flex_row(flex-start, flex-start, nowrap);

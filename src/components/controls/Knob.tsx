@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, RefObject, CSSProperties } from "react";
 import styles from "../../css/controls/Knob.module.scss";
-import { clamp } from "../../utils/utils_shared";
+import { clamp, debounce } from "../../utils/utils_shared";
 import KnobArc from "./KnobArc";
 
 type Props = {
@@ -34,12 +34,12 @@ const getSize = (size: KnobSize): CSSProperties => {
 	switch (size) {
 		case "XSM": {
 			return {
-				width: "3.5rem",
-				height: "3.5rem",
-				minWidth: "3.5rem",
-				minHeight: "3.5rem",
-				maxWidth: "3.5rem",
-				maxHeight: "3.5rem",
+				width: "4rem",
+				height: "4rem",
+				minWidth: "4rem",
+				minHeight: "4rem",
+				maxWidth: "4rem",
+				maxHeight: "4rem",
 			};
 		}
 		case "SM": {
@@ -90,6 +90,12 @@ const getSize = (size: KnobSize): CSSProperties => {
 
 const Label = ({ label }: LabelProps) => {
 	return <div className={styles.Label}>{label}</div>;
+};
+type LabelValProps = {
+	value?: number;
+};
+const LabelValue = ({ value }: LabelValProps) => {
+	return <div className={styles.LabelValue}>{value}</div>;
 };
 
 const KnobDial = ({ knobRef, onMouseDown, size }: KnobDialProps) => {
@@ -142,11 +148,13 @@ const Knob = ({
 	defaultVal = 0,
 	enableArc = false,
 }: Props) => {
-	const isDragging = useRef<boolean>(false);
+	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const knobRef = useRef<HTMLDivElement>(null);
 	const [angle, setAngle] = useState<number>(getZeroFromRange(min, max));
 	// value used for actual controls
 	const [value, setValue] = useState<number>(defaultVal);
+	// shows value on hover
+	const [shouldShowValue, setShouldShowValue] = useState<boolean>(false);
 	const knobCss = getSize(size);
 
 	const handleUpdate = (newY: number) => {
@@ -165,7 +173,7 @@ const Knob = ({
 	};
 
 	const mouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-		isDragging.current = true;
+		setIsDragging(true);
 		lastY = e.clientY;
 		document.addEventListener("mousemove", mouseMove);
 		document.addEventListener("mouseup", mouseUp);
@@ -175,7 +183,7 @@ const Knob = ({
 		handleUpdate(e.clientY);
 	};
 	const mouseUp = (e: MouseEvent) => {
-		isDragging.current = false;
+		setIsDragging(false);
 		const newY = lastY - e.clientY;
 
 		lastY = clamp(newY, { min, max });
@@ -187,6 +195,14 @@ const Knob = ({
 		const knob = knobRef.current as HTMLDivElement;
 		knob.style.transformOrigin = `center`;
 		knob.style.transform = `rotate(${newAngle}deg)`;
+	};
+
+	// toggles showing the 'value' on mouseover
+	const showValue = () => {
+		setShouldShowValue(true);
+	};
+	const hideValue = () => {
+		setShouldShowValue(false);
 	};
 
 	// set default values on mount
@@ -205,12 +221,17 @@ const Knob = ({
 	}, []);
 
 	return (
-		<div className={styles.Knob}>
+		<div
+			className={styles.Knob}
+			onMouseOver={debounce(showValue, 50)}
+			onMouseLeave={debounce(hideValue, 50)}
+		>
 			<div className={styles.Knob_wrapper} style={knobCss}>
 				{enableArc && <KnobArc value={value} />}
 				<KnobDial knobRef={knobRef} onMouseDown={mouseDown} size={size} />
 			</div>
-			<Label label={label} />
+			{!isDragging && !shouldShowValue && <Label label={label} />}
+			{(shouldShowValue || isDragging) && <LabelValue value={value} />}
 		</div>
 	);
 };

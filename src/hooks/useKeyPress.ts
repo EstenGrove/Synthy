@@ -13,18 +13,24 @@ export type TListeners = {
 
 const useKeyPress = (
 	targetKey: string,
-	targetElRef?: RefObject<HTMLElement> | null
+	targetElRef?: RefObject<HTMLElement> | null,
+	onPress?: () => void
 ): boolean => {
 	const [isPressed, setIsPressed] = useState(false);
 
+	// add event listeners
 	useEffect(() => {
 		let isMounted = true;
 		if (!isMounted) return;
 
 		const handleKeyDown = (e: KeyboardEvent) => {
-			console.log("Was Pressed");
 			if (e.key === targetKey) {
 				setIsPressed(true);
+
+				// call handler, if exists
+				if (onPress) {
+					onPress();
+				}
 			}
 		};
 
@@ -41,7 +47,7 @@ const useKeyPress = (
 			window.removeEventListener("keydown", handleKeyDown);
 			window.removeEventListener("keyup", handleKeyUp);
 		};
-	}, [targetElRef, targetKey]);
+	}, [onPress, targetElRef, targetKey]);
 
 	return isPressed;
 };

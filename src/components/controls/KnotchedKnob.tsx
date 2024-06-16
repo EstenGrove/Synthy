@@ -7,6 +7,7 @@ import {
 	useMemo,
 	ReactElement,
 	FC,
+	CSSProperties,
 } from "react";
 import styles from "../../css/controls/KnotchedKnob.module.scss";
 
@@ -15,18 +16,82 @@ export interface IOption {
 	element?: ReactNode | ReactElement | FC;
 }
 
+type KnobSize = "XSM" | "SM" | "MD" | "LG" | "XLG";
+
 type Props = {
+	label?: string;
 	options?: Array<IOption>;
+	size?: KnobSize;
 	onChange: (selection: string) => void;
 };
 
 type KnobDialProps = {
 	knobRef: RefObject<HTMLDivElement>;
+	size?: KnobSize;
 };
 
-const KnobDial = ({ knobRef }: KnobDialProps) => {
+const getSize = (size: KnobSize): CSSProperties => {
+	switch (size) {
+		case "XSM": {
+			return {
+				width: "4rem",
+				height: "4rem",
+				minWidth: "4rem",
+				minHeight: "4rem",
+				maxWidth: "4rem",
+				maxHeight: "4rem",
+			};
+		}
+		case "SM": {
+			return {
+				width: "5rem",
+				height: "5rem",
+				minWidth: "5rem",
+				minHeight: "5rem",
+				maxWidth: "5rem",
+				maxHeight: "5rem",
+			};
+		}
+		case "MD": {
+			return {
+				width: "6rem",
+				height: "6rem",
+				minWidth: "6rem",
+				minHeight: "6rem",
+				maxWidth: "6rem",
+				maxHeight: "6rem",
+			};
+		}
+		case "LG": {
+			return {
+				width: "8rem",
+				height: "8rem",
+				minWidth: "8rem",
+				minHeight: "8rem",
+				maxWidth: "8rem",
+				maxHeight: "8rem",
+			};
+		}
+		case "XLG": {
+			return {
+				width: "10rem",
+				height: "10rem",
+				minWidth: "10rem",
+				minHeight: "10rem",
+				maxWidth: "10rem",
+				maxHeight: "10rem",
+			};
+		}
+
+		default:
+			return { width: "8rem", height: "8rem" };
+	}
+};
+
+const KnobDial = ({ knobRef, size = "SM" }: KnobDialProps) => {
+	const cssSize = getSize(size);
 	return (
-		<div ref={knobRef} className={styles.KnobDial}>
+		<div ref={knobRef} className={styles.KnobDial} style={cssSize}>
 			<div className={styles.KnobDial_handle}></div>
 		</div>
 	);
@@ -114,7 +179,12 @@ const mapOptionsToAngles = (options: Array<IOption>): IAnglesMap => {
 	return degsMap;
 };
 
-const KnotchedKnob = ({ options = [], onChange }: Props) => {
+const KnotchedKnob = ({
+	size = "SM",
+	label = "Wave Type",
+	options = [],
+	onChange,
+}: Props) => {
 	const knobRef = useRef<HTMLDivElement>(null);
 	// only stores the string value of the selected option
 	const [selectedOption, setSelectedOption] = useState<string>(
@@ -165,10 +235,10 @@ const KnotchedKnob = ({ options = [], onChange }: Props) => {
 					options={options}
 				/>
 				{/* KNOBDIAL */}
-				<KnobDial knobRef={knobRef} />
+				<KnobDial knobRef={knobRef} size={size} />
 			</div>
 			<div className={styles.KnotchedKnob_label}>
-				<div>Wave Type</div>
+				<div>{label}</div>
 			</div>
 		</div>
 	);

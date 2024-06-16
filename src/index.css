@@ -13,6 +13,10 @@
 	/* FONTS */
 	--choco-sans: "Chocolate Classical Sans", sans-serif;
 
+	/****************************************************************/
+	/************************ COLOR PALETTE  ************************/
+	/****************************************************************/
+
 	/* Grey Tints */
 	--greyTintMain: #64748b;
 	--greyTint800: #728196;
@@ -141,11 +145,47 @@
 	--accent-seaweed: #00e2bd;
 	--accent-yellow: #fff07c;
 
-	/* CUSTOM VARIABLES - COMPONENTS */
+	/* MARK: SYNTHY */
+	/****************************************************************/
+	/******************* SYNTHY CUSTOM VARIABLES  *******************/
+	/****************************************************************/
+
+	/* COMPONENTS' VARIABLES */
 	--svgNotch: 1.5rem;
-	--svgNotchColor: #000;
+	--svgNotchColor: var(--border);
+	/* PERFECT COLOR FOR LIGHT MODE */
+
+	--synthyBG: var(--main-bg);
+	--synthyFXFocusShadow: rgba(255, 0, 102, 0.1);
+	--synthyFXShadow: rgba(0, 0, 0, 0.75);
+	--synthyAccent: var(--accent-bright-red);
+	--synthyFXLabel: var(--accent-bright-red);
+	--synthyKnobColor: var(--bg1300);
+	--synthyKnobBorder: #000;
+	--synthyBorder: var(--border);
+	--synthyFXPadding: 3rem 1rem;
+	--synthyFXColumnWidth: 15rem;
+	--synthyFXHeight: 23rem;
+
+	/* WAVE SHAPE VARS */
+	--synthyFXWaveSizeRaw: 50;
+	--synthyFXWaveSize: 5rem;
+	--synthyFXWaveFill: var(--blueGrey900);
+	--synthyFXWaveColor: var(--border);
+	--synthyFXWaveActiveColor: var(--accent-bright-red);
+	/****************************************************************/
+	/************************** GRADIENTS  **************************/
+	/****************************************************************/
+	--synthyGradient: radial-gradient(
+		farthest-corner circle at 94% 84% in oklab,
+		#5f17e6 0%,
+		#eaecef 127% 127%
+	);
 }
 
+/****************************************************************/
+/**************************** THEMES  ***************************/
+/****************************************************************/
 :root[data-theme="light"] {
 }
 :root[data-theme="dark"] {

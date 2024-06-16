@@ -1,4 +1,4 @@
-import { useState, useEffect, MouseEvent, MutableRefObject } from "react";
+import { useState, useEffect, MouseEvent, RefObject } from "react";
 
 /**
  * Example Usage:
@@ -16,7 +16,7 @@ import { useState, useEffect, MouseEvent, MutableRefObject } from "react";
  * })
  */
 const useOutsideClick = (
-	nodeRef: MutableRefObject<HTMLElement> | undefined,
+	nodeRef: RefObject<HTMLElement> | undefined,
 	onOutsideClick?: () => void | undefined
 ): boolean => {
 	const [isOutside, setIsOutside] = useState<boolean>(false);

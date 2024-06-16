@@ -8,10 +8,10 @@ type Props = {
 
 const EffectColumn = ({ label, children }: Props) => {
 	return (
-		<div className={styles.EffectColumn}>
-			<div className={styles.EffectColumn_label}>{label}</div>
+		<fieldset className={styles.EffectColumn}>
+			<legend>{label}</legend>
 			<div className={styles.EffectColumn_main}>{children}</div>
-		</div>
+		</fieldset>
 	);
 };
 

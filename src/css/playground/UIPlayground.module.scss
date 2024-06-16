@@ -8,5 +8,14 @@
 	&_main {
 		@include fill_container;
 		padding: 4rem;
+
+		&_waves {
+			border: 1px solid #ccc;
+			width: 12rem;
+			height: 12rem;
+			max-height: 12rem;
+			max-width: 12rem;
+			@include flex_row(space-evenly, center, wrap);
+		}
 	}
 }

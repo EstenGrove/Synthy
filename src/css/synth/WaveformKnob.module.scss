@@ -1,0 +1,9 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.WaveformKnob {
+	width: max-content;
+	height: max-content;
+	margin-top: -3.2rem;
+}

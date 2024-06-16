@@ -1,0 +1,73 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.EffectDropdown {
+	position: relative;
+	width: 5rem;
+	height: max-content;
+	border-radius: 1rem;
+	@include flex_col(center, center);
+	margin-top: -0.5rem;
+
+	&_wrapper {
+		width: 5rem;
+		height: max-content;
+		@include flex_col(center, center);
+
+		&_button {
+			width: 5rem;
+			height: 5rem;
+			border-radius: 1rem;
+			background-color: transparent;
+			outline: none;
+			// border: none;
+			border: 1px solid var(--synthyBorder);
+			&:hover {
+				cursor: pointer;
+			}
+		}
+		&_label {
+			width: max-content;
+			font-size: 1.4rem;
+			color: var(--synthyBorder);
+		}
+	}
+}
+// ITEM SIZE
+$menuItemSize: 5rem;
+// DERIVED MENU SIZE
+$menuWidth: calc($menuItemSize * 2) + 1rem;
+$menuHeight: calc($menuItemSize * 2) + 1rem;
+
+.OptionsMenu {
+	display: block;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: $menuWidth;
+	height: $menuHeight;
+	background-color: var(--main-bg);
+	border-radius: 1rem;
+	border: 1px solid var(--synthyBorder);
+	box-shadow: 4px 4px 17px 0px var(--synthyFXShadow);
+	z-index: 10;
+
+	&_list {
+		width: 100%;
+		height: 100%;
+		list-style: none;
+		@include fill_container;
+		@include flex_row(center, center, wrap);
+	}
+}
+.OptionItem {
+	@include flex_row(center, center);
+	width: $menuItemSize;
+	height: $menuItemSize;
+	border-radius: 1rem;
+	border: 1px solid var(--synthyBorder);
+	&:hover {
+		cursor: pointer;
+	}
+}

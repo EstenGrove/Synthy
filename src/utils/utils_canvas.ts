@@ -94,6 +94,20 @@ const getDistanceBetweenCoords2 = (
 	return distance;
 };
 
+// [[1,2], [2,3]] => ['1,2' '2,3']
+const mergeArrayOfCoords = (coords: Array<Array<number>>): string[] => {
+	const arrayOfCoords: string[] = coords.map(([x, y]) => {
+		return `${x},${y}`;
+	});
+
+	return arrayOfCoords;
+};
+
+// Takes an array of points/coords & merges them into a string (eg. ['1,2', '3,4'] => "1,2 3,4")
+const mergeSvgPoints = (points: string[]): string => {
+	return points.join(" ");
+};
+
 const saveCanvasToBlob = (filename: string, canvas: HTMLCanvasElement) => {
 	canvas.toBlob((blob) => {
 		const url = window.URL.createObjectURL(blob as Blob);
@@ -115,6 +129,10 @@ const saveCanvasToImage = (canvas: HTMLCanvasElement, filename: string) => {
 };
 
 export {
+	// SVG Path/Point Utils
+	mergeSvgPoints,
+	mergeArrayOfCoords,
+	// Element utils
 	getElementBounds,
 	convertValueToCustomDegrees,
 	// calculations & utils

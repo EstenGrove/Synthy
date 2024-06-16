@@ -40,8 +40,8 @@ const keys = ["Am", "C#", "Db", "G#", "F#", "Bb"];
 
 const showStuff = {
 	controls: false,
-	faders: true,
-	knobs: false,
+	faders: false,
+	knobs: true,
 };
 
 // const hunny = range(0, 50, 3);
@@ -54,6 +54,12 @@ const DemoPage = ({}: Props) => {
 	const [angle, setAngle] = useState("0");
 	const [preset, setPreset] = useState<string>("");
 	const [key, setKey] = useState<string>("");
+	const [values, setValues] = useState({
+		attack: 0.5,
+		decay: 0.5,
+		sustain: 0.5,
+		release: 0.5,
+	});
 
 	const handleVal = (e: ChangeEvent<HTMLInputElement>) => {
 		setVal(e.target.value);
@@ -71,6 +77,13 @@ const DemoPage = ({}: Props) => {
 		setIsOn(!isOn);
 	};
 
+	const handleVals = (name: string, val: number) => {
+		setValues({
+			...values,
+			[name]: val,
+		});
+	};
+
 	return (
 		<div ref={divRef} className={styles.DemoPage}>
 			<h1>Demo Page</h1>
@@ -79,7 +92,7 @@ const DemoPage = ({}: Props) => {
 				{/* <SineWave amplitude={30} freq={440} rarity={1} phase={180} /> */}
 
 				{/* <TouchSynth /> */}
-				<TouchOsc />
+				{/* <TouchOsc /> */}
 
 				{/* <Knob key="test" size="LG" /> */}
 			</div>
@@ -97,33 +110,42 @@ const DemoPage = ({}: Props) => {
 						{showStuff.knobs && (
 							<>
 								<EffectColumn label="Attack">
-									<Knob key="Attack" size="XSM" />
+									<Knob
+										key="Attack"
+										name="attack"
+										size="SM"
+										onChange={handleVals}
+									/>
+									<Knob
+										key="Decay"
+										name="decay"
+										size="SM"
+										onChange={handleVals}
+									/>
 								</EffectColumn>
 								<EffectColumn label="Decay">
-									<Knob key="Decay" size="XSM" />
+									<Knob
+										key="Decay"
+										name="decay"
+										size="SM"
+										onChange={handleVals}
+									/>
 								</EffectColumn>
 								<EffectColumn label="Sustain">
-									<Knob key="Sustain" size="XSM" />
+									<Knob
+										key="Sustain"
+										name="sustain"
+										size="SM"
+										onChange={handleVals}
+									/>
 								</EffectColumn>
 								<EffectColumn label="Release">
-									<Knob key="Release" size="XSM" />
-								</EffectColumn>
-							</>
-						)}
-
-						{showStuff.faders && (
-							<>
-								<EffectColumn label="Attack">
-									<Fader size="SM" />
-								</EffectColumn>
-								<EffectColumn label="Decay">
-									<Fader size="SM" />
-								</EffectColumn>
-								<EffectColumn label="Sustain">
-									<Fader size="SM" />
-								</EffectColumn>
-								<EffectColumn label="Release">
-									<Fader size="SM" />
+									<Knob
+										key="Release"
+										name="release"
+										size="SM"
+										onChange={handleVals}
+									/>
 								</EffectColumn>
 							</>
 						)}
