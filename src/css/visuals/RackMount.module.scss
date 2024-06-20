@@ -159,5 +159,16 @@
 	.RackMount {
 		width: 100vw;
 		min-width: 100vw;
+
+		&_inner {
+			padding: 0.5rem;
+
+			&_main {
+				padding: 0 1rem;
+			}
+		}
+	}
+	.PowerBlock {
+		margin-right: 1rem;
 	}
 }

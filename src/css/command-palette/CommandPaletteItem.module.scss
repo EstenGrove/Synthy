@@ -1,0 +1,29 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.CommandPaletteItem {
+	width: 100%;
+	height: 4rem;
+	border-radius: 0.5rem;
+	font-size: 1.4rem;
+	color: var(--border);
+	@include flex_row(flex-start, center);
+
+	&_main {
+		width: auto;
+		height: 100%;
+	}
+	&_cmd {
+		margin-left: auto;
+		// font-size: 1.5rem;
+	}
+
+	&:hover {
+		cursor: pointer;
+		color: var(--accent-bright-red);
+	}
+	&:hover svg {
+		fill: var(--accent-bright-red);
+	}
+}

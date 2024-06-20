@@ -1,0 +1,43 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$inputBG: transparent;
+
+.CommandPaletteInput {
+	width: 100%;
+	height: 4rem;
+	padding: 0.5rem 0.5rem;
+	border-radius: 1rem;
+
+	&_inputWrapper {
+		@include fill_container;
+		@include flex_row(flex-start, center);
+		// border: 1px solid var(--border);
+		border-radius: 0.5rem;
+		background-color: $inputBG;
+
+		&_searchIcon {
+			width: 2.5rem;
+			height: 2.5rem;
+			fill: var(--border);
+		}
+		&_input {
+			width: 100%;
+			height: 100%;
+			border-radius: 0.5rem;
+			border: none;
+			outline: none;
+			background-color: $inputBG;
+			padding-left: 0.5rem;
+			font-size: 1.6rem;
+		}
+		&_shortcut {
+			padding: 0.2rem 0.3rem;
+			border-radius: 0.3rem;
+			background-color: var(--main-bg);
+			border: 1px solid var(--border);
+			box-shadow: 3px 28px 67px -24px rgba(0, 0, 0, 0.75);
+		}
+	}
+}

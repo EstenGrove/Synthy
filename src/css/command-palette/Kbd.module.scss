@@ -1,0 +1,19 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Kbd {
+	width: max-content;
+	height: max-content;
+	border-radius: 0.5rem;
+	& kbd {
+		padding: 0.2rem 0.3rem;
+		border-radius: 0.5rem;
+		font-size: 1.3rem;
+		color: var(--border);
+	}
+}
+.MetaKey {
+	font-size: 1.2rem;
+	color: var(--border);
+}

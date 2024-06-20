@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import styles from "../../css/controls/OctavesPicker.module.scss";
 import { useKeyPress } from "../../hooks/useKeyPress";
 
@@ -11,7 +11,6 @@ type OctaveBtnProps = {
 	octave: number;
 	isSelected: boolean;
 	selectOctave: () => void;
-	// selectOctave: (octave: number) => void;
 };
 
 const OctaveButton = ({
@@ -41,17 +40,34 @@ const getItemIdx = (currentOctave: number, octaves: number[]): number => {
 	return currentIdx;
 };
 
+// <b>({"←  →"})</b>
+const arrows = (
+	<>
+		<b>&lsaquo;</b> <b>&rsaquo;</b>
+	</>
+);
+
 const OctavesPicker = ({ octaves, onChange }: Props) => {
-	const elRef = useRef<HTMLDivElement>(null);
+	const optsRef = useRef<HTMLDivElement>(null);
 	const [currentOctave, setCurrentOctave] = useState<number>(octaves[0]);
 	// go down an octave
-	useKeyPress("ArrowLeft", elRef, () => {
-		return getPrev();
+	useKeyPress("ArrowLeft", {
+		onPress: () => {
+			getPrevOctave();
+		},
 	});
-	// go up an octave
-	useKeyPress("ArrowRight", elRef, () => {
-		return getNext();
+	useKeyPress("ArrowRight", {
+		onPress: () => {
+			getNextOctave();
+		},
 	});
+	// useKeyPress("ArrowLeft", null, () => {
+	// 	return getPrevOctave();
+	// });
+	// // go up an octave
+	// useKeyPress("ArrowRight", null, () => {
+	// 	return getNextOctave();
+	// });
 
 	const selectOctave = (newOctave: number) => {
 		setCurrentOctave(newOctave);
@@ -61,7 +77,7 @@ const OctavesPicker = ({ octaves, onChange }: Props) => {
 		}
 	};
 
-	const getNext = () => {
+	const getNextOctave = () => {
 		const currentIdx: number = getItemIdx(currentOctave, octaves);
 		const lastIdx = octaves.length - 1;
 
@@ -74,7 +90,7 @@ const OctavesPicker = ({ octaves, onChange }: Props) => {
 			selectOctave(nextItem);
 		}
 	};
-	const getPrev = () => {
+	const getPrevOctave = () => {
 		const currentIdx: number = getItemIdx(currentOctave, octaves);
 		const firstIdx = 0;
 
@@ -90,10 +106,8 @@ const OctavesPicker = ({ octaves, onChange }: Props) => {
 
 	return (
 		<div className={styles.OctavesPicker}>
-			<div className={styles.OctavesPicker_label}>
-				Octaves <b>({"←  →"})</b>
-			</div>
-			<div className={styles.OctavesPicker_inner} ref={elRef}>
+			<div className={styles.OctavesPicker_label}>Octaves {arrows}</div>
+			<div className={styles.OctavesPicker_inner} ref={optsRef}>
 				{octaves &&
 					octaves.map((octave, idx) => (
 						<OctaveButton

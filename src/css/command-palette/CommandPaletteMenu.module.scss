@@ -1,0 +1,14 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.CommandPaletteMenu {
+	width: 100%;
+	min-height: 35rem;
+	max-height: auto;
+	padding: 1rem 1rem;
+	@include flex_col(flex-start, flex-start);
+	gap: 0.5rem 0;
+	overflow-y: auto;
+	border-radius: 0 0 1rem 1rem;
+}

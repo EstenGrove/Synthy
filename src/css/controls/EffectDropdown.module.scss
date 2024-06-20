@@ -44,7 +44,8 @@ $menuHeight: calc($menuItemSize * 2) + 1rem;
 	display: block;
 	position: absolute;
 	top: 100%;
-	left: 0;
+	left: 50%;
+	transform: translate(-50%, 0%);
 	width: $menuWidth;
 	height: $menuHeight;
 	background-color: var(--main-bg);
@@ -52,6 +53,7 @@ $menuHeight: calc($menuItemSize * 2) + 1rem;
 	border: 1px solid var(--synthyBorder);
 	box-shadow: 4px 4px 17px 0px var(--synthyFXShadow);
 	z-index: 10;
+	@include fadeIn();
 
 	&_list {
 		width: 100%;

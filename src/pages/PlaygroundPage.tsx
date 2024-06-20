@@ -154,17 +154,17 @@ const PlaygroundPage = () => {
 						<Knob name="gain2" size="SM" label="Gain" onChange={handleVal} />
 					</EffectColumn>
 				</div>
-				{/* {audioCtx && sourceNode && (
+				{audioCtx && sourceNode && (
 					<PeakMeter audioCtx={audioCtx} sourceNode={sourceNode} />
-				)} */}
-				{/* <VUMeter /> */}
+				)}
+				<VUMeter />
 				{/* <KeyboardSynth /> */}
 				{/* <CustomOscPlayground /> */}
 				{/* <SoundsPlayground /> */}
 				{/* <Playground /> */}
 				{/* <DelayPlayground /> */}
 				{/* <SinePlayground /> */}
-				{/* <OscilloscopePlayground /> */}
+				<OscilloscopePlayground />
 				<br />
 				<br />
 				<br />
