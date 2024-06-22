@@ -56,3 +56,20 @@
 @mixin fadeIn() {
 	@extend .fadeIn;
 }
+
+.fadeInHeight {
+	animation: fade-in-height 0.5s;
+}
+@mixin fadeInHeight($height) {
+	@extend .fadeInHeight;
+	@keyframes fade-in-height {
+		from {
+			opacity: 0;
+			height: 0;
+		}
+		to {
+			opacity: 100%;
+			height: $height;
+		}
+	}
+}

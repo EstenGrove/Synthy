@@ -53,6 +53,7 @@ $menuHeight: calc($menuItemSize * 2) + 1rem;
 	border: 1px solid var(--synthyBorder);
 	box-shadow: 4px 4px 17px 0px var(--synthyFXShadow);
 	z-index: 10;
+	overflow: hidden;
 	@include fadeIn();
 
 	&_list {

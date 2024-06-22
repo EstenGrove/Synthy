@@ -23,6 +23,7 @@ const useKeyPress = (targetKey: string, options: IHookOpts): boolean => {
 
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === targetKey) {
+				e.preventDefault();
 				setIsPressed(true);
 
 				// call handler, if exists
@@ -34,6 +35,7 @@ const useKeyPress = (targetKey: string, options: IHookOpts): boolean => {
 
 		const handleKeyUp = (e: KeyboardEvent) => {
 			if (e.key === targetKey) {
+				e.preventDefault();
 				setIsPressed(false);
 			}
 		};

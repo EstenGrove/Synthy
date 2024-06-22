@@ -3,12 +3,14 @@ import styles from "../../css/controls/OctavesPicker.module.scss";
 import { useKeyPress } from "../../hooks/useKeyPress";
 
 type Props = {
-	octaves: number[];
-	onChange: (octave: number) => void;
+	name?: string;
+	octaves: string[];
+	currentOctave: string;
+	onSelect: (octave: string) => void;
 };
 
 type OctaveBtnProps = {
-	octave: number;
+	octave: string;
 	isSelected: boolean;
 	selectOctave: () => void;
 };
@@ -34,8 +36,10 @@ const OctaveButton = ({
 	);
 };
 
-const getItemIdx = (currentOctave: number, octaves: number[]): number => {
-	const currentIdx = octaves.findIndex((oct) => oct === currentOctave);
+const getItemIdx = (currentOctave: string, octaves: string[]): number => {
+	const currentIdx = octaves.findIndex(
+		(oct) => Number(oct) === Number(currentOctave)
+	);
 
 	return currentIdx;
 };
@@ -47,33 +51,28 @@ const arrows = (
 	</>
 );
 
-const OctavesPicker = ({ octaves, onChange }: Props) => {
+const OctavesPicker = ({ currentOctave, octaves, onSelect }: Props) => {
 	const optsRef = useRef<HTMLDivElement>(null);
-	const [currentOctave, setCurrentOctave] = useState<number>(octaves[0]);
+	const [selectedOctave, setSelectedOctave] = useState<string>(
+		currentOctave ?? octaves?.[0]
+	);
 	// go down an octave
-	useKeyPress("ArrowLeft", {
+	useKeyPress("ArrowDown", {
 		onPress: () => {
 			getPrevOctave();
 		},
 	});
-	useKeyPress("ArrowRight", {
+	useKeyPress("ArrowUp", {
 		onPress: () => {
 			getNextOctave();
 		},
 	});
-	// useKeyPress("ArrowLeft", null, () => {
-	// 	return getPrevOctave();
-	// });
-	// // go up an octave
-	// useKeyPress("ArrowRight", null, () => {
-	// 	return getNextOctave();
-	// });
 
-	const selectOctave = (newOctave: number) => {
-		setCurrentOctave(newOctave);
+	const selectOctave = (newOctave: string) => {
+		setSelectedOctave(newOctave);
 
-		if (onChange) {
-			onChange(newOctave);
+		if (onSelect) {
+			onSelect(newOctave);
 		}
 	};
 

@@ -1,0 +1,122 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$arrowSize: 2.5rem;
+
+.PresetsPicker {
+	position: relative;
+	width: max-content;
+	height: max-content;
+	margin: 0 auto;
+	justify-self: center;
+	@include flex_row(center, center);
+}
+.CurrentPreset {
+	width: 15rem;
+	height: 2rem;
+	border-radius: 0.5rem;
+	padding-left: 0.5rem;
+	border: 1px solid var(--border);
+	@include flex_row(space-between, center);
+	&:hover {
+		cursor: pointer;
+	}
+
+	&_current {
+		font-size: 1.3rem;
+		color: var(--synthyAccent);
+	}
+	&_icon {
+		width: 1.7rem;
+		height: 1.7rem;
+		fill: #fff;
+	}
+}
+.PrevButton {
+	width: $arrowSize;
+	height: $arrowSize;
+	border-radius: 0.3rem;
+	border: none;
+	outline: none;
+	@include flex_row(center, center);
+	background-color: transparent;
+	&:hover {
+		cursor: pointer;
+	}
+
+	&_icon {
+		width: $arrowSize;
+		height: $arrowSize;
+		min-width: $arrowSize;
+		min-height: $arrowSize;
+		fill: var(--synthyAccent);
+	}
+}
+.NextButton {
+	width: $arrowSize;
+	height: $arrowSize;
+	border-radius: 0.3rem;
+	border: none;
+	outline: none;
+	@include flex_row(center, center);
+	background-color: transparent;
+	&:hover {
+		cursor: pointer;
+	}
+
+	&_icon {
+		width: $arrowSize;
+		height: $arrowSize;
+		min-width: $arrowSize;
+		min-height: $arrowSize;
+		fill: var(--synthyAccent);
+	}
+}
+.PresetsMenu {
+	position: absolute;
+	top: 110%;
+	left: 2.5rem;
+	display: block;
+	width: 15rem;
+	height: 20rem;
+	overflow: hidden;
+	border-radius: 0.5rem;
+	border: 1px solid var(--border);
+	background-color: #000;
+	z-index: 1000;
+	@include fadeInHeight(20rem);
+	box-shadow: 4px 4px 17px 0px var(--synthyFXShadow);
+
+	&_list {
+		width: 100%;
+		height: 100%;
+		padding: 0 0;
+		list-style: none;
+		@include flex_col(flex-start, flex-start);
+		gap: 0.5rem 0;
+	}
+}
+.PresetItem {
+	width: 100%;
+	height: 3rem;
+	padding: 0.5rem 0.6rem;
+	@include flex_row(flex-start, center);
+	font-size: 1.3rem;
+	&:hover {
+		cursor: pointer;
+	}
+	&_isSelected {
+		@extend .PresetItem;
+		background-color: var(--synthyAccentBG);
+	}
+
+	&_icon {
+		margin-left: auto;
+		width: 1.6rem;
+		height: 1.6rem;
+		fill: var(--synthyAccent);
+		align-self: center;
+		margin-bottom: 0.2rem;
+	}
+}

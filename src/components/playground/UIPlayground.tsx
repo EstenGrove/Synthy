@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import sprite from "../../assets/icons/main.svg";
 import styles from "../../css/playground/UIPlayground.module.scss";
 import Synthy from "../synth-panel/Synthy";
@@ -16,6 +16,9 @@ import { useHotKeys } from "../../hooks/useHotKeys";
 import { useKeyPress } from "../../hooks/useKeyPress";
 import { ICommandMenuOption } from "../../utils/utils_commandPalette";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import Presets from "../controls/PresetsPicker";
+import { useWebWorker } from "../../hooks/useWebWorker";
+import { fromUnixTime } from "date-fns";
 
 type Props = {};
 
@@ -101,10 +104,33 @@ const menuOptions: ICommandMenuOption[] = [
 	},
 ];
 
+interface IMsgData {
+	timestamp: number;
+	data: {
+		[key: string]: unknown;
+	};
+}
+
+// envPath: 'http://localhost:5173/src/'
+// workerFile: 'http://localhost:5173/src/worker.ts'
+const envPath = new URL(import.meta.url)?.origin + "/src/";
+const workerFile = new URL("./worker.ts", envPath).toString();
+
 const UIPlayground = ({}: Props) => {
 	const [selected, setSelected] = useState("");
-	const [showCommandPalette, setShowCommandPalette] = useState(true);
+	const [showCommandPalette, setShowCommandPalette] = useState(false);
 	const navigate = useNavigate();
+	// web worker hook
+	const webWorker = useWebWorker<IMsgData>(workerFile, {
+		onMessage: (msg: MessageEvent) => {
+			console.log("Response from worker: ", msg);
+			const data = msg.data as IMsgData;
+			// const time = new Date(msg.timeStamp);
+			const time = fromUnixTime(msg.timeStamp).toTimeString();
+			console.log(data + ` at ${time}`);
+		},
+	});
+	const worker = webWorker.worker as Worker;
 	// trigger menu to open
 	useHotKeys(["ctrl", "k"], () => {
 		openCommandPalette();
@@ -126,10 +152,16 @@ const UIPlayground = ({}: Props) => {
 		// navigate(option?.route);
 	};
 
+	const sendMsg = () => {
+		worker.postMessage("Hi");
+	};
+
 	return (
 		<div className={styles.UIPlayground}>
 			<h1>UI Page</h1>
 			<div className={styles.UIPlayground_main}>
+				{/* <Presets /> */}
+				<button onClick={sendMsg}>Send</button>
 				{showCommandPalette && (
 					<CommandPalette
 						onSelect={handleCommand}

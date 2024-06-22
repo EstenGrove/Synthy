@@ -160,6 +160,7 @@
 	--synthyFXShadow: rgba(0, 0, 0, 0.75);
 	--synthyAccent: var(--accent-bright-red);
 	--synthyFXLabel: var(--accent-bright-red);
+	--synthyAccentBG: rgba(255, 0, 102, 0.1);
 	--synthyKnobColor: var(--bg1300);
 	--synthyKnobBorder: #000;
 	--synthyBorder: var(--border);

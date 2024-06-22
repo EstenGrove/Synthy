@@ -8,4 +8,5 @@
 	padding: 0.5rem 2rem;
 	border-radius: 1rem 1rem 0 0;
 	background-color: var(--synthyBG);
+	@include flex_row(flex-start, center);
 }
