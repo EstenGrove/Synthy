@@ -10,7 +10,7 @@
 	@include flex_row(center, center);
 }
 .CurrentScale {
-	width: 10rem;
+	width: 15rem;
 	height: 2rem;
 	border-radius: 0.5rem;
 	padding-left: 0.5rem;
@@ -54,6 +54,18 @@
 		list-style: none;
 		@include flex_col(flex-start, flex-start);
 		gap: 0.5rem 0;
+		overflow-x: hidden;
+		overflow-y: auto;
+
+		&::-webkit-scrollbar {
+			-webkit-appearance: none;
+			width: 3px;
+			height: 6px;
+		}
+		&::-webkit-scrollbar-thumb {
+			border-radius: 5rem;
+			background-color: var(--border);
+		}
 	}
 }
 

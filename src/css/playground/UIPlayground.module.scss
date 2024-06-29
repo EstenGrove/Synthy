@@ -34,3 +34,15 @@
 		margin-top: 0.25rem;
 	}
 }
+
+@media only screen and (max-width: 700px) {
+	.UIPlayground {
+		width: 100%;
+		max-width: 100%;
+
+		&_main {
+			@include fill_container;
+			padding: 4rem 0.5rem;
+		}
+	}
+}

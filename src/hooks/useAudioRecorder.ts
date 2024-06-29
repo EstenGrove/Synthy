@@ -69,11 +69,13 @@ const useAudioRecorder = ({
 		mediaStream,
 		startRecording = true,
 	}: IInit) => {
-		const recorder = createAudioRecorder(mediaStream);
+		// if we already have a recorder, re-use it, otherwise create it
+		if (!audioRecorder.current) {
+			audioRecorder.current = createAudioRecorder(mediaStream);
+		}
 
 		// set our nodes to our refs
 		audioContext.current = audioCtx;
-		audioRecorder.current = recorder;
 		stream.current = mediaStream;
 
 		// NO LONGER NEEDED!!!

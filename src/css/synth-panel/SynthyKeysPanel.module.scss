@@ -1,0 +1,35 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$keysHeight: var(--synthyKeysHeight);
+
+.SynthyKeysPanel {
+	width: 100%;
+	max-width: 100%;
+	height: 100%;
+	min-height: $keysHeight;
+	background-color: var(--main-bg);
+	border-radius: 0 0 1rem 1rem;
+	padding-bottom: 1rem;
+	@include flex_row(flex-start, center);
+
+	&_inner {
+		@include fill_container;
+		min-height: $keysHeight;
+		@include flex_row(flex-start, flex-start, nowrap);
+		// overflow-x: auto;
+		overflow-x: hidden;
+		// padding: 0 1rem;
+		border-radius: 0 0 1rem 1rem;
+		box-shadow: 3px 3px 14px -4px rgba(0, 0, 0, 0.75);
+		box-shadow: 3px 14px 31px -4px rgba(0, 0, 0, 0.75);
+	}
+}
+
+.SidePanel {
+	width: 22rem;
+	height: $keysHeight;
+	background-color: var(--main-bg);
+	@include flex_row(center, center);
+}

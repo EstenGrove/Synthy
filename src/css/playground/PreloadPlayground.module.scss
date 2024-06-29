@@ -1,0 +1,27 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.PreloadPlayground {
+	@include fill_container;
+	@include flex_row(center, flex-start, wrap);
+	gap: 2rem;
+
+	&_inner {
+		width: 100%;
+		height: auto;
+		@include flex_row(center, flex-start, wrap);
+		gap: 2rem;
+	}
+	&_images {
+		width: 100%;
+		height: auto;
+		@include flex_row(center, flex-start, wrap);
+		gap: 2rem;
+	}
+}
+
+.Image {
+	width: 20rem;
+	height: 20rem;
+}

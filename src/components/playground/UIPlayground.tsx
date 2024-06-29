@@ -120,7 +120,7 @@ const UIPlayground = ({}: Props) => {
 	const [selected, setSelected] = useState("");
 	const [showCommandPalette, setShowCommandPalette] = useState(false);
 	const navigate = useNavigate();
-	// web worker hook
+	// // web worker hook
 	const webWorker = useWebWorker<IMsgData>(workerFile, {
 		onMessage: (msg: MessageEvent) => {
 			console.log("Response from worker: ", msg);
@@ -161,7 +161,6 @@ const UIPlayground = ({}: Props) => {
 			<h1>UI Page</h1>
 			<div className={styles.UIPlayground_main}>
 				{/* <Presets /> */}
-				<button onClick={sendMsg}>Send</button>
 				{showCommandPalette && (
 					<CommandPalette
 						onSelect={handleCommand}

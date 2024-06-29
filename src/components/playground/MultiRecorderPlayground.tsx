@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../../css/playground/MultiRecorderPlayground.module.scss";
 import Button from "../shared/Button";
 import { useVoiceRecorder } from "../../hooks/useVoiceRecorder";
 import { saveFile } from "../../utils/utils_files";
 import { formatDateTime, formatTime } from "../../utils/utils_dates";
+import { queryNavigatorPermissions } from "../../utils/utils_audio";
 
 const customCSS = {
 	perms: {
@@ -25,6 +26,7 @@ const customCSS = {
 
 const MultiRecorderPlayground = () => {
 	const [localBlob, setLocalBlob] = useState<Blob>();
+	const [hasPermission, setHasPermission] = useState<boolean>(false);
 	const voiceRecorder = useVoiceRecorder({
 		audioType: "audio/webm",
 		onFinished: (blob: Blob) => {
@@ -52,6 +54,25 @@ const MultiRecorderPlayground = () => {
 		saveFile(blob, `Audio_${filename}.webm`);
 	};
 
+	useEffect(() => {
+		let isMounted = true;
+		if (!isMounted) {
+			return;
+		}
+
+		const resolvePerms = async (permName: PermissionName) => {
+			const perms = await queryNavigatorPermissions(permName);
+			const isGranted = perms === "granted";
+			console.log("perms", perms);
+			setHasPermission(isGranted);
+		};
+		resolvePerms("microphone" as PermissionName);
+
+		return () => {
+			isMounted = false;
+		};
+	}, []);
+
 	return (
 		<div className={styles.MultiRecorderPlayground}>
 			<div className={styles.MultiRecorderPlayground_state}>
@@ -66,7 +87,7 @@ const MultiRecorderPlayground = () => {
 				)}
 			</div>
 			<Button
-				isDisabled={isRecording || isPaused}
+				isDisabled={isRecording || isPaused || hasPermission}
 				styles={customCSS.perms}
 				onClick={askPermission}
 			>

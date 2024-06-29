@@ -1,12 +1,16 @@
 import { useEffect, useRef } from "react";
 
+// Takes the filepath to the worker (eg './worker.ts')
+// - Grabs our environment variables 'src' path & merges it with our webworker's filepath
 const prepareUrl = (path: string): URL => {
 	const urlPath = new URL(path, import.meta.url);
 	return urlPath;
 };
 
 const createWorker = (filePath: string, isModule: boolean = false) => {
-	// if using a module, we need to resolve to the module's directory via our environment path
+	// For ertain bundlers (webpack/rollup/parcel) we need to apply some path resolution changes to our worker's filepath:
+	// - eg "/src" directory for DEV builds & "/dist" directory for PROD builds
+	// - We also want to apply the 'module' flag to the file when using certain bundlers
 	if (isModule) {
 		return new Worker(prepareUrl(filePath), {
 			type: "module",
@@ -22,7 +26,6 @@ type HookOpts = {
 	isModule?: boolean;
 };
 
-// const useWebWorker = <T extends string | number | object | symbol>(
 const useWebWorker = <T>(filePath: string, options: HookOpts = {}) => {
 	const { onMessage, onError, isModule } = options;
 	// if using 'Vite', we need to merge the relative file path w/ our env url...

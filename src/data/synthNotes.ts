@@ -945,9 +945,19 @@ const SCALES_INFO_MAP = {
 		scales: { ...SCALES_MAP?.Minor },
 	},
 	HarmonicMajor: {
-		label: "Minor",
-		desc: "Minor scales: ",
+		label: "Harmonic-Major",
+		desc: "Major scales: ",
 		scales: { ...SCALES_MAP?.HarmonicMajor },
+	},
+	HarmonicMinor: {
+		label: "Harmonic-Minor",
+		desc: "Minor scales: ",
+		scales: { ...SCALES_MAP?.HarmonicMinor },
+	},
+	Ionian: {
+		label: "Ionian",
+		desc: "Ionian scales: ",
+		scales: { ...SCALES_MAP?.Ionian },
 	},
 };
 

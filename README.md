@@ -4,9 +4,15 @@ A React synthesizer using the Web Audio API.
 
 ## Todos
 
-- [ ] Add "Save as Preset" functionality
+- [ ] Create function to map notes in a scale (eg. 'Am') to the visual keyboard & computer keyboard
+  - Eg. 'KeyA' => Scale (A) => Octave 3 => Note C#
 - [ ] Finish styling & building controls panel
 - [ ] Update code to leverage new custom audio classes for effects
+
+## Future Todos
+
+- [ ] Add "Save as Preset" functionality
+- [ ] Update some code to run in WebWorkers and/or AudioWorklets
 
 ## VCO Builder
 

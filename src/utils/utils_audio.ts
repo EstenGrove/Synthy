@@ -1,3 +1,18 @@
+const queryNavigatorPermissions = async (
+	target: PermissionName
+): Promise<string | null> => {
+	try {
+		const perms = await navigator.permissions.query({
+			name: target as PermissionName,
+		});
+		const permsState = perms.state;
+		return permsState;
+	} catch (error) {
+		console.log("error", error);
+		return null;
+	}
+};
+
 // isolated gain node (could also use audioCtx.createGain())
 const createGain = (audioCtx: AudioContext, initialVol: number): GainNode => {
 	const gain = new GainNode(audioCtx, {
@@ -186,6 +201,8 @@ const formatDuration = (durationInSecs: number): string => {
 };
 
 export {
+	// Navigator Permissions (eg. mic, camera etc)
+	queryNavigatorPermissions,
 	// Audio Player Utils
 	secondsToMins,
 	secondsToMinsFloor,

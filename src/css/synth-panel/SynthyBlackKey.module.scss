@@ -1,0 +1,38 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$baseKeyHeight: var(--synthyKeysHeight);
+$blackKeyHeight: calc($baseKeyHeight * 0.65);
+
+.SynthyBlackKey {
+	position: absolute;
+	width: 3.2rem;
+	min-width: 3.2rem;
+	height: $blackKeyHeight;
+	min-height: $blackKeyHeight;
+	padding: 1rem;
+	border-radius: 0 0 1rem 1rem;
+	margin-left: -1.6rem;
+	border: 1px solid var(--border);
+	@include flex_row(center, flex-end);
+	background-color: black;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	z-index: 2;
+	&:hover {
+		cursor: pointer;
+		background-color: var(--greyTint800);
+		background-color: slateblue;
+	}
+	&:hover &_label {
+		color: black;
+	}
+
+	&_label {
+		font-size: 1.6rem;
+		font-weight: 600;
+		color: var(--bg-editor);
+	}
+}

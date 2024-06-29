@@ -148,8 +148,8 @@ const Knob = ({
 	defaultVal = 0,
 	enableArc = false,
 }: Props) => {
-	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const knobRef = useRef<HTMLDivElement>(null);
+	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [angle, setAngle] = useState<number>(getZeroFromRange(min, max));
 	// value used for actual controls
 	const [value, setValue] = useState<number>(defaultVal);
@@ -166,7 +166,7 @@ const Knob = ({
 		setAngle(newDegs);
 		updateKnob(newDegs);
 
-		// convert the angle in degrees to a value within 0-100 & pass up to parent component
+		// convert the angle in degrees to a value within our min/max (eg. 0-100)
 		const newValue = getValueFromDegs(newDegs, { min: min, max: max });
 		onChange(name, newValue);
 		setValue(newValue);

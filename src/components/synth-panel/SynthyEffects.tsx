@@ -56,7 +56,7 @@ const SynthyEffects = ({
 	handleEnvelopeFX,
 }: Props) => {
 	return (
-		<div className={styles.SynthyEffects}>
+		<div data-name="effects-panel" className={styles.SynthyEffects}>
 			<EffectColumn label="VCO">
 				<WaveformKnob
 					key="VCO"

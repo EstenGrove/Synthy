@@ -10,3 +10,9 @@
 	background-color: var(--synthyBG);
 	@include flex_row(flex-start, center);
 }
+
+@media only screen and (max-width: 700px) {
+	.SynthyTopPanel {
+		overflow-x: auto;
+	}
+}

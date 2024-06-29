@@ -167,6 +167,11 @@
 	--synthyFXPadding: 3rem 1rem;
 	--synthyFXColumnWidth: 15rem;
 	--synthyFXHeight: 23rem;
+	--synthyKeysHeight: 22rem;
+	/* 5 rem */
+	--synthyWhiteKeyWidth: 4.785rem;
+	/* BLACK KEY IS 65% OF THE WHITE KEY'S HEIGHT & WIDTH */
+	--synthyBlackKeyWidth: 3.2rem;
 
 	/* WAVE SHAPE VARS */
 	--synthyFXWaveSizeRaw: 50;

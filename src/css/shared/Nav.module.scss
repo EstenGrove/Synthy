@@ -14,5 +14,22 @@
 		@include flex_row(flex-start, center);
 		list-style: none;
 		gap: 2rem;
+
+		&_item {
+			color: var(--accent);
+			text-decoration: none;
+			transition: all 0.3s ease-in-out;
+
+			& a {
+				color: var(--accent);
+				text-decoration: none;
+			}
+		}
 	}
+}
+
+.isActive {
+	color: var(--accent-bright-red);
+	text-decoration: underline;
+	transition: all 0.3s ease-in-out;
 }

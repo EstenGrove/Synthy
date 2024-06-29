@@ -12,6 +12,10 @@ import Nav from "./components/shared/Nav";
 import ModulePage from "./pages/ModulePage";
 import RecorderPage from "./pages/RecorderPage";
 import UIPlayground from "./components/playground/UIPlayground";
+import PreloadPlayground from "./components/playground/PreloadPlayground";
+import IntersectPlayground from "./components/playground/IntersectPlayground";
+import IntersectSharedPlayground from "./components/playground/IntersectSharedPlayground";
+import ParentObserverPlayground from "./components/playground/ParentObserverPlayground";
 
 function App() {
 	return (
@@ -26,6 +30,16 @@ function App() {
 						<Route path="/playground" element={<PlaygroundPage />} />
 						<Route path="/recorder" element={<RecorderPage />} />
 						<Route path="/ui" element={<UIPlayground />} />
+						<Route path="/preload" element={<PreloadPlayground />} />
+						<Route path="/intersect" element={<IntersectPlayground />} />
+						<Route
+							path="/intersect-shared"
+							element={<IntersectSharedPlayground />}
+						/>
+						<Route
+							path="/intersect-parent"
+							element={<ParentObserverPlayground />}
+						/>
 					</Routes>
 				</div>
 			</div>

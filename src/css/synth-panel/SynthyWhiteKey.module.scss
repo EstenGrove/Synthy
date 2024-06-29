@@ -1,0 +1,45 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$keyWidth: var(--synthyWhiteKeyWidth);
+
+.SynthyWhiteKey {
+	width: $keyWidth;
+	min-width: $keyWidth;
+	height: 100%;
+	// min-height: 100%;
+	min-height: var(--synthyKeysHeight);
+	padding: 1rem;
+	border-radius: 0 0 1rem 1rem;
+	border: 1px solid var(--border);
+	@include flex_row(center, flex-end);
+	background-color: white;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	&:hover {
+		cursor: pointer;
+		background-color: var(--greyTint100);
+	}
+	&:hover &_label {
+		color: var(--blueGrey900);
+	}
+
+	&_label {
+		font-size: 1.6rem;
+		font-weight: 600;
+		color: var(--text-color);
+
+		& span {
+			font-size: 1.2rem;
+		}
+	}
+	[data-scalestart="true"] {
+		color: var(--blueGrey900);
+		scroll-snap-align: center;
+	}
+	[data-scalestart="false"] {
+		color: var(--blueGrey200);
+	}
+}
