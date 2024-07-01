@@ -206,6 +206,49 @@ const diffInHours = (date: Date | string, compareDate: Date | string) => {
 	return Math.abs(diff);
 };
 
+// NATIVE DATE FORMATTERS //
+
+export interface INativeDateFormats extends Intl.DateTimeFormatOptions {}
+
+// Formats a date using the native Internationalization API
+const formatDateNatively = (
+	date: Date,
+	format: Intl.LocalesArgument = "en-US",
+	formatOptions: INativeDateFormats = {}
+): string => {
+	const formatter: Intl.DateTimeFormat = new Intl.DateTimeFormat(
+		format,
+		formatOptions
+	);
+	const nativeFormat: string = formatter.format(date);
+
+	return nativeFormat;
+};
+
+const addDaysNatively = (date: Date | string, days: number): Date => {
+	const resultDate = new Date(date);
+	resultDate.setDate(resultDate.getDate() + days);
+	return resultDate;
+};
+const subDaysNatively = (date: Date | string, days: number): Date => {
+	const resultDate = new Date(date);
+	resultDate.setDate(resultDate.getDate() - days);
+	return resultDate;
+};
+
+const addHoursNatively = (date: Date | string, hours: number): Date => {
+	const resultDate = new Date(date);
+	const hoursMultiplier = 60 * 60 * 1000;
+	resultDate.setTime(resultDate.getTime() + hours * hoursMultiplier);
+	return resultDate;
+};
+const subHoursNatively = (date: Date | string, hours: number): Date => {
+	const resultDate = new Date(date);
+	const hoursMultiplier = 60 * 60 * 1000;
+	resultDate.setTime(resultDate.getTime() - hours * hoursMultiplier);
+	return resultDate;
+};
+
 export {
 	// Formatters
 	formatDate,
@@ -228,4 +271,10 @@ export {
 	hoursToSecs,
 	hoursToMs,
 	hoursToMins,
+	// NATIVE Date Formatting
+	formatDateNatively,
+	addDaysNatively,
+	subDaysNatively,
+	addHoursNatively,
+	subHoursNatively,
 };

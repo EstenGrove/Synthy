@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 // - Ideal audio format(s) for cross-browser compatibility:
 //      - MP3, OGG, WAV
 
+// Use this for voice recording!
+// - Otherwise should prolly use "audio/ogg; codec=opus" OR "audio/wav"
 const AUDIO_TYPE = "audio/webm";
 
 type TAudioType =
@@ -16,10 +18,17 @@ type TAudioType =
 // Specific type: 'RecordingState' from mediaRecorder.state
 type TRecordingState = "inactive" | "recording" | "paused";
 type HookProps = {
-	audioType: TAudioType | string;
+	audioType?: TAudioType;
 	onDataAvailable?: (e: BlobEvent) => void;
 	onFinished?: (audioBlob: Blob) => void;
 };
+
+// Parameters/args for the initRecorder() fn
+interface IInit {
+	audioCtx: AudioContext;
+	mediaStream: MediaStream;
+	startRecording?: boolean;
+}
 
 interface IRecorderReturn {
 	audioBlob: Blob;
@@ -37,13 +46,6 @@ const createAudioRecorder = (mediaStream: MediaStream): MediaRecorder => {
 	const recorder = new MediaRecorder(mediaStream);
 	return recorder;
 };
-
-// Parameters/args for the initRecorder() fn
-interface IInit {
-	audioCtx: AudioContext;
-	mediaStream: MediaStream;
-	startRecording?: boolean;
-}
 
 // Deps:
 // - Input node

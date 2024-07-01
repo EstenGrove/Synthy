@@ -7,6 +7,13 @@ const isEmptyStr = (str: string): boolean => {
 	return false;
 };
 
+const capitalize = (str: string) => {
+	const firstLetter = str.slice(0, 1).toUpperCase();
+	const rest = str.slice(1);
+
+	return firstLetter + rest;
+};
+
 // generates a range of numbers
 const range = (start: number, end: number) => {
 	const rangeVals: number[] = [];
@@ -83,6 +90,7 @@ const debounce = <T extends (...args: unknown[]) => void>(
 };
 
 export {
+	capitalize,
 	// empty checkers
 	isEmptyObj,
 	isEmptyStr,

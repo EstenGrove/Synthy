@@ -78,12 +78,22 @@ const PlaygroundPage = () => {
 	const [waveType, setWaveType] = useState<string>("Sine");
 
 	const setupMeter = () => {
-		console.log("WAS RUN");
+		if (audioElem.current) {
+			console.log("WAS RUN");
+			// audioElem.current = new Audio(fileUrl) as HTMLAudioElement;
+			const audioEl = audioElem.current as HTMLMediaElement;
+			audioCtx = new AudioContext();
+			sourceNode = audioCtx.createMediaElementSource(audioEl);
+		}
+	};
 
+	const startPlaying = () => {
 		const audioEl = audioElem.current as HTMLMediaElement;
-		audioCtx = new AudioContext();
-		sourceNode = audioCtx.createMediaElementSource(audioEl);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		audioEl.play();
+	};
+	const stopPlaying = () => {
+		const audioEl = audioElem.current as HTMLMediaElement;
+		audioEl.pause();
 	};
 
 	const handleFile = (e) => {
@@ -153,6 +163,12 @@ const PlaygroundPage = () => {
 					<EffectColumn label="Osc">
 						<Knob name="gain2" size="SM" label="Gain" onChange={handleVal} />
 					</EffectColumn>
+				</div>
+				<div style={{ margin: "4rem 0" }}>
+					<input type="file" name="file" id="file" onChange={handleFile} />
+					<audio ref={audioElem} src={fileUrl} controls></audio>
+					<Button onClick={startPlaying}>Start</Button>
+					<Button onClick={stopPlaying}>Stop</Button>
 				</div>
 				{audioCtx && sourceNode && (
 					<PeakMeter audioCtx={audioCtx} sourceNode={sourceNode} />

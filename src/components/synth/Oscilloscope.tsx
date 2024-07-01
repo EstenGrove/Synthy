@@ -69,7 +69,6 @@ const Oscilloscope = ({
 		const segWidth = canvas.width / analyser.frequencyBinCount;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.beginPath();
-		// ctx.moveTo(-100, canvas.height / 2);
 		ctx.moveTo(-100, canvas.height / 2);
 		if (isPlaying.current) {
 			for (let i = 1; i < analyser.frequencyBinCount; i += 1) {

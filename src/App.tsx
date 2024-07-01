@@ -16,6 +16,7 @@ import PreloadPlayground from "./components/playground/PreloadPlayground";
 import IntersectPlayground from "./components/playground/IntersectPlayground";
 import IntersectSharedPlayground from "./components/playground/IntersectSharedPlayground";
 import ParentObserverPlayground from "./components/playground/ParentObserverPlayground";
+import AudioPage from "./pages/AudioPage";
 
 function App() {
 	return (
@@ -26,6 +27,7 @@ function App() {
 					<Routes>
 						<Route path="/" element={<SynthPage />} />
 						<Route path="/demo" element={<DemoPage />} />
+						<Route path="/audio" element={<AudioPage />} />
 						<Route path="/module" element={<ModulePage />} />
 						<Route path="/playground" element={<PlaygroundPage />} />
 						<Route path="/recorder" element={<RecorderPage />} />

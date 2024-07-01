@@ -5,10 +5,13 @@ type Props = {
 	children?: ReactNode;
 };
 
+// ##TODOS:
+// - Add <PeakMeter/> OR <Oscilloscope/>
 const SidePanel = () => {
 	return (
 		<div className={styles.SidePanel}>
-			<div>Side</div>
+			{/*  */}
+			{/*  */}
 		</div>
 	);
 };

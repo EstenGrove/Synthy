@@ -161,7 +161,7 @@ const VUMeter = () => {
 				<div
 					className={styles.VUMeter_inner_right}
 					style={{ height: `${channelMasks.right}%` }}
-				></div> */}
+				></div>
 			</div>
 
 			<Button onClick={initMeter}>Start Meter</Button>

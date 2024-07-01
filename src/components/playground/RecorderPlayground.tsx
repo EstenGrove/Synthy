@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "../../css/playground/RecorderPlayground.module.scss";
 import { initAudio } from "../../utils/utils_audio";
 import { useAudioRecorder } from "../../hooks/useAudioRecorder";
+import { useKeyboardSynth } from "../../hooks/useKeyboardSynth";
 // mock tracks
 import sample_1 from "../../assets/audio/SmoothGTR-1.mp3";
 import sample_2 from "../../assets/audio/audio-sample-2.mp3";
 import Track from "../recorder/Track";
 import Button from "../shared/Button";
-import { useKeyboardSynth } from "../../hooks/useKeyboardSynth";
 import { saveFile } from "../../utils/utils_files";
 
 type Props = {};
@@ -38,9 +38,12 @@ const RecorderPlayground = () => {
 	const audioCtxRef = useRef<AudioContext>();
 	const synth = useKeyboardSynth({ waveType: "sine" });
 	const recorder = useAudioRecorder({
-		audioCtx: audioCtxRef?.current as AudioContext,
-		inputNode: masterOut,
-		onFinished: getAudioBlob,
+		onDataAvailable: (e) => {
+			console.log(e);
+		},
+		onFinished: (audioBlob) => {
+			getAudioBlob(audioBlob);
+		},
 	});
 
 	function getAudioBlob(blob: Blob) {

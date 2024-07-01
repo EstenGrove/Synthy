@@ -72,6 +72,11 @@ const Nav = () => {
 						Intersect (Parent)
 					</NavLink>
 				</li>
+				<li className={styles.Nav_list_item}>
+					<NavLink to="/audio" style={isActive}>
+						Audio Experiments
+					</NavLink>
+				</li>
 			</ul>
 		</nav>
 	);

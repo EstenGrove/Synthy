@@ -91,6 +91,15 @@ const createStreamNode = (
 	return streamNode;
 };
 
+// Creates a media stream source from a media stream destination node
+const createStreamSource = (
+	audioCtx: AudioContext,
+	destNode: MediaStreamAudioDestinationNode
+): MediaStreamAudioSourceNode => {
+	const mediaStreamSource = audioCtx.createMediaStreamSource(destNode.stream);
+	return mediaStreamSource;
+};
+
 const fadeOutAudio = (gainNode: GainNode, audioCtx: AudioContext) => {
 	if (!gainNode) return;
 	// 0.0001 is the ramp value
@@ -212,6 +221,7 @@ export {
 	createGain,
 	createAnalyser,
 	createStreamNode,
+	createStreamSource,
 	fadeOutAudio,
 	fadeOutOsc,
 	// Wavetables & Periodic waves

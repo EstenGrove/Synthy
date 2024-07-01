@@ -57,6 +57,7 @@ const SynthyEffects = ({
 }: Props) => {
 	return (
 		<div data-name="effects-panel" className={styles.SynthyEffects}>
+			{/* VCO CONTROLS */}
 			<EffectColumn label="VCO">
 				<WaveformKnob
 					key="VCO"

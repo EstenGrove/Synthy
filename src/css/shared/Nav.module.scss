@@ -11,7 +11,7 @@
 
 	&_list {
 		@include fill_container;
-		@include flex_row(flex-start, center);
+		@include flex_row(flex-start, center, wrap);
 		list-style: none;
 		gap: 2rem;
 
