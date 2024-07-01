@@ -1,0 +1,25 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.AudioPage {
+	@include fill_container;
+
+	&_top {
+		width: 100%;
+		padding: 4rem;
+	}
+
+	&_main {
+		@include fill_container;
+		padding: 4rem;
+
+		&_recording {
+			color: var(--accent-bright-red);
+			font-size: 1.6rem;
+		}
+		&_status {
+			font-size: 1.6rem;
+		}
+	}
+}

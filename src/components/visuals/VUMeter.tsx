@@ -150,9 +150,9 @@ const VUMeter = () => {
 			<input type="file" name="file" id="file" onChange={handleFile} />
 			{fileUrl && <audio ref={audioElem} src={fileUrl} controls loop></audio>}
 			<div className={styles.VUMeter_inner}>
-				<MeterLeft percentage={channelMasks.left} />
-				<MeterRight percentage={channelMasks.right} />
-				{/* <div
+				{/* <MeterLeft percentage={channelMasks.left} /> */}
+				{/* <MeterRight percentage={channelMasks.right} /> */}
+				<div
 					className={styles.VUMeter_inner_left}
 					style={{ height: `${channelMasks.left}%` }}
 				>
