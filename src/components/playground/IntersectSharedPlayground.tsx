@@ -136,11 +136,13 @@ const IntersectSharedPlayground = () => {
 		settings: opts,
 		onIntersect: (entry: IntersectionObserverEntry) => {
 			const element = entry.target as HTMLElement;
-			element.classList.add(styles.isActive);
+			element.style.visibility = "visible";
+			// element.classList.add(styles.isActive);
 		},
 		onExit: (entry: IntersectionObserverEntry) => {
 			const element = entry.target as HTMLElement;
-			element.classList.remove(styles.isActive);
+			element.style.visibility = "hidden";
+			// element.classList.remove(styles.isActive);
 		},
 	});
 
@@ -149,7 +151,6 @@ const IntersectSharedPlayground = () => {
 			<h1>Intersection Playground (Shared)</h1>
 			<div className={styles.IntersectSharedPlayground_paddedArea}>
 				<h4>Worker: {msgOutput}</h4>
-				{/*  */}
 			</div>
 			<div ref={listRef} className={styles.IntersectSharedPlayground_items}>
 				{imgSrcs &&

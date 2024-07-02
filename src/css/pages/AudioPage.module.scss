@@ -5,6 +5,11 @@
 .AudioPage {
 	@include fill_container;
 
+	& h4 {
+		text-align: center;
+		font-size: 1.6rem;
+	}
+
 	&_top {
 		width: 100%;
 		padding: 4rem;

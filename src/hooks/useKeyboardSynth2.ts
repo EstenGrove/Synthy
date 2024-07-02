@@ -80,7 +80,7 @@ const useKeyboardSynth2 = (
 	waveType: OscillatorType = "square",
 	options: KeySynthOptions = defaultOptions
 ): KeySynthReturn => {
-	const { keyMap, onNoteChange } = options;
+	const { keyMap = defaultKeyMap, onNoteChange } = options;
 	const activeOscMap = useRef<ActiveOscMap>(new Map());
 
 	const initSynth = (providedCtx: AudioContext) => {

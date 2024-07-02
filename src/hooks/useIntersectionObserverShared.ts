@@ -66,7 +66,7 @@ const useIntersectionObserverShared = (
 		const newElement = element as HTMLElement;
 		const observer = observerRef?.current as IntersectionObserver;
 		// add element to our map & start observe-ing
-		map.set(newElement, elCallback);
+		map.set(newElement, elCallback ?? null);
 		observer.observe(newElement);
 	};
 	// removes a single HTMLElement to be observed & tracked in our elementsMap
@@ -128,7 +128,8 @@ const useIntersectionObserverShared = (
 
 		// if a parent was provided, then we add the children to be observed
 		if (parentEl) {
-			const childs = [...parentEl.children] as Element[];
+			const childs = [...Array.from(parentEl.childNodes)] as Element[];
+			// const childs = [...parentEl.children] as Element[];
 			childs.forEach((child: Element) => {
 				addElement(child as HTMLElement, (isIntersecting: boolean) => {
 					// NOTE: this callback isn't really needed with this API design!!!
@@ -141,7 +142,8 @@ const useIntersectionObserverShared = (
 			isMounted = false;
 			// if a parent was provided, then we remove the children from being observed on-cleanup
 			if (parentEl) {
-				const childs = [...parentEl.children] as Element[];
+				// const childs = [...parentEl.children] as Element[];
+				const childs = [...Array.from(parentEl.childNodes)] as Element[];
 				childs.forEach((child: Element) => {
 					removeElement(child as HTMLElement);
 				});

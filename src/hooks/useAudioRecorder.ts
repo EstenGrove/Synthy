@@ -80,9 +80,9 @@ const useAudioRecorder = ({
 		audioContext.current = audioCtx;
 		stream.current = mediaStream;
 
-		// NO LONGER NEEDED!!!
-		// connect our input source
-		// this would have to happen outside of this hook & fn
+		// NOTE FOR USE W/ OSCILLATORS:
+		// we need to connect our input source to our destination node...
+		// ...this would have to happen outside of this hook & fn
 		// inputNode.connect(streamDest);
 
 		if (startRecording) {

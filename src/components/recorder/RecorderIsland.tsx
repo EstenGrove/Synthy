@@ -1,6 +1,7 @@
 import { useState } from "react";
 import sprite from "../../assets/icons/audio.svg";
 import styles from "../../css/recorder/RecorderIsland.module.scss";
+import { useTimer } from "../../hooks/useTimer";
 
 type BtnProps = {
 	onClick: () => void;
@@ -86,28 +87,56 @@ const Time = ({ time }: TimeProps) => {
 	);
 };
 
-const RecorderIsland = () => {
+type Props = {
+	startRecording: () => void;
+	stopRecording: () => void;
+	pauseRecording?: () => void;
+	resumeRecording?: () => void;
+};
+
+const RecorderIsland = ({
+	startRecording,
+	stopRecording,
+	pauseRecording,
+	resumeRecording,
+}: Props) => {
+	const timer = useTimer();
 	const [recordingState, setRecordingState] =
 		useState<TRecordingState>("inactive");
-	const [time, setTime] = useState<string>("0:37");
 
 	const start = () => {
 		setRecordingState("recording");
+		if (startRecording) {
+			startRecording();
+			timer.startTimer();
+		}
 	};
 	const stop = () => {
 		setRecordingState("inactive");
+		if (stopRecording) {
+			stopRecording();
+			timer.stopTimer();
+		}
 	};
 	const pause = () => {
 		setRecordingState("paused");
+		if (pauseRecording) {
+			pauseRecording();
+			timer.pauseTimer();
+		}
 	};
 	const resume = () => {
 		setRecordingState("recording");
+		if (resumeRecording) {
+			resumeRecording();
+			timer.startTimer();
+		}
 	};
 
 	return (
 		<aside data-label="island" className={styles.RecorderIsland}>
 			<RecordButton state={recordingState} onClick={start} />
-			<Time time={time} />
+			<Time time={timer.time} />
 			<StopButton state={recordingState} onClick={stop} />
 			{false && (
 				<>

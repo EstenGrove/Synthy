@@ -8,6 +8,7 @@ import SynthyKey from "./SynthyKey";
 // NOTES' DATA & TYPES
 import { NOTES_LIST as allNotes } from "../../data/synthNotes";
 import { INote } from "../../utils/utils_notes";
+import { useAudioRecorder } from "../../hooks/useAudioRecorder";
 
 const basePresets = [
 	"Dark Pad",
@@ -47,6 +48,12 @@ type Props = {
 // 		- Re-render keyboard keys w/ new notes map assigned???
 
 const Synthy = ({ presets = basePresets }: Props) => {
+	const { initRecorder, start, stop } = useAudioRecorder({
+		audioType: "audio/ogg; codec=opus",
+		onFinished: (audioBlob: Blob) => {
+			console.log("audioBlob", audioBlob);
+		},
+	});
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
 	// top panel settings
 	const [selectedPreset, setSelectedPreset] = useState<string>(

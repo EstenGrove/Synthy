@@ -8,7 +8,6 @@ const queryNavigatorPermissions = async (
 		const permsState = perms.state;
 		return permsState;
 	} catch (error) {
-		console.log("error", error);
 		return null;
 	}
 };
@@ -21,11 +20,23 @@ const createGain = (audioCtx: AudioContext, initialVol: number): GainNode => {
 	return gain;
 };
 
+// latencyHint: "balanced" | "interactive" | "playback"
+// sampleRate: 44100 (range: 8000-96000)
+export interface IAudioOpts {
+	latencyHint?: AudioContextLatencyCategory;
+	sampleRate?: number;
+}
 // Cross-browser audio context
-const createAudioContext = (): AudioContext => {
+const createAudioContext = (options: IAudioOpts = {}): AudioContext => {
 	const Context = AudioContext || window.AudioContext;
-	const audioCtx = new Context();
-	return audioCtx;
+
+	if (options && Object.keys(options)?.length > 0) {
+		const audioCtx = new Context(options);
+		return audioCtx;
+	} else {
+		const audioCtx = new Context();
+		return audioCtx;
+	}
 };
 
 // Waveforms

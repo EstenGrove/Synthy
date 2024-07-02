@@ -1,32 +1,21 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../css/pages/AudioPage.module.scss";
-import {
-	ActiveOscMap,
-	useKeyboardSynth2 as useKeyboardSynth,
-} from "../hooks/useKeyboardSynth2";
+import { ActiveOscMap, useKeyboardSynth } from "../hooks/useKeyboardSynth";
 import { useAudioRecorder } from "../hooks/useAudioRecorder";
 import { createStreamNode } from "../utils/utils_audio";
-import Button from "../components/shared/Button";
 import { capitalize } from "../utils/utils_shared";
 import { saveFile } from "../utils/utils_files";
+import Button from "../components/shared/Button";
+import { useTimer } from "../hooks/useTimer";
+import RecorderIsland from "../components/recorder/RecorderIsland";
+import FullPageOverlay from "../components/shared/FullPageOverlay";
 
 // Resource:
 // https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createMediaStreamDestination
 
 const customCSS = {
-	start: {
-		backgroundColor: "var(--accent-green)",
-		marginRight: "1rem",
-		marginBottom: "3rem",
-	},
-	stop: {
-		backgroundColor: "var(--accent-bright-red)",
-		marginLeft: "1rem",
-		marginBottom: "3rem",
-	},
 	save: {
 		backgroundColor: "var(--accent)",
-		marginLeft: "5rem",
 		marginBottom: "3rem",
 	},
 	engage: {
@@ -72,12 +61,12 @@ const AudioPage = () => {
 		if (!audioCtx) {
 			initialize();
 		}
+		// create new Audio element
 		recorder.start();
 	};
 
 	const stopRecording = () => {
 		if (!audioCtx) return;
-
 		recorder.stop();
 	};
 
@@ -115,11 +104,15 @@ const AudioPage = () => {
 		}
 	};
 
-	console.log("TEST");
+	// this will destroy & close the AudioContext, which frees up memory for it's related resources
+	const destroyAndReleaseResources = () => {
+		if (!audioCtx) return;
+		audioCtx.close();
+	};
 
 	return (
 		<div className={styles.AudioPage}>
-			<h1>Audio Experiments: Recording a Keyboard Synth</h1>
+			<h1>Audio Experiments: Recording a Keyboard Synth (Multi-Oscs)</h1>
 			<div className={styles.AudioPage_top}>
 				<Button
 					isDisabled={isOn}
@@ -130,26 +123,21 @@ const AudioPage = () => {
 				</Button>
 			</div>
 			<main className={styles.AudioPage_main}>
-				<Button
-					isDisabled={isRecording || !isOn}
-					styles={customCSS.start}
-					onClick={startRecording}
-				>
-					Start Recording
-				</Button>
-				<Button
-					isDisabled={!isRecording}
-					styles={customCSS.stop}
-					onClick={stopRecording}
-				>
-					Stop Recording
-				</Button>
+				{/* RECORDER CONTROLS */}
+				<RecorderIsland
+					startRecording={startRecording}
+					stopRecording={stopRecording}
+				/>
+
 				{/* SAVE/DOWNLOAD FILE */}
 				<Button styles={customCSS.save} onClick={saveRecording}>
 					Save & Download
 				</Button>
+
 				{isRecording && (
-					<div className={styles.AudioPage_main_recording}>Recording...</div>
+					<>
+						<div className={styles.AudioPage_main_recording}>Recording...</div>
+					</>
 				)}
 				<div className={styles.AudioPage_main_status}>
 					Status:{" "}
@@ -159,6 +147,8 @@ const AudioPage = () => {
 					</b>
 				</div>
 			</main>
+
+			{!isOn && <FullPageOverlay onClick={engageSynth} />}
 		</div>
 	);
 };

@@ -4,12 +4,37 @@ import { transpose } from "../utils/utils_notes";
 // - Audio Context
 // - Volume Level (gain)
 
-export interface IActiveOscs {
-	[key: string]: OscillatorNode;
-}
+// ##TODOS:
+// - Update hook to support 'custom' wave types, w/ custom wavetables
+
+// Our map of active oscillators (for keydown/keyup event tracking)
+// - This prevents dangling audio, but is NOT stateful
+export type ActiveOscMap = Map<string, OscillatorNode>;
 
 export interface IKeyMap {
 	[code: string]: number;
+}
+export type KeySynthProps = {
+	keyMap?: IKeyMap;
+	waveType?: OscillatorType;
+	onNoteChange?: (activeOscs: ActiveOscMap) => void;
+};
+
+interface KeySynthReturn {
+	audioCtx: AudioContext;
+	activeOscMap: ActiveOscMap;
+	initSynth: (audioCtx: AudioContext) => void;
+	playNotes: (noteFreq: number) => PlayReturn;
+}
+
+export interface PlayReturn {
+	osc1: OscillatorNode;
+	osc2: OscillatorNode;
+}
+
+export interface KeySynthOptions {
+	keyMap?: IKeyMap;
+	onNoteChange?: (activeOscs: ActiveOscMap) => void;
 }
 
 const defaultKeyMap: IKeyMap = {
@@ -45,46 +70,45 @@ const defaultKeyMap: IKeyMap = {
 	KeyM: 293.66,
 };
 
-type KeySynthProps = {
-	keyMap?: IKeyMap;
-	waveType?: OscillatorType;
+const defaultOptions = {
+	keyMap: defaultKeyMap,
 };
-
-interface KeySynthReturn {
-	audioCtx: AudioContext;
-	activeOscillators: IActiveOscs;
-	playNotes: (noteFreq: number) => PlayReturn;
-}
-
-export interface PlayReturn {
-	osc1: OscillatorNode;
-	osc2: OscillatorNode;
-}
 
 let audioCtx: AudioContext;
 
-const useKeyboardSynth = ({
-	keyMap = defaultKeyMap,
-	waveType = "square",
-}: KeySynthProps = {}): KeySynthReturn => {
-	const localOscs = useRef<IActiveOscs>({});
+const useKeyboardSynth = (
+	waveType: OscillatorType = "square",
+	options: KeySynthOptions = defaultOptions
+): KeySynthReturn => {
+	const { keyMap = defaultKeyMap, onNoteChange } = options;
+	const activeOscMap = useRef<ActiveOscMap>(new Map());
+
+	const initSynth = (providedCtx: AudioContext) => {
+		// set our audio context from the consumer of the hook
+		audioCtx = providedCtx;
+	};
 
 	const handleKeyDown = (e: KeyboardEvent): void => {
 		if (e.repeat) return;
-		if (!audioCtx) {
-			audioCtx = new AudioContext();
-		}
 
 		const code = e.code;
-		const activeOsc = localOscs.current;
-		const noteFreq: number = keyMap[code as keyof object];
+		const code2 = `${code}_2`;
+		const mapOfKeys = keyMap as IKeyMap;
+		const activeOscs = activeOscMap?.current as ActiveOscMap;
+		const noteFreq: number = mapOfKeys[code as keyof object];
+		const isNotPressed = !activeOscs.has(code) || !activeOscs.has(code2);
 
 		// have to check, that the osc key code DOES NOT ALREADY EXIST
-		if (noteFreq && (!activeOsc[code] || !activeOsc[`${code}_2`])) {
+		if (noteFreq && isNotPressed) {
 			const { osc1, osc2 } = playNotes(noteFreq);
+			// add oscs to active Map
+			activeOscs.set(code, osc1);
+			activeOscs.set(`${code}_2`, osc2);
 
-			activeOsc[code] = osc1;
-			activeOsc[`${code}_2`] = osc2;
+			// pass active map to consumer of the hook, if it asks for it
+			if (onNoteChange) {
+				onNoteChange(activeOscs as ActiveOscMap);
+			}
 		}
 	};
 
@@ -92,17 +116,22 @@ const useKeyboardSynth = ({
 		if (e.repeat) return;
 
 		const code = e.code;
-		const activeOsc = localOscs.current;
+		const code2 = `${code}_2`;
+		const activeOscs = activeOscMap?.current as ActiveOscMap;
 
-		if (activeOsc[code]) {
-			const osc = activeOsc[code] as OscillatorNode;
-			const osc2 = activeOsc[`${code}_2`] as OscillatorNode;
+		// release our recently pressed key/osc from our active Map
+		if (activeOscs.has(code)) {
+			const osc = activeOscs.get(code) as OscillatorNode;
+			const osc2 = activeOscs.get(code2) as OscillatorNode;
+
 			osc.stop();
 			osc2.stop();
 			osc.disconnect();
 			osc2.disconnect();
-			delete activeOsc[code];
-			delete activeOsc[`${code}_2`];
+
+			// remove oscs from active Map
+			activeOscs.delete(code);
+			activeOscs.delete(code2);
 		}
 	};
 
@@ -147,7 +176,8 @@ const useKeyboardSynth = ({
 
 	return {
 		audioCtx: audioCtx,
-		activeOscillators: localOscs?.current,
+		initSynth: initSynth,
+		activeOscMap: activeOscMap?.current,
 		playNotes: playNotes,
 	};
 };

@@ -1,0 +1,25 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.FullPageOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	border: none;
+	outline: none;
+	background-color: rgba(0, 0, 0, 0.95);
+	cursor: pointer;
+
+	&_inner {
+		@include fill_container;
+		@include flex_col(center, center);
+
+		& > h1 {
+			font-size: 3rem;
+			color: white;
+		}
+	}
+}
