@@ -7,7 +7,7 @@ export interface IEnvelopeSettings extends ISettings {
 	release?: number;
 	multiplier?: number;
 }
-
+// ADSR Envelope Filter
 class Envelope extends Effect {
 	// Scale multiplier (eg. currentTime * timeScale)
 	private _multiplier: number;

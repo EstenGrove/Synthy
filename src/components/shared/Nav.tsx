@@ -77,6 +77,11 @@ const Nav = () => {
 						Audio Experiments
 					</NavLink>
 				</li>
+				<li className={styles.Nav_list_item}>
+					<NavLink to="/presets" style={isActive}>
+						Presets
+					</NavLink>
+				</li>
 			</ul>
 		</nav>
 	);

@@ -164,23 +164,25 @@ const PlaygroundPage = () => {
 						<Knob name="gain2" size="SM" label="Gain" onChange={handleVal} />
 					</EffectColumn>
 				</div>
-				<div style={{ margin: "4rem 0" }}>
-					<input type="file" name="file" id="file" onChange={handleFile} />
-					<audio ref={audioElem} src={fileUrl} controls></audio>
-					<Button onClick={startPlaying}>Start</Button>
-					<Button onClick={stopPlaying}>Stop</Button>
-				</div>
+				{false && (
+					<div style={{ margin: "4rem 0" }}>
+						<input type="file" name="file" id="file" onChange={handleFile} />
+						<audio ref={audioElem} src={fileUrl} controls></audio>
+						<Button onClick={startPlaying}>Start</Button>
+						<Button onClick={stopPlaying}>Stop</Button>
+					</div>
+				)}
 				{audioCtx && sourceNode && (
 					<PeakMeter audioCtx={audioCtx} sourceNode={sourceNode} />
 				)}
-				<VUMeter />
+				{/* <VUMeter /> */}
 				{/* <KeyboardSynth /> */}
-				{/* <CustomOscPlayground /> */}
+				<CustomOscPlayground />
 				{/* <SoundsPlayground /> */}
 				{/* <Playground /> */}
 				{/* <DelayPlayground /> */}
 				{/* <SinePlayground /> */}
-				<OscilloscopePlayground />
+				{/* <OscilloscopePlayground /> */}
 				<br />
 				<br />
 				<br />

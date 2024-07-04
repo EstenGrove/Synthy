@@ -9,6 +9,12 @@ export interface IReverbPreset {
 	src: string;
 }
 
+export type TReverbPresetName =
+	| "Echo"
+	| "Room"
+	| "Dark Cathedral"
+	| "Cathedral";
+
 export interface IReverbPresets {
 	[key: string]: IReverbPreset;
 }

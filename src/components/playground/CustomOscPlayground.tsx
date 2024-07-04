@@ -28,17 +28,17 @@ const pickCustomWave = (audioCtx: AudioContext): PeriodicWave => {
 // const list = generateRandomList(0, 1, 20);
 // console.log("list", list);
 
-let audioCtx: AudioContext;
-let masterOut: GainNode;
-const volume: number = 0.5;
-const frequency = 440.0;
-
 interface EffectLevels {
 	distortion: number;
 	reverb: number;
 	reverbName: string;
 	reverbLevel: number;
 }
+
+let audioCtx: AudioContext;
+let masterOut: GainNode;
+const volume: number = 0.5;
+const frequency = 440.0;
 
 const CustomOscPlayground = () => {
 	const [instrument, setInstrument] = useState<string>("organ");

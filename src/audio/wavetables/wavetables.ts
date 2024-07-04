@@ -11,7 +11,14 @@ export interface WaveTable {
 	imag: number[];
 }
 
-export type PresetName = "organ" | "organ2" | "bass";
+export type PresetName =
+	| "organ"
+	| "organ2"
+	| "bass"
+	| "deepBass"
+	| "fuzzBass"
+	| "triangle"
+	| "sine";
 
 export type PresetsMap = {
 	[key in keyof PresetName]: WaveTable;

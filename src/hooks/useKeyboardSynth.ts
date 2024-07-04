@@ -90,6 +90,7 @@ const useKeyboardSynth = (
 
 	const handleKeyDown = (e: KeyboardEvent): void => {
 		if (e.repeat) return;
+		if (!audioCtx) return;
 
 		const code = e.code;
 		const code2 = `${code}_2`;
@@ -114,6 +115,7 @@ const useKeyboardSynth = (
 
 	const handleKeyUp = (e: KeyboardEvent): void => {
 		if (e.repeat) return;
+		if (!audioCtx) return;
 
 		const code = e.code;
 		const code2 = `${code}_2`;

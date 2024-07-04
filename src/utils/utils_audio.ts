@@ -48,7 +48,7 @@ const createDefaultCustomWave = (audioCtx: AudioContext): PeriodicWave => {
 
 export interface WaveTable {
 	real: number[];
-	imag: number;
+	imag: number[];
 }
 
 const defaultTerms: WaveTable = {
@@ -56,6 +56,7 @@ const defaultTerms: WaveTable = {
 	imag: [0, 0, 1, 0, 1].length,
 };
 
+// accepts a custom wavetable dataset to generate a custom PeriodicWave w/ that dataset
 const createCustomWave = (
 	audioCtx: AudioContext,
 	waveTerms: WaveTable = defaultTerms

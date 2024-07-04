@@ -1,10 +1,15 @@
 import { Effect, ISettings } from "./Effect";
 
+export interface IBitCrusherSettings extends ISettings {
+	buffer?: number;
+	bitDepth?: number;
+}
+
 class BitCrusher extends Effect {
 	private _buffer: number = 256;
 	private _bitDepth: number = 8;
 
-	constructor(audioCtx: AudioContext, settings: ISettings) {
+	constructor(audioCtx: AudioContext, settings: IBitCrusherSettings) {
 		super(audioCtx, settings);
 
 		this._buffer = settings?.buffer ?? 256;

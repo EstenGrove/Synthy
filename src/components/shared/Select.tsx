@@ -2,8 +2,8 @@ import { CSSProperties, ChangeEvent } from "react";
 import styles from "../../css/shared/Select.module.scss";
 
 type Props = {
-	name: string;
-	id: string;
+	name?: string;
+	id?: string;
 	val: string;
 	label?: string;
 	min?: number;
