@@ -17,10 +17,12 @@ type Props = {
 	filterVals: object;
 	envelopeVals: object;
 	handleWave: () => void;
-	handleSynthFX: () => void;
-	handleDelayFX: () => void;
-	handleReverbFX: () => void;
-	handleEnvelopeFX: () => void;
+	handleVCO: (name: string, value: string | number) => void;
+	handleADSR: (name: string, value: string | number) => void;
+	handleFilter: (name: string, value: string | number) => void;
+	handleDelay: (name: string, value: number) => void;
+	handleReverb: (name: string, value: string | number) => void;
+	handleMasterVol: (name: string, value: number) => void;
 };
 
 const size = "XSM";
@@ -50,10 +52,12 @@ const SynthyEffects = ({
 	filterVals,
 	envelopeVals,
 	handleWave,
-	handleSynthFX,
-	handleDelayFX,
-	handleReverbFX,
-	handleEnvelopeFX,
+	handleVCO,
+	handleADSR,
+	handleFilter,
+	handleMasterVol,
+	handleDelay,
+	handleReverb,
 }: Props) => {
 	return (
 		<div data-name="effects-panel" className={styles.SynthyEffects}>
@@ -62,15 +66,16 @@ const SynthyEffects = ({
 				<WaveformKnob
 					key="VCO"
 					size="SM"
+					name="waveType"
 					label="Waveform"
-					onChange={handleSynthFX}
+					onChange={handleVCO} // string
 				/>
 				<Knob
 					label="Gain"
 					key="Gain"
 					name="gain"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleVCO} // number
 				/>
 			</EffectColumn>
 			{/* ADSR ENVELOPE  */}
@@ -80,28 +85,28 @@ const SynthyEffects = ({
 					key="Attack"
 					name="attack"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleADSR}
 				/>
 				<Knob
 					label="Decay"
 					key="Decay"
 					name="decay"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleADSR}
 				/>
 				<Knob
 					label="Sustain"
 					key="Sustain"
 					name="sustain"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleADSR}
 				/>
 				<Knob
 					label="Release"
 					key="Release"
 					name="release"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleADSR}
 				/>
 			</EffectBlock>
 
@@ -111,28 +116,28 @@ const SynthyEffects = ({
 					label="Filter"
 					name="filterType"
 					options={waveOptions}
-					onChange={handleWave}
+					onChange={handleFilter}
 				/>
 				<Knob
 					key="Freq."
 					label="Freq."
 					name="freq"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleFilter}
 				/>
 				<Knob
 					key="Semitones"
 					label="Semi."
 					name="semitones"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleFilter}
 				/>
 				<Knob
 					label="Level"
 					key="Level"
 					name="level"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleFilter}
 				/>
 			</EffectBlock>
 
@@ -143,51 +148,56 @@ const SynthyEffects = ({
 					label="Time."
 					name="time"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleDelay}
 				/>
 				<Knob
 					key="Feedback"
 					label="Feedback"
 					name="feedback"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleDelay}
 				/>
 				<Knob
 					label="Level"
 					key="Level"
 					name="level"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleDelay}
 				/>
 			</EffectBlock>
 
 			{/* REVERB */}
 			<EffectBlock label="Reverb">
-				<WaveformKnob key="VCO" label="IR Type" onChange={handleSynthFX} />
+				<WaveformKnob
+					key="VCO"
+					label="IR Type"
+					name="reverbWave"
+					onChange={handleReverb}
+				/>
 				<Knob
 					key="Time."
 					label="Time."
 					name="time"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleReverb}
 				/>
 				<Knob
 					key="Feedback"
 					label="Feedback"
 					name="feedback"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleReverb}
 				/>
 				<Knob
 					label="Level"
 					key="Level"
 					name="level"
 					size={size}
-					onChange={handleSynthFX}
+					onChange={handleReverb}
 				/>
 			</EffectBlock>
 			{/* MASTER VOLUME */}
-			<MasterVolume />
+			<MasterVolume handleMasterVol={handleMasterVol} />
 		</div>
 	);
 };

@@ -20,9 +20,10 @@ type KnobSize = "XSM" | "SM" | "MD" | "LG" | "XLG";
 
 type Props = {
 	label?: string;
+	name?: string;
 	options?: Array<IOption>;
 	size?: KnobSize;
-	onChange: (selection: string) => void;
+	onChange: (name: string, selection: string) => void;
 };
 
 type KnobDialProps = {
@@ -181,6 +182,7 @@ const mapOptionsToAngles = (options: Array<IOption>): IAnglesMap => {
 
 const KnotchedKnob = ({
 	size = "SM",
+	name = "waveType",
 	label = "Wave Type",
 	options = [],
 	onChange,
@@ -200,7 +202,7 @@ const KnotchedKnob = ({
 
 	const selectOption = (option: string) => {
 		setSelectedOption(option);
-		onChange(option);
+		onChange(name, option);
 	};
 
 	// rotate knob's position to match selection

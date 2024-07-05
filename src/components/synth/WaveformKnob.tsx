@@ -9,8 +9,9 @@ type KnobSize = "XSM" | "SM" | "MD" | "LG" | "XLG";
 
 type Props = {
 	label: string;
+	name?: string;
 	size?: KnobSize;
-	handleWaveType: (type: string) => void;
+	onChange: (name: string, type: string) => void;
 };
 
 // <KnotchedKnob/> options list
@@ -33,14 +34,15 @@ const options: IOption[] = [
 	},
 ];
 
-const WaveformKnob = ({ label, handleWaveType, size = "SM" }: Props) => {
+const WaveformKnob = ({ label, name, onChange, size = "SM" }: Props) => {
 	return (
 		<div className={styles.WaveformKnob}>
 			<KnotchedKnob
 				size={size}
+				name={name}
 				label={label}
 				options={options}
-				onChange={handleWaveType}
+				onChange={onChange}
 			/>
 		</div>
 	);

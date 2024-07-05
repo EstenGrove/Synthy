@@ -160,7 +160,6 @@ const UIPlayground = ({}: Props) => {
 		<div className={styles.UIPlayground}>
 			<h1>UI Page</h1>
 			<div className={styles.UIPlayground_main}>
-				{/* <Presets /> */}
 				{showCommandPalette && (
 					<CommandPalette
 						onSelect={handleCommand}

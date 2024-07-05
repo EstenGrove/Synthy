@@ -6,6 +6,8 @@ type Props = {
 	frequency: number;
 	width?: number; // in px
 	height?: number; // in px
+	start?: () => void;
+	stop?: () => void;
 };
 
 const defaultWidth: number = 700;
@@ -27,6 +29,8 @@ const Oscilloscope = ({
 	frequency,
 	width,
 	height,
+	start,
+	stop,
 }: Props) => {
 	const isPlaying = useRef<boolean>(false);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -89,6 +93,8 @@ const Oscilloscope = ({
 		ctx.strokeStyle = "slateblue";
 		requestAnimationFrame(draw);
 	};
+
+	// startOsc();
 
 	return (
 		<div className={styles.Oscilloscope}>

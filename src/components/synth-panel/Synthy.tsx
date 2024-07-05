@@ -27,7 +27,7 @@ const scales: string[] = [
 	"HarmonicMinor",
 ];
 
-// sets the index of the initial value for our synthy settings
+// sets the index of the initial value for our synthy preset settings
 const defaultIdx = 0;
 
 interface ISynthySettings {
@@ -40,6 +40,11 @@ type Props = {
 	presets: string[];
 };
 
+interface VCOSettings {
+	waveType: OscillatorType;
+	gain: number;
+}
+
 // REQUIREMENTS:
 // - Octave:
 // 		- Pass the octave value (as a number) to 'getNoteFromKey(keyCode, octave)'
@@ -48,7 +53,7 @@ type Props = {
 // 		- Re-render keyboard keys w/ new notes map assigned???
 
 const Synthy = ({ presets = basePresets }: Props) => {
-	const { initRecorder, start, stop } = useAudioRecorder({
+	const recorder = useAudioRecorder({
 		audioType: "audio/ogg; codec=opus",
 		onFinished: (audioBlob: Blob) => {
 			console.log("audioBlob", audioBlob);
@@ -59,13 +64,25 @@ const Synthy = ({ presets = basePresets }: Props) => {
 	const [selectedPreset, setSelectedPreset] = useState<string>(
 		presets[defaultIdx]
 	);
+	// Eg. key: (C), octave: 0-10, scale: 'Minor'
 	const [synthSettings, setSynthSettings] = useState<ISynthySettings>({
 		octave: octaves[defaultIdx],
 		key: keys[defaultIdx],
 		scale: scales[defaultIdx],
 	});
+	const [masterVolume, setMasterVolume] = useState<number>(0.5);
+	// VCO settings
+	const [vcoSettings, setVCOSettings] = useState<VCOSettings>({
+		waveType: "triangle",
+		gain: 0.5,
+	});
 
-	// supports: octave, preset, key, scale
+	const handleMasterVol = (_: string, value: number) => {
+		const level = value / 100;
+		setMasterVolume(level);
+	};
+
+	// supports: octave, key, scale
 	const handleSetting = (name: string, value: string) => {
 		setSynthSettings({
 			...synthSettings,
@@ -75,6 +92,27 @@ const Synthy = ({ presets = basePresets }: Props) => {
 
 	const handlePreset = (preset: string) => {
 		setSelectedPreset(preset);
+	};
+
+	const handleVCO = (name: string, value: string | number) => {
+		console.log("name", name);
+		console.log("value", value);
+	};
+	const handleADSR = (name: string, value: string | number) => {
+		console.log("name", name);
+		console.log("value", value);
+	};
+	const handleFilter = (name: string, value: string | number) => {
+		console.log("name", name);
+		console.log("value", value);
+	};
+	const handleReverb = (name: string, value: string | number) => {
+		console.log("name", name);
+		console.log("value", value);
+	};
+	const handleDelay = (name: string, value: string | number) => {
+		console.log("name", name);
+		console.log("value", value);
 	};
 
 	// note handlers (TEMPORARY???)
@@ -92,6 +130,15 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		// do stuff
 	};
 
+	const startTimer = () => {
+		//
+		//
+	};
+	const stopTimer = () => {
+		//
+		//
+	};
+
 	return (
 		<section data-name="synthy" className={styles.Synthy}>
 			<SynthyTopPanel
@@ -101,8 +148,15 @@ const Synthy = ({ presets = basePresets }: Props) => {
 				handleSetting={handleSetting}
 				handlePreset={handlePreset}
 			/>
-			<SynthyEffects />
-			<SynthyRecordingPanel />
+			<SynthyEffects
+				handleVCO={handleVCO}
+				handleADSR={handleADSR}
+				handleDelay={handleDelay}
+				handleFilter={handleFilter}
+				handleReverb={handleReverb}
+				handleMasterVol={handleMasterVol}
+			/>
+			<SynthyRecordingPanel start={startTimer} stop={stopTimer} />
 			<SynthyKeysPanel>
 				{allNotes &&
 					allNotes.map((note, idx) => (

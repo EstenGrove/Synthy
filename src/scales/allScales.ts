@@ -26,8 +26,3 @@ export type IScalesMap = {
 		[Type in TNote]?: Array<string>;
 	};
 };
-// export type IScalesMap = {
-// 	[key in keyof TScaleType]?: {
-// 		[Type in TNote]: Array<string>;
-// 	};
-// };

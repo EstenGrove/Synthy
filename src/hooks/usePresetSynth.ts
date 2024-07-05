@@ -36,7 +36,7 @@ export type KeySynthProps = {
 interface KeySynthReturn {
 	audioCtx: AudioContext;
 	activeOscMap: ActiveOscMap;
-	initSynth: (audioCtx: AudioContext) => void;
+	initSynth: (audioCtx: AudioContext, gainNode: GainNode) => void;
 	playNotes: (noteFreq: number) => PlayReturn;
 	changePreset: (preset: string) => void;
 	killSynth: () => void;
@@ -60,37 +60,41 @@ export interface EffectLevels {
 	reverbLevel: number;
 }
 
+// Default Key Map:
+// - Base Octave: 3 (may contain notes from Octave-2 & Octave-4)
+// - Non-ordered scale layout
 const defaultKeyMap: IKeyMap = {
-	KeyA: 65.41,
-	KeyS: 69.3,
-	KeyD: 73.42,
-	KeyF: 77.78,
-	KeyG: 82.41,
-	KeyH: 87.31,
-	KeyJ: 92.5,
-	KeyK: 98,
-	KeyL: 103.83,
-	Semicolon: 110,
-	Quote: 116.54,
+	// MAIN KEYBOARD ROW (ie. ASDFGHJKL;')
+	KeyA: 65.41, // C3
+	KeyS: 69.3, // C#3
+	KeyD: 73.42, // D3
+	KeyF: 77.78, // D#3
+	KeyG: 82.41, // E3
+	KeyH: 87.31, // F3
+	KeyJ: 92.5, // F#3
+	KeyK: 98, // G3
+	KeyL: 103.83, // G#3
+	Semicolon: 110, // A3
+	Quote: 116.54, // A#3
 	// extra rows
-	KeyQ: 116.54,
-	KeyW: 123.47,
-	// Octave 4
-	KeyE: 130.81,
-	KeyR: 138.59,
-	KeyT: 146.83,
-	KeyY: 155.56,
-	KeyU: 164.81,
-	KeyI: 174.61,
-	KeyO: 185,
-	KeyP: 196,
-	KeyZ: 207.65,
-	KeyX: 220,
-	KeyC: 233.08,
-	KeyV: 246.94,
-	KeyB: 261.63,
-	KeyN: 277.18,
-	KeyM: 293.66,
+	KeyQ: 116.54, // A#3
+	KeyW: 123.47, // B3
+	// Octave 4 //
+	KeyE: 130.81, // C4
+	KeyR: 138.59, // C#4
+	KeyT: 146.83, // D4
+	KeyY: 155.56, // D#4
+	KeyU: 164.81, // E4
+	KeyI: 174.61, // F4
+	KeyO: 185, // F#4
+	KeyP: 196, // G4
+	KeyZ: 207.65, // G#4
+	KeyX: 220, // A4
+	KeyC: 233.08, // A#4
+	KeyV: 246.94, // B4
+	KeyB: 261.63, // C5
+	KeyN: 277.18, // C#5
+	KeyM: 293.66, // D5
 };
 
 const defaultOptions = {
@@ -101,6 +105,7 @@ const defaultOptions = {
 const fallback = "organ";
 
 let audioCtx: AudioContext;
+let masterOut: GainNode;
 
 const usePresetSynth = (options: KeySynthOptions = {}): KeySynthReturn => {
 	const { keyMap = defaultKeyMap, preset = {}, onNoteChange } = options;
@@ -113,9 +118,10 @@ const usePresetSynth = (options: KeySynthOptions = {}): KeySynthReturn => {
 		reverbLevel: 0.8,
 	});
 
-	const initSynth = (providedCtx: AudioContext) => {
+	const initSynth = (providedCtx: AudioContext, providedGain: GainNode) => {
 		// set our audio context from the consumer of the hook
 		audioCtx = providedCtx;
+		masterOut = providedGain;
 	};
 
 	// plays 2 oscillators simulataneously (base & transposed)
@@ -147,7 +153,9 @@ const usePresetSynth = (options: KeySynthOptions = {}): KeySynthReturn => {
 			});
 
 			osc.connect(reverb.node);
-			osc.connect(audioCtx.destination);
+			osc.connect(masterOut);
+
+			// osc.connect(audioCtx.destination);
 			// osc2.connect(audioCtx.destination);
 
 			osc.start();

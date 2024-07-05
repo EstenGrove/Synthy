@@ -136,6 +136,15 @@ const getZeroFromRange = (min: number, max: number) => {
 	return -(diff / 2);
 };
 
+const getDefaultValue = (defaultVal: number = 0, range: KnobRange) => {
+	const degs = getDegsFromValue(defaultVal, {
+		min: range?.min,
+		max: range?.max,
+	});
+
+	return degs;
+};
+
 let lastY: number = 0;
 
 const Knob = ({
@@ -150,7 +159,10 @@ const Knob = ({
 }: Props) => {
 	const knobRef = useRef<HTMLDivElement>(null);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
-	const [angle, setAngle] = useState<number>(getZeroFromRange(min, max));
+	const [angle, setAngle] = useState<number>(
+		getDefaultValue(defaultVal, { min, max })
+	);
+	// const [angle, setAngle] = useState<number>(getZeroFromRange(min, max));
 	// value used for actual controls
 	const [value, setValue] = useState<number>(defaultVal);
 	// shows value on hover
@@ -212,6 +224,7 @@ const Knob = ({
 			return;
 		}
 
+		// MIGHT NOT NEED THIS???
 		updateKnob(angle);
 
 		return () => {

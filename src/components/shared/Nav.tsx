@@ -82,6 +82,11 @@ const Nav = () => {
 						Presets
 					</NavLink>
 				</li>
+				<li className={styles.Nav_list_item}>
+					<NavLink to="/synthy" style={isActive}>
+						Synthy
+					</NavLink>
+				</li>
 			</ul>
 		</nav>
 	);

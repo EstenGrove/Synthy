@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import sprite from "../../assets/icons/audio.svg";
 import styles from "../../css/synth-panel/SynthyRecordingPanel.module.scss";
+import { useTimer } from "../../hooks/useTimer";
 
-type Props = {};
+type Props = {
+	start: () => void;
+	stop: () => void;
+	pause?: () => void;
+	resume?: () => void;
+};
 
 type TRecordingState = "inactive" | "recording" | "paused";
 
@@ -89,34 +95,54 @@ const Time = ({ time }: TimeProps) => {
 };
 
 // const defaultTime = "1:36";
-const defaultTime = "0:00";
 
-const SynthyRecordingPanel = ({}: Props) => {
-	const [time, setTime] = useState<string>(defaultTime);
+const SynthyRecordingPanel = ({ start, stop, pause, resume }: Props) => {
+	const timer = useTimer();
+	const time: string = timer.time;
 	const [recordingState, setRecordingState] =
 		useState<TRecordingState>("inactive");
 
-	const start = () => {
+	const startTimer = () => {
+		timer.startTimer();
 		setRecordingState("recording");
+
+		if (start) {
+			start();
+		}
 	};
-	const stop = () => {
+	const stopTimer = () => {
+		timer.stopTimer();
 		setRecordingState("inactive");
+
+		if (stop) {
+			stop();
+		}
 	};
-	const pause = () => {
+	const pauseTimer = () => {
+		timer.pauseTimer();
 		setRecordingState("paused");
+
+		if (pause) {
+			pause();
+		}
 	};
-	const resume = () => {
+	const resumeTimer = () => {
+		timer.startTimer();
 		setRecordingState("recording");
+
+		if (resume) {
+			resume();
+		}
 	};
 
 	return (
 		<div data-name="recording-panel" className={styles.SynthyRecordingPanel}>
 			<div className={styles.SynthyRecordingPanel_inner}>
 				<Time time={time} />
-				<StopButton state={recordingState} onClick={stop} />
-				<PauseButton state={recordingState} onClick={pause} />
-				<ResumeButton state={recordingState} onClick={resume} />
-				<RecordButton state={recordingState} onClick={start} />
+				<StopButton state={recordingState} onClick={stopTimer} />
+				<PauseButton state={recordingState} onClick={pauseTimer} />
+				<ResumeButton state={recordingState} onClick={resumeTimer} />
+				<RecordButton state={recordingState} onClick={startTimer} />
 			</div>
 		</div>
 	);

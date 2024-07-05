@@ -3,6 +3,7 @@ import styles from "../css/pages/PresetsPage.module.scss";
 import { usePresetSynth } from "../hooks/usePresetSynth";
 import Button from "../components/shared/Button";
 import Select from "../components/shared/Select";
+import Knob from "../components/controls/Knob";
 
 const customCSS = {
 	engage: {
@@ -26,15 +27,20 @@ const presetsList = [
 ];
 
 const PresetsPage = () => {
+	const presetsSynth = usePresetSynth();
 	const [isEngaged, setIsEngaged] = useState(false);
 	const [preset, setPreset] = useState<string>("organ");
-	const presetsSynth = usePresetSynth();
+	const [masterVolume, setMasterVolume] = useState<number>(0.5);
 
 	const engageSynth = () => {
 		if (!audioCtx) {
 			audioCtx = new AudioContext();
+			masterOut = new GainNode(audioCtx, {
+				gain: masterVolume,
+			});
+			masterOut.connect(audioCtx.destination);
 		}
-		presetsSynth.initSynth(audioCtx);
+		presetsSynth.initSynth(audioCtx, masterOut);
 		setIsEngaged(true);
 	};
 	const disengageSynth = () => {
@@ -46,6 +52,14 @@ const PresetsPage = () => {
 		const preset = e.target.value;
 		presetsSynth.changePreset(preset);
 		setPreset(preset);
+	};
+
+	const updateVolume = (_: string, value: number) => {
+		const level = value / 100;
+		setMasterVolume(level);
+		if (masterOut) {
+			masterOut.gain.value = level;
+		}
 	};
 
 	return (
@@ -76,6 +90,26 @@ const PresetsPage = () => {
 					options={presetsList}
 					handleChange={updatePreset}
 				/>
+				<br />
+				<br />
+				<br />
+				<br />
+				<div
+					style={{
+						background: "#eaecef",
+						width: "max-content",
+						padding: "1rem 2rem",
+						borderRadius: ".5rem",
+					}}
+				>
+					<Knob
+						label="Gain"
+						name="volume"
+						size="LG"
+						defaultVal={masterVolume * 100}
+						onChange={updateVolume}
+					/>
+				</div>
 			</div>
 			{/*  */}
 			{/*  */}

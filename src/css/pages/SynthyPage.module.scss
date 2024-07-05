@@ -1,0 +1,12 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.SynthyPage {
+	@include fill_container;
+
+	&_main {
+		@include fill_container;
+		padding: 6rem 4rem;
+	}
+}

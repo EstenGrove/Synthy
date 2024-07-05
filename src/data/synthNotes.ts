@@ -1,4 +1,4 @@
-import { IScalesMap, TScaleType } from "../scales/allScales";
+import { IScalesMap } from "../scales/allScales";
 import { INote } from "../utils/utils_notes";
 
 const NOTES_LIST: INote[] = [
@@ -860,6 +860,7 @@ const SCALE_NAMES: string[] = [
 	"Major",
 	"Minor",
 	"HarmonicMinor",
+	"HarmonicMajor",
 	"Ionian",
 	"Dorian",
 	"Phrygian",
