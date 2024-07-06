@@ -14,6 +14,11 @@ import EffectColumn from "../components/synth/EffectColumn";
 import Knob from "../components/controls/Knob";
 import TouchSynth from "../components/touch-synth/TouchSynth";
 import TouchOsc from "../components/touch-osc/TouchOsc";
+// reverb shapes
+import RoomReverbWave from "../components/shapes/RoomReverbWave";
+import CathedralReverbWave from "../components/shapes/CathedralReverbWave";
+import EchoReverbWave from "../components/shapes/EchoReverbWave";
+import DarkReverbWave from "../components/shapes/DarkReverbWave";
 
 type Props = {};
 
@@ -89,95 +94,18 @@ const DemoPage = ({}: Props) => {
 			<h1>Demo Page</h1>
 
 			<div className={styles.DemoPage_main}>
-				{/* <SineWave amplitude={30} freq={440} rarity={1} phase={180} /> */}
-
-				{/* <TouchSynth /> */}
-				{/* <TouchOsc /> */}
-
-				{/* <Knob key="test" size="LG" /> */}
+				<CathedralReverbWave />
+				<DarkReverbWave />
+				<RoomReverbWave />
+				<EchoReverbWave />
 			</div>
 
 			{/* SYNTH CONTROLS UI */}
-			{/* {false && ( */}
 			<div className={styles.SynthWrapper}>
-				<ControlsPanel>
-					<TopPanel>
-						<PresetsSelector presets={presets} selectPreset={selectPreset} />
-						<PowerButton isOn={isOn} togglePower={togglePower} />
-					</TopPanel>
-
-					<ControlsRow>
-						{showStuff.knobs && (
-							<>
-								<EffectColumn label="Attack">
-									<Knob
-										key="Attack"
-										name="attack"
-										size="SM"
-										onChange={handleVals}
-									/>
-									<Knob
-										key="Decay"
-										name="decay"
-										size="SM"
-										onChange={handleVals}
-									/>
-								</EffectColumn>
-								<EffectColumn label="Decay">
-									<Knob
-										key="Decay"
-										name="decay"
-										size="SM"
-										onChange={handleVals}
-									/>
-								</EffectColumn>
-								<EffectColumn label="Sustain">
-									<Knob
-										key="Sustain"
-										name="sustain"
-										size="SM"
-										onChange={handleVals}
-									/>
-								</EffectColumn>
-								<EffectColumn label="Release">
-									<Knob
-										key="Release"
-										name="release"
-										size="SM"
-										onChange={handleVals}
-									/>
-								</EffectColumn>
-							</>
-						)}
-					</ControlsRow>
-				</ControlsPanel>
+				{/* <SineWave amplitude={30} freq={440} rarity={1} phase={180} /> */}
+				{/* <TouchSynth /> */}
+				{/* <TouchOsc /> */}
 			</div>
-			{/* )} */}
-
-			{showStuff.controls && (
-				<div className={styles.DemoPage_main}>
-					<Fader
-						val={val}
-						id="volume"
-						name="volume"
-						label="Master"
-						min={0.0}
-						max={1.0}
-						step={0.01}
-						handleChange={handleVal}
-					/>
-
-					<Select
-						id="key"
-						name="key"
-						val={key}
-						options={keys}
-						handleChange={handleKey}
-						customStyles={customCSS.keys}
-						disabledOptions={[]}
-					/>
-				</div>
-			)}
 		</div>
 	);
 };

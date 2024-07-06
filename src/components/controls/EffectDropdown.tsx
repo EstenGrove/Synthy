@@ -118,7 +118,7 @@ const renderSelectedOption = (
 const EffectDropdown = ({ name, label, onChange, options = [] }: Props) => {
 	const [shouldShowValue, setShouldShowValue] = useState<boolean>(false);
 	const [showOptions, setShowOptions] = useState<boolean>(false);
-	const [selection, setSelection] = useState<string>("LPF");
+	const [selection, setSelection] = useState<string>(options?.[0]?.value);
 
 	const openOptions = () => {
 		setShowOptions(true);

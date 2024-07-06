@@ -1,32 +1,43 @@
-import React from "react";
 import styles from "../../css/synth-panel/SynthyEffects.module.scss";
-import EffectColumn from "../synth/EffectColumn";
-import EffectBlock from "../synth/EffectBlock";
+import {
+	ADSRSettings,
+	DelaySettings,
+	FilterSettings,
+	ReverbSettings,
+	VCOSettings,
+} from "./types";
 import Knob from "../controls/Knob";
-import WaveformKnob from "../synth/WaveformKnob";
-import MasterVolume from "../controls/MasterVolume";
-import EffectDropdown, { IDropdownOption } from "../controls/EffectDropdown";
 import LPFWave from "../shapes/LPFWave";
 import HPFWave from "../shapes/HPFWave";
 import NotchWave from "../shapes/NotchWave";
 import BandPassWave from "../shapes/BandPassWave";
+import EffectBlock from "../synth/EffectBlock";
+import EffectColumn from "../synth/EffectColumn";
+import WaveformKnob from "../synth/WaveformKnob";
+import MasterVolume from "../controls/MasterVolume";
+import EffectDropdown, { IDropdownOption } from "../controls/EffectDropdown";
+import EchoReverbWave from "../shapes/EchoReverbWave";
+import DarkReverbWave from "../shapes/DarkReverbWave";
+import CathedralReverbWave from "../shapes/CathedralReverbWave";
+import RoomReverbWave from "../shapes/RoomReverbWave";
 
 type Props = {
-	delayVals: object;
-	reverbVals: object;
-	filterVals: object;
-	envelopeVals: object;
-	handleWave: () => void;
+	vcoVals: VCOSettings;
+	adsrVals: ADSRSettings;
+	filterVals: FilterSettings;
+	delayVals: DelaySettings;
+	reverbVals: ReverbSettings;
+	handleDelay: (name: string, value: number) => void;
 	handleVCO: (name: string, value: string | number) => void;
 	handleADSR: (name: string, value: string | number) => void;
 	handleFilter: (name: string, value: string | number) => void;
-	handleDelay: (name: string, value: number) => void;
 	handleReverb: (name: string, value: string | number) => void;
 	handleMasterVol: (name: string, value: number) => void;
 };
 
 const size = "XSM";
 
+// Filter wave types
 const waveOptions: IDropdownOption[] = [
 	{
 		value: "LPF",
@@ -45,19 +56,38 @@ const waveOptions: IDropdownOption[] = [
 		element: NotchWave,
 	},
 ];
+// Reverb wave types
+const reverbOptions: IDropdownOption[] = [
+	{
+		value: "Echo",
+		element: EchoReverbWave,
+	},
+	{
+		value: "Dark",
+		element: DarkReverbWave,
+	},
+	{
+		value: "Cathedral",
+		element: CathedralReverbWave,
+	},
+	{
+		value: "Room",
+		element: RoomReverbWave,
+	},
+];
 
 const SynthyEffects = ({
-	delayVals,
-	reverbVals,
-	filterVals,
-	envelopeVals,
-	handleWave,
+	// vcoVals,
+	// adsrVals,
+	// delayVals,
+	// reverbVals,
+	// filterVals,
 	handleVCO,
 	handleADSR,
 	handleFilter,
-	handleMasterVol,
 	handleDelay,
 	handleReverb,
+	handleMasterVol,
 }: Props) => {
 	return (
 		<div data-name="effects-panel" className={styles.SynthyEffects}>
@@ -68,6 +98,7 @@ const SynthyEffects = ({
 					size="SM"
 					name="waveType"
 					label="Waveform"
+					// val={vcoVals.waveType}
 					onChange={handleVCO} // string
 				/>
 				<Knob
@@ -75,6 +106,7 @@ const SynthyEffects = ({
 					key="Gain"
 					name="gain"
 					size={size}
+					// val={vcoVals?.gain}
 					onChange={handleVCO} // number
 				/>
 			</EffectColumn>
@@ -85,6 +117,7 @@ const SynthyEffects = ({
 					key="Attack"
 					name="attack"
 					size={size}
+					// val={adsrVals?.attack}
 					onChange={handleADSR}
 				/>
 				<Knob
@@ -92,6 +125,7 @@ const SynthyEffects = ({
 					key="Decay"
 					name="decay"
 					size={size}
+					// val={adsrVals?.decay}
 					onChange={handleADSR}
 				/>
 				<Knob
@@ -99,6 +133,7 @@ const SynthyEffects = ({
 					key="Sustain"
 					name="sustain"
 					size={size}
+					// val={adsrVals?.sustain}
 					onChange={handleADSR}
 				/>
 				<Knob
@@ -106,6 +141,7 @@ const SynthyEffects = ({
 					key="Release"
 					name="release"
 					size={size}
+					// val={adsrVals?.release}
 					onChange={handleADSR}
 				/>
 			</EffectBlock>
@@ -168,12 +204,14 @@ const SynthyEffects = ({
 
 			{/* REVERB */}
 			<EffectBlock label="Reverb">
-				<WaveformKnob
-					key="VCO"
+				<EffectDropdown
+					key="ReverbWave"
 					label="IR Type"
 					name="reverbWave"
+					options={reverbOptions}
 					onChange={handleReverb}
 				/>
+
 				<Knob
 					key="Time."
 					label="Time."

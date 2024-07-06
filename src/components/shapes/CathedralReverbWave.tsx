@@ -1,7 +1,7 @@
 import styles from "../../css/shapes/CathedralReverbWave.module.scss";
 import { mergeArrayOfCoords } from "../../utils/utils_canvas";
 
-type Props = { color: string };
+type Props = { color?: string };
 
 const points = [
 	["M40", "10"],

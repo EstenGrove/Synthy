@@ -9,6 +9,13 @@ import SynthyKey from "./SynthyKey";
 import { NOTES_LIST as allNotes } from "../../data/synthNotes";
 import { INote } from "../../utils/utils_notes";
 import { useAudioRecorder } from "../../hooks/useAudioRecorder";
+import {
+	ADSRSettings,
+	DelaySettings,
+	FilterSettings,
+	ReverbSettings,
+	VCOSettings,
+} from "./types";
 
 const basePresets = [
 	"Dark Pad",
@@ -39,11 +46,6 @@ interface ISynthySettings {
 type Props = {
 	presets: string[];
 };
-
-interface VCOSettings {
-	waveType: OscillatorType;
-	gain: number;
-}
 
 // REQUIREMENTS:
 // - Octave:
@@ -76,6 +78,29 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		waveType: "triangle",
 		gain: 0.5,
 	});
+	const [adsrSettings, setADSRSettings] = useState<ADSRSettings>({
+		attack: 0.0,
+		sustain: 0.0,
+		decay: 0.0,
+		release: 0.0,
+	});
+	const [filterSettings, setFilterSettings] = useState<FilterSettings>({
+		filterType: "lpf",
+		freq: 500, // hz
+		semitones: 1,
+		level: 0.5,
+	});
+	const [reverbSettings, setReverbSettings] = useState<ReverbSettings>({
+		reverbWave: "",
+		time: 300, // ms
+		feedback: 0.5,
+		level: 0.5,
+	});
+	const [delaySettings, setDelaySettings] = useState<DelaySettings>({
+		time: 300, // ms
+		feedback: 0.5,
+		level: 0.5,
+	});
 
 	const handleMasterVol = (_: string, value: number) => {
 		const level = value / 100;
@@ -95,24 +120,34 @@ const Synthy = ({ presets = basePresets }: Props) => {
 	};
 
 	const handleVCO = (name: string, value: string | number) => {
-		console.log("name", name);
-		console.log("value", value);
+		setVCOSettings({
+			...vcoSettings,
+			[name]: value,
+		});
 	};
 	const handleADSR = (name: string, value: string | number) => {
-		console.log("name", name);
-		console.log("value", value);
+		setADSRSettings({
+			...adsrSettings,
+			[name]: value,
+		});
 	};
 	const handleFilter = (name: string, value: string | number) => {
-		console.log("name", name);
-		console.log("value", value);
+		setFilterSettings({
+			...filterSettings,
+			[name]: value,
+		});
 	};
 	const handleReverb = (name: string, value: string | number) => {
-		console.log("name", name);
-		console.log("value", value);
+		setReverbSettings({
+			...reverbSettings,
+			[name]: value,
+		});
 	};
 	const handleDelay = (name: string, value: string | number) => {
-		console.log("name", name);
-		console.log("value", value);
+		setDelaySettings({
+			...delaySettings,
+			[name]: value,
+		});
 	};
 
 	// note handlers (TEMPORARY???)
@@ -149,6 +184,11 @@ const Synthy = ({ presets = basePresets }: Props) => {
 				handlePreset={handlePreset}
 			/>
 			<SynthyEffects
+				// grouped states
+				vcoVals={vcoSettings}
+				adsrVals={adsrSettings}
+				filterVals={filterSettings}
+				// effect handlers
 				handleVCO={handleVCO}
 				handleADSR={handleADSR}
 				handleDelay={handleDelay}

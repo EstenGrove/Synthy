@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "../../css/shapes/HPFWave.module.scss";
 import { mergeArrayOfCoords } from "../../utils/utils_canvas";
 
