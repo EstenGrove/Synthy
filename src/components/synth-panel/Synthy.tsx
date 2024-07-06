@@ -102,23 +102,6 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		level: 0.5,
 	});
 
-	const handleMasterVol = (_: string, value: number) => {
-		const level = value / 100;
-		setMasterVolume(level);
-	};
-
-	// supports: octave, key, scale
-	const handleSetting = (name: string, value: string) => {
-		setSynthSettings({
-			...synthSettings,
-			[name]: value,
-		});
-	};
-
-	const handlePreset = (preset: string) => {
-		setSelectedPreset(preset);
-	};
-
 	const handleVCO = (name: string, value: string | number) => {
 		setVCOSettings({
 			...vcoSettings,
@@ -148,6 +131,23 @@ const Synthy = ({ presets = basePresets }: Props) => {
 			...delaySettings,
 			[name]: value,
 		});
+	};
+
+	const handleMasterVol = (_: string, value: number) => {
+		const level = value / 100;
+		setMasterVolume(level);
+	};
+
+	// supports: octave, key, scale
+	const handleSetting = (name: string, value: string) => {
+		setSynthSettings({
+			...synthSettings,
+			[name]: value,
+		});
+	};
+
+	const handlePreset = (preset: string) => {
+		setSelectedPreset(preset);
 	};
 
 	// note handlers (TEMPORARY???)

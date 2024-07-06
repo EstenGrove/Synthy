@@ -9,7 +9,7 @@ type Props = {
 	name: string;
 	size?: KnobSize;
 	label?: string;
-	defaultVal?: number;
+	value: number;
 	onChange: (name: string, value: number) => void;
 	enableArc?: boolean;
 };
@@ -136,11 +136,27 @@ const getZeroFromRange = (min: number, max: number) => {
 	return -(diff / 2);
 };
 
+// Calculates where the knob's rotation should be relative to the range & value provided
+// - Uses 12 o'clock as the zero-point & clockwise is positive values, counter is negative
+// - We're basing our rotation position off the range & zero point of the knob
 const getDefaultValue = (defaultVal: number = 0, range: KnobRange) => {
-	const degs = getDegsFromValue(defaultVal, {
-		min: range?.min,
-		max: range?.max,
-	});
+	const { min, max } = range;
+	const value = defaultVal;
+	const diff = max - min;
+	const percentDegs = (defaultVal * diff) / 100;
+	const HALF = 50; // percent
+	let degs;
+
+	// if it's less than 50%; the degs should be between 0 and -270
+	// if it's greater than 50%; the degs should be between 0 and +270
+	// if it's exactly 50%; the degs should exactly 0degs
+	if (value < HALF) {
+		degs = -(diff / 2 - percentDegs);
+	} else if (value > HALF) {
+		degs = percentDegs - diff / 2;
+	} else {
+		degs = 0;
+	}
 
 	return degs;
 };
@@ -153,35 +169,33 @@ const Knob = ({
 	name = "knob",
 	size = "SM",
 	label = "Level",
+	value = 0,
 	onChange,
-	defaultVal = 0,
 	enableArc = false,
 }: Props) => {
 	const knobRef = useRef<HTMLDivElement>(null);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [angle, setAngle] = useState<number>(
-		getDefaultValue(defaultVal, { min, max })
+		getDefaultValue(value, { min, max })
 	);
-	// const [angle, setAngle] = useState<number>(getZeroFromRange(min, max));
-	// value used for actual controls
-	const [value, setValue] = useState<number>(defaultVal);
+	// value used for actual controls (eg. 0-100)
 	// shows value on hover
 	const [shouldShowValue, setShouldShowValue] = useState<boolean>(false);
-	const knobCss = getSize(size);
+	const knobCss: CSSProperties = getSize(size);
 
 	const handleUpdate = (newY: number) => {
 		// We get the max rotation range by performing a diff & dividing by 2
 		// ...this gives us a range: -150 to 150 for instance
-		const maxRotate = (max - min) / 2;
+		const maxRotate = (max - min) / 2; // 135 = (270-0) / 2
 		const angleDiff = angle - (newY - lastY);
 		const newDegs = clamp(angleDiff, { min: -maxRotate, max: maxRotate });
+		// convert the angle in degrees to a value within our min/max (eg. 0-100)
+		const newValue = getValueFromDegs(newDegs, { min: min, max: max });
+
 		setAngle(newDegs);
 		updateKnob(newDegs);
 
-		// convert the angle in degrees to a value within our min/max (eg. 0-100)
-		const newValue = getValueFromDegs(newDegs, { min: min, max: max });
 		onChange(name, newValue);
-		setValue(newValue);
 	};
 
 	const mouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -192,6 +206,7 @@ const Knob = ({
 	};
 
 	const mouseMove = (e: MouseEvent) => {
+		// if (!isDragging) return;
 		handleUpdate(e.clientY);
 	};
 	const mouseUp = (e: MouseEvent) => {
@@ -224,7 +239,7 @@ const Knob = ({
 			return;
 		}
 
-		// MIGHT NOT NEED THIS???
+		// Update knob onMount
 		updateKnob(angle);
 
 		return () => {
