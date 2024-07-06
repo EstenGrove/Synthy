@@ -77,11 +77,13 @@ const reverbOptions: IDropdownOption[] = [
 ];
 
 const SynthyEffects = ({
-	// vcoVals,
-	// adsrVals,
-	// delayVals,
-	// reverbVals,
-	// filterVals,
+	// grouped states
+	vcoVals,
+	adsrVals,
+	delayVals,
+	reverbVals,
+	filterVals,
+	// handlers
 	handleVCO,
 	handleADSR,
 	handleFilter,
@@ -98,7 +100,7 @@ const SynthyEffects = ({
 					size="SM"
 					name="waveType"
 					label="Waveform"
-					// val={vcoVals.waveType}
+					value={vcoVals.waveType}
 					onChange={handleVCO} // string
 				/>
 				<Knob
@@ -106,7 +108,7 @@ const SynthyEffects = ({
 					key="Gain"
 					name="gain"
 					size={size}
-					// val={vcoVals?.gain}
+					value={vcoVals?.gain}
 					onChange={handleVCO} // number
 				/>
 			</EffectColumn>
@@ -117,7 +119,7 @@ const SynthyEffects = ({
 					key="Attack"
 					name="attack"
 					size={size}
-					// val={adsrVals?.attack}
+					value={adsrVals?.attack}
 					onChange={handleADSR}
 				/>
 				<Knob
@@ -125,7 +127,7 @@ const SynthyEffects = ({
 					key="Decay"
 					name="decay"
 					size={size}
-					// val={adsrVals?.decay}
+					value={adsrVals?.decay}
 					onChange={handleADSR}
 				/>
 				<Knob
@@ -133,7 +135,7 @@ const SynthyEffects = ({
 					key="Sustain"
 					name="sustain"
 					size={size}
-					// val={adsrVals?.sustain}
+					value={adsrVals?.sustain}
 					onChange={handleADSR}
 				/>
 				<Knob
@@ -141,7 +143,7 @@ const SynthyEffects = ({
 					key="Release"
 					name="release"
 					size={size}
-					// val={adsrVals?.release}
+					value={adsrVals?.release}
 					onChange={handleADSR}
 				/>
 			</EffectBlock>
@@ -159,6 +161,7 @@ const SynthyEffects = ({
 					label="Freq."
 					name="freq"
 					size={size}
+					value={filterVals?.freq}
 					onChange={handleFilter}
 				/>
 				<Knob
@@ -166,6 +169,7 @@ const SynthyEffects = ({
 					label="Semi."
 					name="semitones"
 					size={size}
+					value={filterVals?.semitones}
 					onChange={handleFilter}
 				/>
 				<Knob
@@ -173,6 +177,7 @@ const SynthyEffects = ({
 					key="Level"
 					name="level"
 					size={size}
+					value={filterVals?.level}
 					onChange={handleFilter}
 				/>
 			</EffectBlock>
@@ -184,6 +189,7 @@ const SynthyEffects = ({
 					label="Time."
 					name="time"
 					size={size}
+					value={delayVals?.time}
 					onChange={handleDelay}
 				/>
 				<Knob
@@ -191,6 +197,7 @@ const SynthyEffects = ({
 					label="Feedback"
 					name="feedback"
 					size={size}
+					value={delayVals?.feedback}
 					onChange={handleDelay}
 				/>
 				<Knob
@@ -198,6 +205,7 @@ const SynthyEffects = ({
 					key="Level"
 					name="level"
 					size={size}
+					value={delayVals?.level}
 					onChange={handleDelay}
 				/>
 			</EffectBlock>
@@ -217,6 +225,7 @@ const SynthyEffects = ({
 					label="Time."
 					name="time"
 					size={size}
+					value={reverbVals?.time}
 					onChange={handleReverb}
 				/>
 				<Knob
@@ -224,6 +233,7 @@ const SynthyEffects = ({
 					label="Feedback"
 					name="feedback"
 					size={size}
+					value={reverbVals?.feedback}
 					onChange={handleReverb}
 				/>
 				<Knob
@@ -231,6 +241,7 @@ const SynthyEffects = ({
 					key="Level"
 					name="level"
 					size={size}
+					value={reverbVals?.level}
 					onChange={handleReverb}
 				/>
 			</EffectBlock>

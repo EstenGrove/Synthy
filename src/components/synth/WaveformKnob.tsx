@@ -11,6 +11,7 @@ type Props = {
 	label: string;
 	name?: string;
 	size?: KnobSize;
+	value: string;
 	onChange: (name: string, type: string) => void;
 };
 
@@ -34,13 +35,14 @@ const options: IOption[] = [
 	},
 ];
 
-const WaveformKnob = ({ label, name, onChange, size = "SM" }: Props) => {
+const WaveformKnob = ({ label, value, name, onChange, size = "SM" }: Props) => {
 	return (
 		<div className={styles.WaveformKnob}>
 			<KnotchedKnob
 				size={size}
 				name={name}
 				label={label}
+				// value={value}
 				options={options}
 				onChange={onChange}
 			/>
