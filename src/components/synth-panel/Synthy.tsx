@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styles from "../../css/synth-panel/Synthy.module.scss";
 import SynthyEffects from "./SynthyEffects";
 import SynthyTopPanel from "./SynthyTopPanel";
@@ -16,8 +16,10 @@ import {
 	ReverbSettings,
 	VCOSettings,
 } from "./types";
+import { createStreamNode } from "../../utils/utils_audio";
 
 const basePresets = [
+	"--INIT--",
 	"Dark Pad",
 	"Echo Moog",
 	"Gliding Swell",
@@ -44,7 +46,7 @@ interface ISynthySettings {
 }
 
 type Props = {
-	presets: string[];
+	presets?: string[];
 };
 
 // REQUIREMENTS:
@@ -54,6 +56,8 @@ type Props = {
 // 		- Load different notes map???
 // 		- Re-render keyboard keys w/ new notes map assigned???
 
+let audioCtx: AudioContext;
+
 const Synthy = ({ presets = basePresets }: Props) => {
 	const recorder = useAudioRecorder({
 		audioType: "audio/ogg; codec=opus",
@@ -61,18 +65,20 @@ const Synthy = ({ presets = basePresets }: Props) => {
 			console.log("audioBlob", audioBlob);
 		},
 	});
+	const audioDestNode = useRef<MediaStreamAudioDestinationNode>();
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
 	// top panel settings
 	const [selectedPreset, setSelectedPreset] = useState<string>(
 		presets[defaultIdx]
 	);
+	const [masterVolume, setMasterVolume] = useState<number>(0.5);
 	// Eg. key: (C), octave: 0-10, scale: 'Minor'
 	const [synthSettings, setSynthSettings] = useState<ISynthySettings>({
 		octave: octaves[defaultIdx],
 		key: keys[defaultIdx],
 		scale: scales[defaultIdx],
 	});
-	const [masterVolume, setMasterVolume] = useState<number>(0.5);
+
 	// VCO settings
 	const [vcoSettings, setVCOSettings] = useState<VCOSettings>({
 		waveType: "triangle",
@@ -91,45 +97,55 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		level: 0.5,
 	});
 	const [reverbSettings, setReverbSettings] = useState<ReverbSettings>({
-		reverbWave: "",
-		time: 300, // ms
+		reverbWave: "Echo",
+		time: 0.5, // ms (eg .5 => 500ms)
 		feedback: 0.5,
 		level: 0.5,
 	});
 	const [delaySettings, setDelaySettings] = useState<DelaySettings>({
-		time: 300, // ms
+		time: 0.5, // ms (eg .5 => 500ms)
 		feedback: 0.5,
 		level: 0.5,
 	});
 
 	const handleVCO = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setVCOSettings({
 			...vcoSettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 	const handleADSR = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setADSRSettings({
 			...adsrSettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 	const handleFilter = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setFilterSettings({
 			...filterSettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 	const handleReverb = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setReverbSettings({
 			...reverbSettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 	const handleDelay = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setDelaySettings({
 			...delaySettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 
@@ -150,7 +166,7 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		setSelectedPreset(preset);
 	};
 
-	// note handlers (TEMPORARY???)
+	// note handlers
 	const handlePress = (note: INote) => {
 		// do stuff
 	};
@@ -165,13 +181,31 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		// do stuff
 	};
 
-	const startTimer = () => {
-		//
-		//
+	// initialize recorder & stream node for oscillators
+	const initRecorder = () => {
+		const destNode = createStreamNode(
+			audioCtx
+		) as MediaStreamAudioDestinationNode;
+
+		// store in our ref(s)
+		audioDestNode.current = destNode;
+
+		// // Connect the osc to the destNode: oscNode.connect(destNode)
+		recorder.initRecorder({
+			audioCtx: audioCtx,
+			mediaStream: destNode.stream,
+			startRecording: false,
+		});
 	};
-	const stopTimer = () => {
-		//
-		//
+
+	const startRecording = () => {
+		if (!audioCtx || !audioDestNode?.current) {
+			initRecorder();
+		}
+		recorder.start();
+	};
+	const stopRecording = () => {
+		recorder.stop();
 	};
 
 	return (
@@ -188,6 +222,9 @@ const Synthy = ({ presets = basePresets }: Props) => {
 				vcoVals={vcoSettings}
 				adsrVals={adsrSettings}
 				filterVals={filterSettings}
+				delayVals={delaySettings}
+				reverbVals={reverbSettings}
+				masterVolume={masterVolume}
 				// effect handlers
 				handleVCO={handleVCO}
 				handleADSR={handleADSR}
@@ -196,7 +233,7 @@ const Synthy = ({ presets = basePresets }: Props) => {
 				handleReverb={handleReverb}
 				handleMasterVol={handleMasterVol}
 			/>
-			<SynthyRecordingPanel start={startTimer} stop={stopTimer} />
+			<SynthyRecordingPanel start={startRecording} stop={stopRecording} />
 			<SynthyKeysPanel>
 				{allNotes &&
 					allNotes.map((note, idx) => (

@@ -5,6 +5,14 @@
 .SynthyPage {
 	@include fill_container;
 
+	&_demo {
+		width: 100%;
+		@include flex_row(center, flex-start);
+		padding: 4rem 2rem;
+		margin-bottom: 4rem;
+		background-color: #eaecef;
+	}
+
 	&_main {
 		@include fill_container;
 		padding: 6rem 4rem;

@@ -57,6 +57,14 @@ const clamp = (val: number, range: CRange) => {
 	return clampedValue;
 };
 
+// Checks if a number is between a given range
+const isBetween = (value: number, range: CRange): boolean => {
+	const { min, max } = range;
+	const isInRange = value >= min && value <= max;
+
+	return isInRange;
+};
+
 // Uses for..loop instead of Array.prototype.reduce
 const groupBy = <T, K extends string | number>(
 	key: K,
@@ -98,6 +106,7 @@ export {
 	range,
 	clamp,
 	groupBy,
+	isBetween,
 	getRandomNumInRange,
 	generateRandomList,
 	// Performance Utils

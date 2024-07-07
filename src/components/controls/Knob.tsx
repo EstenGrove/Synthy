@@ -1,6 +1,13 @@
-import { useRef, useState, useEffect, RefObject, CSSProperties } from "react";
+import {
+	useRef,
+	useState,
+	useEffect,
+	RefObject,
+	CSSProperties,
+	useMemo,
+} from "react";
 import styles from "../../css/controls/Knob.module.scss";
-import { clamp, debounce } from "../../utils/utils_shared";
+import { CRange, clamp, debounce, isBetween } from "../../utils/utils_shared";
 import KnobArc from "./KnobArc";
 
 type Props = {
@@ -161,6 +168,19 @@ const getDefaultValue = (defaultVal: number = 0, range: KnobRange) => {
 	return degs;
 };
 
+const getNormalizedValue = (value: number): number => {
+	// has to be 1 instead of 0 since decimals would give false positive for our purposes
+	const MIN = 1;
+	const MAX = 100;
+	const numIsInRange = isBetween(value, { min: MIN, max: MAX });
+	if (numIsInRange) {
+		return value;
+	} else {
+		const rangeValue = value * MAX;
+		return rangeValue;
+	}
+};
+
 let lastY: number = 0;
 
 const Knob = ({
@@ -169,16 +189,19 @@ const Knob = ({
 	name = "knob",
 	size = "SM",
 	label = "Level",
-	value = 0,
+	value = 0, // can be anything, but MUST be normalized to be: 0-100
 	onChange,
 	enableArc = false,
 }: Props) => {
 	const knobRef = useRef<HTMLDivElement>(null);
+	const cleanValue: number = useMemo(() => {
+		const norm = getNormalizedValue(value);
+		return norm;
+	}, [value]);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [angle, setAngle] = useState<number>(
 		getDefaultValue(value, { min, max })
 	);
-	// value used for actual controls (eg. 0-100)
 	// shows value on hover
 	const [shouldShowValue, setShouldShowValue] = useState<boolean>(false);
 	const knobCss: CSSProperties = getSize(size);
@@ -255,11 +278,11 @@ const Knob = ({
 			onMouseLeave={debounce(hideValue, 50)}
 		>
 			<div className={styles.Knob_wrapper} style={knobCss}>
-				{enableArc && <KnobArc value={value} />}
+				{enableArc && <KnobArc value={cleanValue} size={size} />}
 				<KnobDial knobRef={knobRef} onMouseDown={mouseDown} size={size} />
 			</div>
 			{!isDragging && !shouldShowValue && <Label label={label} />}
-			{(shouldShowValue || isDragging) && <LabelValue value={value} />}
+			{(shouldShowValue || isDragging) && <LabelValue value={cleanValue} />}
 		</div>
 	);
 };

@@ -1,35 +1,30 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "../css/pages/SynthyPage.module.scss";
 import Synthy from "../components/synth-panel/Synthy";
 import Knob from "../components/controls/Knob";
 
-type Props = {};
+const SynthyPage = () => {
+	const [value, setValue] = useState<number>(0.5);
 
-const SynthyPage = ({}: Props) => {
-	const [knobValue, setKnobValue] = useState<number>(0.38);
-
-	const updateValue = (newVal: number) => {
-		const value = newVal / 100;
-		setKnobValue(value);
+	const handleVal = (_: string, newVal: number) => {
+		const formatted = newVal / 100;
+		setValue(formatted);
 	};
-
-	const handleChange = (_: string, value: number) => {
-		updateValue(value);
-	};
-
 	return (
 		<div className={styles.SynthyPage}>
 			<h1>Synthy Polyphonic Synth</h1>
-			<main className={styles.SynthyPage_main}>
+
+			<div className={styles.SynthyPage_demo}>
 				<Knob
-					key="test1"
 					name="test1"
 					label="Test"
-					// defaultVal={knobValue}
-					value={Math.round(knobValue * 100)}
-					onChange={handleChange}
+					size="XLG"
+					value={Math.round(value * 100)}
+					onChange={handleVal}
+					enableArc={true}
 				/>
-			</main>
+			</div>
+
 			<main className={styles.SynthyPage_main}>
 				<Synthy />
 			</main>

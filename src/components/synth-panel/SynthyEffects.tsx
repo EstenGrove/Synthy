@@ -27,6 +27,7 @@ type Props = {
 	filterVals: FilterSettings;
 	delayVals: DelaySettings;
 	reverbVals: ReverbSettings;
+	masterVolume: number;
 	handleDelay: (name: string, value: number) => void;
 	handleVCO: (name: string, value: string | number) => void;
 	handleADSR: (name: string, value: string | number) => void;
@@ -83,6 +84,7 @@ const SynthyEffects = ({
 	delayVals,
 	reverbVals,
 	filterVals,
+	masterVolume,
 	// handlers
 	handleVCO,
 	handleADSR,
@@ -246,7 +248,7 @@ const SynthyEffects = ({
 				/>
 			</EffectBlock>
 			{/* MASTER VOLUME */}
-			<MasterVolume handleMasterVol={handleMasterVol} />
+			<MasterVolume value={masterVolume} handleMasterVol={handleMasterVol} />
 		</div>
 	);
 };
