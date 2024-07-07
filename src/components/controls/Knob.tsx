@@ -102,7 +102,8 @@ type LabelValProps = {
 	value?: number;
 };
 const LabelValue = ({ value }: LabelValProps) => {
-	return <div className={styles.LabelValue}>{value}</div>;
+	const round = Math.round(value as number);
+	return <div className={styles.LabelValue}>{round}</div>;
 };
 
 const KnobDial = ({ knobRef, onMouseDown, size }: KnobDialProps) => {
@@ -194,13 +195,13 @@ const Knob = ({
 	enableArc = false,
 }: Props) => {
 	const knobRef = useRef<HTMLDivElement>(null);
-	const cleanValue: number = useMemo(() => {
+	const actualValue: number = useMemo(() => {
 		const norm = getNormalizedValue(value);
 		return norm;
 	}, [value]);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [angle, setAngle] = useState<number>(
-		getDefaultValue(value, { min, max })
+		getDefaultValue(actualValue, { min, max })
 	);
 	// shows value on hover
 	const [shouldShowValue, setShouldShowValue] = useState<boolean>(false);
@@ -218,6 +219,7 @@ const Knob = ({
 		setAngle(newDegs);
 		updateKnob(newDegs);
 
+		// onChange(name, newValue);
 		onChange(name, newValue);
 	};
 
@@ -258,12 +260,12 @@ const Knob = ({
 	// set default values on mount
 	useEffect(() => {
 		let isMounted = true;
-		if (!isMounted) {
-			return;
-		}
+		if (!isMounted) return;
 
 		// Update knob onMount
-		updateKnob(angle);
+		// updateKnob(angle);
+		const initVal = getDefaultValue(actualValue, { min, max });
+		updateKnob(initVal);
 
 		return () => {
 			isMounted = false;
@@ -278,11 +280,11 @@ const Knob = ({
 			onMouseLeave={debounce(hideValue, 50)}
 		>
 			<div className={styles.Knob_wrapper} style={knobCss}>
-				{enableArc && <KnobArc value={cleanValue} size={size} />}
+				{enableArc && <KnobArc value={actualValue} size={size} />}
 				<KnobDial knobRef={knobRef} onMouseDown={mouseDown} size={size} />
 			</div>
 			{!isDragging && !shouldShowValue && <Label label={label} />}
-			{(shouldShowValue || isDragging) && <LabelValue value={cleanValue} />}
+			{(shouldShowValue || isDragging) && <LabelValue value={actualValue} />}
 		</div>
 	);
 };

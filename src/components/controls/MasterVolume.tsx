@@ -18,7 +18,7 @@ const MasterVolume = ({ value, handleMasterVol }: Props) => {
 					size="MD"
 					value={value}
 					onChange={handleMasterVol}
-					enableArc
+					enableArc={true}
 				/>
 			</div>
 		</fieldset>
