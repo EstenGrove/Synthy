@@ -2,10 +2,11 @@ import styles from "../../css/controls/MasterVolume.module.scss";
 import Knob from "./Knob";
 
 type Props = {
+	value: number;
 	handleMasterVol: (name: string, vol: number) => void;
 };
 
-const MasterVolume = ({ handleMasterVol }: Props) => {
+const MasterVolume = ({ value, handleMasterVol }: Props) => {
 	return (
 		<fieldset className={styles.MasterVolume}>
 			<legend>Master</legend>
@@ -15,7 +16,9 @@ const MasterVolume = ({ handleMasterVol }: Props) => {
 					label="Volume"
 					name="masterVolume"
 					size="MD"
+					value={value}
 					onChange={handleMasterVol}
+					enableArc
 				/>
 			</div>
 		</fieldset>

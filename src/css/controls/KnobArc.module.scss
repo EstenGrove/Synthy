@@ -6,8 +6,12 @@
 	width: auto;
 	height: auto;
 	position: absolute;
-	top: 30%;
+	// top: 32%;
+	top: 31%;
 	left: 50%;
-	// background-color: var(--border);
 	transform: translate(-50%, -50%);
+
+	& > svg > path {
+		transition: stroke-dasharray 0.1s ease-in-out;
+	}
 }

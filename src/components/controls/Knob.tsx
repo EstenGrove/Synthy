@@ -255,7 +255,7 @@ const Knob = ({
 			onMouseLeave={debounce(hideValue, 50)}
 		>
 			<div className={styles.Knob_wrapper} style={knobCss}>
-				{enableArc && <KnobArc value={value} />}
+				{enableArc && <KnobArc value={value} size={size} />}
 				<KnobDial knobRef={knobRef} onMouseDown={mouseDown} size={size} />
 			</div>
 			{!isDragging && !shouldShowValue && <Label label={label} />}
