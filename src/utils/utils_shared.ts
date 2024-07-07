@@ -54,7 +54,8 @@ const clamp = (val: number, range: CRange) => {
 	const { min, max } = range;
 	const clampedValue = Math.max(min, Math.min(max, val));
 
-	return clampedValue;
+	return Math.round(clampedValue);
+	// return clampedValue;
 };
 
 // Checks if a number is between a given range

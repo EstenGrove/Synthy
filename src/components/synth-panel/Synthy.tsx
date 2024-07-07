@@ -109,7 +109,7 @@ const Synthy = ({ presets = basePresets }: Props) => {
 	});
 
 	const handleVCO = (name: string, value: string | number) => {
-		// we need to normalize/translate numeric values back to decimals
+		// we need to translate the 'value' back to 0.00-1.00 format
 		const normVal = typeof value === "number" ? value / 100 : value;
 		setVCOSettings({
 			...vcoSettings,
@@ -117,7 +117,6 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		});
 	};
 	const handleADSR = (name: string, value: string | number) => {
-		// we need to normalize/translate numeric values back to decimals
 		const normVal = typeof value === "number" ? value / 100 : value;
 		setADSRSettings({
 			...adsrSettings,
@@ -125,7 +124,6 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		});
 	};
 	const handleFilter = (name: string, value: string | number) => {
-		// we need to normalize/translate numeric values back to decimals
 		const normVal = typeof value === "number" ? value / 100 : value;
 		setFilterSettings({
 			...filterSettings,
@@ -133,7 +131,6 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		});
 	};
 	const handleReverb = (name: string, value: string | number) => {
-		// we need to normalize/translate numeric values back to decimals
 		const normVal = typeof value === "number" ? value / 100 : value;
 		setReverbSettings({
 			...reverbSettings,
@@ -141,7 +138,6 @@ const Synthy = ({ presets = basePresets }: Props) => {
 		});
 	};
 	const handleDelay = (name: string, value: string | number) => {
-		// we need to normalize/translate numeric values back to decimals
 		const normVal = typeof value === "number" ? value / 100 : value;
 		setDelaySettings({
 			...delaySettings,

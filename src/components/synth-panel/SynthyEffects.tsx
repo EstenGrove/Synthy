@@ -149,7 +149,6 @@ const SynthyEffects = ({
 					onChange={handleADSR}
 				/>
 			</EffectBlock>
-
 			{/* FILTER (LPF/HPF) */}
 			<EffectBlock label="Filter">
 				<EffectDropdown
@@ -183,7 +182,6 @@ const SynthyEffects = ({
 					onChange={handleFilter}
 				/>
 			</EffectBlock>
-
 			{/* DELAY  */}
 			<EffectBlock label="Delay">
 				<Knob
@@ -211,7 +209,6 @@ const SynthyEffects = ({
 					onChange={handleDelay}
 				/>
 			</EffectBlock>
-
 			{/* REVERB */}
 			<EffectBlock label="Reverb">
 				<EffectDropdown
@@ -247,6 +244,7 @@ const SynthyEffects = ({
 					onChange={handleReverb}
 				/>
 			</EffectBlock>
+
 			{/* MASTER VOLUME */}
 			<MasterVolume value={masterVolume} handleMasterVol={handleMasterVol} />
 		</div>

@@ -14,7 +14,7 @@ const SynthyPage = () => {
 		<div className={styles.SynthyPage}>
 			<h1>Synthy Polyphonic Synth</h1>
 
-			<div className={styles.SynthyPage_demo}>
+			{/* <div className={styles.SynthyPage_demo}>
 				<Knob
 					name="test1"
 					label="Test"
@@ -23,7 +23,7 @@ const SynthyPage = () => {
 					onChange={handleVal}
 					enableArc={true}
 				/>
-			</div>
+			</div> */}
 
 			<main className={styles.SynthyPage_main}>
 				<Synthy />
