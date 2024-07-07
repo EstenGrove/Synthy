@@ -10,14 +10,14 @@ type Props = {
 };
 
 type ArcSize = "XSM" | "SM" | "MD" | "LG" | "XLG";
-
+// arc's position relative to knob
 const getArcPosition = (size: ArcSize): CSSProperties => {
 	const sizes = {
-		XSM: 31, // top: 31%
-		SM: 32.885, // top: 34%
-		MD: 34, // top: 34%
-		LG: 34,
-		XLG: 34,
+		XSM: 31,
+		SM: 32.885,
+		MD: 34,
+		LG: 36,
+		XLG: 38,
 	};
 	const position = {
 		top: sizes?.[size as keyof object] + "%",
@@ -25,21 +25,19 @@ const getArcPosition = (size: ArcSize): CSSProperties => {
 
 	return position;
 };
-
+// Diameter of arc around inner knob's circle
 const getArcSize = (size: ArcSize): number => {
 	const sizes = {
-		XSM: 54, // top: 31%
-		SM: 67.5, // top: 34%
-		// SM: 70, // top: 34%
-		// MD: 85, // top: 34%
-		MD: 82, // top: 34%
-		LG: 175,
-		XLG: 200,
+		XSM: 54,
+		SM: 67.5,
+		MD: 82,
+		LG: 112,
+		XLG: 140,
 	};
 
 	return sizes?.[size as keyof object];
 };
-
+// Stroke width
 const getStrokeFromSize = (size: ArcSize): number => {
 	const sizes = {
 		XSM: 0.4,
@@ -53,7 +51,7 @@ const getStrokeFromSize = (size: ArcSize): number => {
 
 // Should be in range of: 0-100
 // Note: the svg arc has a range of 0-19, so we use 0-20 as our range & apply an OFFSET=1
-const getArcValue = (value: number) => {
+const getArcValue = (value: number): number => {
 	const OFFSET = 1;
 	const arc = value * 20;
 	const arcValue = arc / 100 - OFFSET;
@@ -62,13 +60,16 @@ const getArcValue = (value: number) => {
 	return clamped;
 };
 
-const getNormValue = (value: number) => {
-	if (value <= 1) {
-		return value * 100;
-	} else if (value > 1 && value <= 100) {
+// Checks whether our 'value' is in the 0-100 range & if not will normalize it to be in range
+const getNormValue = (value: number): number => {
+	const MIN = 1;
+	const MAX = 100;
+	const MULTIPLIER = 100;
+
+	if (value > MIN && value <= MAX) {
 		return value;
 	} else {
-		return value;
+		return value * MULTIPLIER;
 	}
 };
 
@@ -88,8 +89,7 @@ const KnobArc = ({
 	const strokeWidth = getStrokeFromSize(size); // px
 	const arcPosition = getArcPosition(size);
 
-	console.log("arcValue", arcValue);
-
+	// prolly not needed
 	const updateArc = (value: number) => {
 		const arcEl = arcRef?.current as SVGPathElement;
 		const normedValue = getNormValue(value);

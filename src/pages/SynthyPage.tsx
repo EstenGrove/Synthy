@@ -18,7 +18,7 @@ const SynthyPage = () => {
 				<Knob
 					name="test1"
 					label="Test"
-					size="SM"
+					size="XLG"
 					value={Math.round(value * 100)}
 					onChange={handleVal}
 					enableArc={true}

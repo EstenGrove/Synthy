@@ -109,33 +109,43 @@ const Synthy = ({ presets = basePresets }: Props) => {
 	});
 
 	const handleVCO = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setVCOSettings({
 			...vcoSettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 	const handleADSR = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setADSRSettings({
 			...adsrSettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 	const handleFilter = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setFilterSettings({
 			...filterSettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 	const handleReverb = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setReverbSettings({
 			...reverbSettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 	const handleDelay = (name: string, value: string | number) => {
+		// we need to normalize/translate numeric values back to decimals
+		const normVal = typeof value === "number" ? value / 100 : value;
 		setDelaySettings({
 			...delaySettings,
-			[name]: value,
+			[name]: normVal,
 		});
 	};
 
