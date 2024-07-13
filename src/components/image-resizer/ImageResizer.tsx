@@ -1,5 +1,13 @@
-import { useState, useRef, DragEvent, ChangeEvent, useMemo } from "react";
+import {
+	useState,
+	useRef,
+	DragEvent,
+	ChangeEvent,
+	useMemo,
+	ReactNode,
+} from "react";
 import styles from "../../css/image-resizer/ImageResizer.module.scss";
+import sprite from "../../assets/icons/resizer.svg";
 import ImageStaticPreview from "./ImageStaticPreview";
 import FileDropZone from "./FileDropZone";
 import { createURL } from "../../utils/utils_files";
@@ -12,9 +20,38 @@ import {
 	getImageDimensions,
 } from "../../utils/utils_resizer";
 
-type Props = {};
+const CANVAS_WIDTH = 700;
+const CANVAS_HEIGHT = 500;
 
-const ImageResizer = ({}: Props) => {
+type IconBtn = {
+	icon: string;
+	isDisabled?: boolean;
+	onClick?: (e: React.MouseEvent) => void;
+	children?: ReactNode;
+};
+
+const IconButton = ({
+	icon,
+	children,
+	onClick,
+	isDisabled = false,
+}: IconBtn) => {
+	return (
+		<button
+			type="button"
+			onClick={onClick}
+			disabled={isDisabled}
+			className={styles.IconButton}
+		>
+			<svg className={styles.IconButton_icon}>
+				<use xlinkHref={`${sprite}#icon-${icon}`}></use>
+			</svg>
+			{children}
+		</button>
+	);
+};
+
+const ImageResizer = () => {
 	const imgRef = useRef<HTMLImageElement>(null);
 	// ref to our container that dictates the size of the resulting image
 	const overlayRef = useRef<HTMLDivElement>(null);
@@ -60,22 +97,19 @@ const ImageResizer = ({}: Props) => {
 		const overlayRect = overlay.getBoundingClientRect();
 
 		const { top, left, right, bottom, width, height } = overlayRect;
-		console.log("img", img);
 
-		// TOP & LEFT ARE CORRECT!!!
-
+		// TOP & LEFT ARE CORRECT //
+		// !!!! DO NOT TOUCH THESE !!!! //
 		const newLeft = originLeft - left;
 		const newTop = originTop - top;
-		const newWidth = right - left;
-		const newHeight = bottom - top;
-		// const newWidth = width;
-		// const newHeight = height;
+
+		const newWidth = newLeft - width;
+		const newHeight = newTop - height;
 
 		console.group("DRAW");
-		console.log("originHeight", originHeight);
-		console.log("originWidth", originWidth);
-		console.log("newHeight", newHeight);
-		console.log("newWidth", newWidth);
+		console.log("OVERLAY DIMS: ", { width, height, top, left });
+		console.log("Width: ", newWidth);
+		console.log("Height: ", newHeight);
 		console.groupEnd();
 
 		const dimensions = {
@@ -83,19 +117,26 @@ const ImageResizer = ({}: Props) => {
 			sy: newTop,
 			sWidth: img.width,
 			sHeight: img.height,
+			// sWidth: img.width,
+			// sHeight: img.height,
 			dx: 0, // must be 0,0 as that's where we start drawing to our output canvas!
 			dy: 0, // must be 0,0 as that's where we start drawing to our output canvas!
-			dWidth: img.width,
-			dHeight: img.height,
+			dWidth: newWidth,
+			dHeight: newHeight,
 		};
 		const { sx, sy, dx, dy, sWidth, sHeight, dWidth, dHeight } = dimensions;
 		const canvasEl = canvasRef?.current as HTMLCanvasElement;
 		const ctx = canvasEl.getContext("2d") as CanvasRenderingContext2D;
-		ctx.clearRect(0, 0, 700, 500);
+		ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 		// SYNTAX: imgSrc, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
-		// ctx.drawImage(img, sx, sy, sWidth, sHeight);
+
+		// ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, newWidth, newHeight);
+		// ctx.drawImage(img, sx, sy, sWidth, sWidth, 0, 0, width, height);
+		// ctx.drawImage(img, 0, 0, sWidth, sWidth, sx, sy, width, height);
+		// ctx.drawImage(img, 70, 20, 50, 50, 0, 0, 100, 100);
+
+		// THIS HAS CORRECT TOP & LEFT, BUT NOT WIDTH OR HEIGHT //
 		ctx.drawImage(img, sx, sy, sWidth, sHeight);
-		// ctx.drawImage(img, sx, sy, sWidth, sHeight, sx, sy, newWidth, newHeight);
 	};
 
 	return (
@@ -121,9 +162,9 @@ const ImageResizer = ({}: Props) => {
 				</ImageResizerGrid>
 			</div>
 			<div className={styles.ImageResizer_output}>
-				<button type="button" onClick={updateOutputPreview}>
-					Get Output
-				</button>
+				<IconButton icon="crop" onClick={updateOutputPreview}>
+					Crop Image
+				</IconButton>
 				<ImageResizerOutputPreview canvasRef={canvasRef} />
 			</div>
 		</div>

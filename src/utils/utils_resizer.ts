@@ -33,4 +33,25 @@ const drawImageToCanvas = (
 	ctx.drawImage(imgSrc, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 };
 
-export { getImageDimensions, drawImageToCanvas, createImgAndGetDimensions };
+export interface IResizeDimensions {
+	sx?: number;
+	sy?: number;
+	width: number;
+	height: number;
+}
+
+const resizeImageToCanvas = (
+	imgSrc: CanvasImageSource,
+	ctx: CanvasRenderingContext2D,
+	settings: IResizeDimensions
+) => {
+	const { sx = 0, sy = 0, width, height } = settings;
+	ctx.drawImage(imgSrc, sx, sy, width, height);
+};
+
+export {
+	getImageDimensions,
+	drawImageToCanvas,
+	resizeImageToCanvas,
+	createImgAndGetDimensions,
+};
