@@ -1,0 +1,15 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ImageResizerOutputPreview {
+	width: max-content;
+	height: max-content;
+	border-radius: 1rem;
+	border: 2px solid var(--accent-bright-red);
+	margin-top: 4rem;
+
+	& > canvas {
+		border-radius: 0.7rem;
+	}
+}

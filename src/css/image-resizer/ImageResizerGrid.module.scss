@@ -1,0 +1,25 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+// $cellSize: 2.5rem;
+$cellSize: 10rem;
+
+.ImageResizerGrid {
+	position: relative;
+	@include fill_container;
+	min-width: 70rem;
+	min-height: 50rem;
+	border-radius: 1rem;
+	border: 2px solid var(--accent-bright-red);
+	// background-color: rgba(234, 236, 239, 0.3);
+	background-color: rgba(15, 23, 42, 0.3);
+	background-image: linear-gradient(
+			to right,
+			rgba(204, 204, 204, 0.1) 1px,
+			transparent 1px
+		),
+		linear-gradient(to bottom, rgba(204, 204, 204, 0.1) 1px, transparent 1px);
+	background-size: $cellSize $cellSize;
+	background-position: center center;
+}

@@ -87,6 +87,11 @@ const Nav = () => {
 						Synthy
 					</NavLink>
 				</li>
+				<li className={styles.Nav_list_item}>
+					<NavLink to="/resizer" style={isActive}>
+						Image Resizer
+					</NavLink>
+				</li>
 			</ul>
 		</nav>
 	);

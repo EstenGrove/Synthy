@@ -19,6 +19,7 @@ import ParentObserverPlayground from "./components/playground/ParentObserverPlay
 import AudioPage from "./pages/AudioPage";
 import PresetsPage from "./pages/PresetsPage";
 import SynthyPage from "./pages/SynthyPage";
+import ResizerPlayground from "./components/playground/ResizerPlayground";
 
 function App() {
 	return (
@@ -38,6 +39,7 @@ function App() {
 						<Route path="/ui" element={<UIPlayground />} />
 						<Route path="/preload" element={<PreloadPlayground />} />
 						<Route path="/intersect" element={<IntersectPlayground />} />
+						<Route path="/resizer" element={<ResizerPlayground />} />
 						<Route
 							path="/intersect-shared"
 							element={<IntersectSharedPlayground />}

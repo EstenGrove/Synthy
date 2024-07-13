@@ -1,0 +1,25 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+// $mask: rgba(0, 0, 0, 0.9);
+$mask: rgba(0, 0, 0, 1);
+
+.ImageResizer {
+	user-select: none;
+	overflow: hidden;
+
+	&_inner {
+		position: relative;
+		overflow: hidden;
+		min-width: 70rem;
+		min-height: 50rem;
+		// opacity: 0.5;
+		z-index: 1;
+
+		&_mask {
+			z-index: 1;
+			@include fill_container;
+		}
+	}
+}
