@@ -89,7 +89,7 @@ const KnobArc = ({
 	const strokeWidth = getStrokeFromSize(size); // px
 	const arcPosition = getArcPosition(size);
 
-	// prolly not needed
+	// prolly not needed???
 	const updateArc = (value: number) => {
 		const arcEl = arcRef?.current as SVGPathElement;
 		const normedValue = getNormValue(value);

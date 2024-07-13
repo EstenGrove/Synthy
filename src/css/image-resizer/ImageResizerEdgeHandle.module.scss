@@ -1,0 +1,27 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ImageResizerEdgeHandle {
+	// position: absolute;
+	// display: block;
+	// top: 0;
+	// left: 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	background-color: #fff;
+	border: 1px solid #ccc;
+
+	&:focus-within {
+		background-color: var(--accent-bright-red);
+	}
+	&:hover {
+		background-color: var(--accent-bright-red);
+
+		cursor: row-resize;
+	}
+}

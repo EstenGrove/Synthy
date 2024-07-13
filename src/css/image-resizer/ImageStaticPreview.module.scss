@@ -1,0 +1,13 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ImageStaticPreview {
+	@include fill_container;
+	position: relative;
+	// z-index: -1;
+
+	&_img {
+		object-fit: cover;
+	}
+}

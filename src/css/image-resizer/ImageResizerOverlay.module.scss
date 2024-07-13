@@ -1,0 +1,79 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+$mask: rgba(0, 0, 0, 1);
+.ImageResizerOverlay {
+	@include fill_container;
+	width: 70rem;
+	height: 50rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	background-color: transparent;
+	border: 2px solid var(--accent-bright-red);
+	z-index: 3;
+
+	&_inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: transparent;
+		overflow: hidden;
+		box-shadow: 0px 0px 0px 800px $mask;
+		opacity: 0.7;
+		z-index: 3;
+	}
+}
+
+@mixin edgeHandle() {
+	position: absolute;
+	display: block;
+	width: 2rem;
+	height: 2rem;
+	min-width: 2rem;
+	min-height: 2rem;
+	max-width: 2rem;
+	max-height: 2rem;
+	border-radius: 50%;
+	background-color: var(--accent-bright-red);
+	border: 1px solid #ccc;
+	z-index: 888;
+	&:hover {
+		background-color: var(--accent-bright-red);
+		cursor: "ns-resize";
+	}
+	&:focus-within {
+		background-color: var(--accent-bright-red);
+		cursor: "ns-resize";
+	}
+}
+
+.TopLeftEdge {
+	@include edgeHandle();
+	width: 100%;
+	top: -0.5rem;
+	left: -0.5rem;
+}
+.TopRightEdge {
+	@include edgeHandle();
+	width: 100%;
+	top: -0.5rem;
+	right: -0.5rem;
+}
+.BottomLeftEdge {
+	@include edgeHandle();
+	width: 100%;
+	bottom: -0.5rem;
+	left: -0.5rem;
+}
+.BottomRightEdge {
+	@include edgeHandle();
+	width: 100%;
+	bottom: -0.5rem;
+	right: -0.5rem;
+}

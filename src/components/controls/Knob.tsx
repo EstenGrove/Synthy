@@ -174,7 +174,10 @@ const getNormalizedValue = (value: number): number => {
 	const MIN = 1;
 	const MAX = 100;
 	const numIsInRange = isBetween(value, { min: MIN, max: MAX });
+
 	if (numIsInRange) {
+		console.log("value:", value);
+		console.log("numIsInRange", numIsInRange);
 		return value;
 	} else {
 		const rangeValue = value * MAX;
@@ -219,7 +222,6 @@ const Knob = ({
 		setAngle(newDegs);
 		updateKnob(newDegs);
 
-		// onChange(name, newValue);
 		onChange(name, newValue);
 	};
 
@@ -263,7 +265,6 @@ const Knob = ({
 		if (!isMounted) return;
 
 		// Update knob onMount
-		// updateKnob(angle);
 		const initVal = getDefaultValue(actualValue, { min, max });
 		updateKnob(initVal);
 
@@ -272,6 +273,8 @@ const Knob = ({
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	console.log("actualValue", actualValue);
 
 	return (
 		<div

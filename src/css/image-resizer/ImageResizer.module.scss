@@ -1,0 +1,48 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+// $mask: rgba(0, 0, 0, 0.9);
+$mask: rgba(0, 0, 0, 1);
+
+.ImageResizer {
+	user-select: none;
+	overflow: hidden;
+
+	&_inner {
+		position: relative;
+		overflow: hidden;
+		min-width: 70rem;
+		min-height: 50rem;
+		z-index: 1;
+
+		&_mask {
+			z-index: 1;
+			@include fill_container;
+		}
+	}
+}
+
+.IconButton {
+	width: max-content;
+	height: max-content;
+	border-radius: 0.5rem;
+	padding: 0.8rem 1.2rem;
+	font-size: 1.6rem;
+	border: none;
+	outline: none;
+	@include flex_row(center, center);
+	gap: 0 0.2rem;
+	background-color: var(--accent-bright-red);
+	margin-top: 4rem;
+	&:hover {
+		cursor: pointer;
+	}
+
+	&_icon {
+		width: 1.5rem;
+		height: 1.5rem;
+		fill: #fff;
+		margin-right: 0.2rem;
+	}
+}

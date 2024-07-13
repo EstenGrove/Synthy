@@ -4,7 +4,7 @@ import Synthy from "../components/synth-panel/Synthy";
 import Knob from "../components/controls/Knob";
 
 const SynthyPage = () => {
-	const [value, setValue] = useState<number>(0.5);
+	const [value, setValue] = useState<number>(1.0);
 
 	const handleVal = (_: string, newVal: number) => {
 		const formatted = newVal / 100;
@@ -14,7 +14,7 @@ const SynthyPage = () => {
 		<div className={styles.SynthyPage}>
 			<h1>Synthy Polyphonic Synth</h1>
 
-			{/* <div className={styles.SynthyPage_demo}>
+			<div className={styles.SynthyPage_demo}>
 				<Knob
 					name="test1"
 					label="Test"
@@ -23,7 +23,7 @@ const SynthyPage = () => {
 					onChange={handleVal}
 					enableArc={true}
 				/>
-			</div> */}
+			</div>
 
 			<main className={styles.SynthyPage_main}>
 				<Synthy />
