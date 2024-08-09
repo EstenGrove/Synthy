@@ -53,7 +53,7 @@ export interface WaveTable {
 
 const defaultTerms: WaveTable = {
 	real: [0, 0, 1, 0, 1],
-	imag: [0, 0, 1, 0, 1].length,
+	imag: [0, 0, 1, 0, 1],
 };
 
 // accepts a custom wavetable dataset to generate a custom PeriodicWave w/ that dataset

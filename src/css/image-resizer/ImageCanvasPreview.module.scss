@@ -1,0 +1,12 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ImageCanvasPreview {
+	@include fill_container;
+
+	& canvas {
+		display: block;
+		max-height: 600px;
+	}
+}
