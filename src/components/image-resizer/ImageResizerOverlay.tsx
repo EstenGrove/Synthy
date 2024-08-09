@@ -1,4 +1,4 @@
-import { useRef, RefObject } from "react";
+import { RefObject } from "react";
 import styles from "../../css/image-resizer/ImageResizerOverlay.module.scss";
 
 type EdgeProps = {
@@ -193,7 +193,6 @@ type Props = {
 
 const ImageResizerOverlay = ({ overlayRef }: Props) => {
 	let isDragging = false;
-	// const overlayRef = useRef<HTMLDivElement>(null);
 
 	// handles dragging the overlay box
 	const handleDragOverlay = (e: React.MouseEvent) => {

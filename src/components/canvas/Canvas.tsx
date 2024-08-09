@@ -5,10 +5,10 @@ type Props = {
 	canvasRef: RefObject<HTMLCanvasElement>;
 	width: number;
 	height: number;
-	handleMouseDown: (e: MouseEvent<HTMLCanvasElement>) => void;
-	handleMouseUp: (e: MouseEvent<HTMLCanvasElement>) => void;
-	handleTouchStart: (e: UIEvent<HTMLCanvasElement>) => void;
-	handleTouchEnd: (e: UIEvent<HTMLCanvasElement>) => void;
+	handleMouseDown?: (e: MouseEvent<HTMLCanvasElement>) => void;
+	handleMouseUp?: (e: MouseEvent<HTMLCanvasElement>) => void;
+	handleTouchStart?: (e: UIEvent<HTMLCanvasElement>) => void;
+	handleTouchEnd?: (e: UIEvent<HTMLCanvasElement>) => void;
 };
 
 const Canvas = ({

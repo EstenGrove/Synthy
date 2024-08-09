@@ -5,22 +5,20 @@ import {
 	ChangeEvent,
 	useMemo,
 	ReactNode,
-	useCallback,
 } from "react";
+import {
+	IDimensions,
+	drawCroppedImage,
+	getCroppedDimensions,
+} from "../../utils/utils_resizer";
+import { createURL } from "../../utils/utils_files";
 import styles from "../../css/image-resizer/ImageResizer.module.scss";
 import sprite from "../../assets/icons/resizer.svg";
-import ImageStaticPreview from "./ImageStaticPreview";
 import FileDropZone from "./FileDropZone";
-import { createURL } from "../../utils/utils_files";
 import ImageResizerGrid from "./ImageResizerGrid";
+import ImageCanvasPreview from "./ImageCanvasPreview";
 import ImageResizerOverlay from "./ImageResizerOverlay";
 import ImageResizerOutputPreview from "./ImageResizerOutputPreview";
-import {
-	createImgAndGetDimensions,
-	drawImageToCanvas,
-	getImageDimensions,
-} from "../../utils/utils_resizer";
-import ImageCanvasPreview from "./ImageCanvasPreview";
 
 const CANVAS_WIDTH = 700;
 const CANVAS_HEIGHT = 500;
@@ -54,14 +52,14 @@ const IconButton = ({
 };
 
 const ImageResizer = () => {
-	const imgRef = useRef<HTMLImageElement>();
-	const originRef = useRef<HTMLCanvasElement>(null);
-	const gridRef = useRef<HTMLDivElement>(null);
-	// ref to our container that dictates the size of the resulting image
-	const overlayRef = useRef<HTMLDivElement>(null);
-	const canvasRef = useRef<HTMLCanvasElement>(null);
-
+	const imgRef = useRef<HTMLImageElement>(null); // used only for <ImageStaticPreview />
+	const gridRef = useRef<HTMLDivElement>(null); // resizer's parent container
+	const overlayRef = useRef<HTMLDivElement>(null); // resizer overlay
+	const sourceCanvasRef = useRef<HTMLCanvasElement>(null); // origin/source canvas
+	const destCanvasRef = useRef<HTMLCanvasElement>(null); // output/destination canvas
+	// uploaded file
 	const [userFile, setUserFile] = useState<File>();
+	// file-blob for static preview(s)
 	const userFileUrl: string = useMemo(() => {
 		if (!userFile) return "";
 		const url = createURL(userFile as Blob);
@@ -88,101 +86,36 @@ const ImageResizer = () => {
 		e.dataTransfer.dropEffect = "move";
 	};
 
+	// draws our source image to the origin canvas (eg. sourceCanvasRef)
 	const drawSourcePreview = (file: Blob) => {
 		const srcUrl = createURL(file);
-		const canvas = originRef?.current as HTMLCanvasElement;
-		const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+		const canvas = sourceCanvasRef?.current as HTMLCanvasElement;
+		const sourceCtx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		const img = new Image();
 		img.src = srcUrl;
 
 		img.onload = () => {
-			canvas.width = 500;
+			canvas.width = 700;
 			canvas.height = 500;
-			img.width = 500;
+			img.width = 700;
 			img.height = 500;
-			ctx.drawImage(img, 0, 0, 500, 500);
-			imgRef.current = img;
+			sourceCtx.drawImage(img, 0, 0, 700, 500);
 		};
 	};
 
+	// draws the cropped/resized image to our output canvas (eg. destCanvasRef)
 	const updateOutputPreview = () => {
-		// origin image
-		const img = imgRef.current as HTMLImageElement;
-		const originCanvas = originRef?.current as HTMLCanvasElement;
-		const {
-			left: originLeft,
-			top: originTop,
-			right: originRight,
-			bottom: originBottom,
-			width: originWidth,
-			height: originHeight,
-		} = img.getBoundingClientRect();
-		const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = img;
-
-		// resized image
-		const overlay = overlayRef?.current as HTMLDivElement;
-		const overlayRect = overlay.getBoundingClientRect();
-		// parent container
 		const grid = gridRef?.current as HTMLDivElement;
-		const gridRect = grid.getBoundingClientRect();
+		const overlay = overlayRef?.current as HTMLDivElement;
+		const originCanvas = sourceCanvasRef?.current as HTMLCanvasElement;
 
-		const { top, left, right, bottom, width, height } = overlayRect;
-		const {
-			top: gridTop,
-			left: gridLeft,
-			right: gridRight,
-			bottom: gridBottom,
-			width: gridWidth,
-			height: gridHeight,
-		} = gridRect;
+		const canvas = destCanvasRef.current as HTMLCanvasElement;
+		const destCtx = canvas.getContext("2d") as CanvasRenderingContext2D;
+		const croppedDims: IDimensions = getCroppedDimensions(overlay, grid);
 
-		// TOP/LEFT ARE CORRECT //
-		// !!!! DO NOT TOUCH THESE !!!! //
-		// const newLeft = originLeft - left;
-		// const newTop = originTop - top;
-
-		const newLeft = left - gridLeft;
-		const newTop = top - gridTop;
-		const newWidth = width;
-		const newHeight = height;
-
-		const canvas = canvasRef.current as HTMLCanvasElement;
-		const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-
-		const dimensions = {
-			sx: newLeft,
-			sy: newTop,
-			sWidth: img.width,
-			sHeight: img.height,
-			dx: 0, // could be 0,0 or where-ever we want to start drawing our cropped output image!
-			dy: 0, // could be 0,0 or where-ever we want to start drawing our cropped output image!
-			dWidth: newWidth,
-			dHeight: newHeight,
-		};
-		const { sx, sy, dWidth, dHeight } = dimensions;
 		// reset our destination canvas prior to drawing the cropped preview
-		ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-		ctx.drawImage(
-			originCanvas,
-			sx,
-			sy,
-			dWidth,
-			dHeight,
-			sx,
-			sy,
-			dWidth,
-			dHeight
-		);
-
-		// ctx.drawImage()
-
-		console.group("Overlay");
-		console.log("newLeft", newLeft);
-		console.log("newTop", newTop);
-		console.log("width", width);
-		console.log("height", height);
-		console.groupEnd();
+		destCtx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+		drawCroppedImage(destCtx, originCanvas, croppedDims);
 	};
 
 	return (
@@ -201,10 +134,10 @@ const ImageResizer = () => {
 				<ImageResizerGrid gridRef={gridRef}>
 					<ImageResizerOverlay overlayRef={overlayRef} />
 					<div className={styles.ImageResizer_inner_mask}>
-						{/* {userFileUrl && (
-							<ImageStaticPreview imgRef={imgRef} src={userFileUrl} />
-						)} */}
-						<ImageCanvasPreview previewRef={originRef} src={userFileUrl} />
+						<ImageCanvasPreview
+							previewRef={sourceCanvasRef}
+							src={userFileUrl}
+						/>
 					</div>
 				</ImageResizerGrid>
 			</div>
@@ -212,7 +145,7 @@ const ImageResizer = () => {
 				<IconButton icon="crop" onClick={updateOutputPreview}>
 					Crop Image
 				</IconButton>
-				<ImageResizerOutputPreview canvasRef={canvasRef} />
+				<ImageResizerOutputPreview canvasRef={destCanvasRef} />
 			</div>
 		</div>
 	);

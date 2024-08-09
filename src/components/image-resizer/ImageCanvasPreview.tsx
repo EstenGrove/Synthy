@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect } from "react";
+import { RefObject } from "react";
 import styles from "../../css/image-resizer/ImageCanvasPreview.module.scss";
 import Canvas from "../canvas/Canvas";
 
@@ -17,13 +17,13 @@ const ImageCanvasPreview = ({
 }: Props) => {
 	return (
 		<div className={styles.ImageCanvasPreview}>
-			<canvas
+			{/* <canvas
 				ref={previewRef}
 				width={width}
 				height={height}
 				className={styles.ImageCanvasPreview_canvas}
-			></canvas>
-			{/* <Canvas width={width} height={height} canvasRef={previewRef} /> */}
+			></canvas> */}
+			<Canvas width={width} height={height} canvasRef={previewRef} />
 			{/*  */}
 			{/*  */}
 		</div>
