@@ -92,6 +92,11 @@ const Nav = () => {
 						Image Resizer
 					</NavLink>
 				</li>
+				<li className={styles.Nav_list_item}>
+					<NavLink to="/editor" style={isActive}>
+						Image Editor
+					</NavLink>
+				</li>
 			</ul>
 		</nav>
 	);

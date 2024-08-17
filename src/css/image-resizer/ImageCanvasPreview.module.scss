@@ -4,6 +4,7 @@
 
 .ImageCanvasPreview {
 	@include fill_container;
+	border-radius: 0 0 1rem 1rem;
 
 	& canvas {
 		display: block;

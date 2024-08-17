@@ -3,9 +3,9 @@ import styles from "../../css/image-resizer/ImageCanvasPreview.module.scss";
 import Canvas from "../canvas/Canvas";
 
 type Props = {
-	src: string;
-	width?: number;
-	height?: number;
+	src?: string;
+	width?: number | string;
+	height?: number | string;
 	previewRef: RefObject<HTMLCanvasElement>;
 };
 //k
@@ -17,15 +17,7 @@ const ImageCanvasPreview = ({
 }: Props) => {
 	return (
 		<div className={styles.ImageCanvasPreview}>
-			{/* <canvas
-				ref={previewRef}
-				width={width}
-				height={height}
-				className={styles.ImageCanvasPreview_canvas}
-			></canvas> */}
 			<Canvas width={width} height={height} canvasRef={previewRef} />
-			{/*  */}
-			{/*  */}
 		</div>
 	);
 };

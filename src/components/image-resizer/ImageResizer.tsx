@@ -1,24 +1,23 @@
-import {
-	useState,
-	useRef,
-	DragEvent,
-	ChangeEvent,
-	useMemo,
-	ReactNode,
-} from "react";
+import { useState, useRef, useCallback, useEffect, ReactNode } from "react";
 import {
 	IDimensions,
 	drawCroppedImage,
 	getCroppedDimensions,
 } from "../../utils/utils_resizer";
-import { createURL } from "../../utils/utils_files";
+import {
+	createFilename,
+	createURL,
+	convertImage,
+	uploadImage,
+} from "../../utils/utils_files";
+import { saveCanvasToImage } from "../../utils/utils_canvas";
 import styles from "../../css/image-resizer/ImageResizer.module.scss";
 import sprite from "../../assets/icons/resizer.svg";
-import FileDropZone from "./FileDropZone";
 import ImageResizerGrid from "./ImageResizerGrid";
 import ImageCanvasPreview from "./ImageCanvasPreview";
 import ImageResizerOverlay from "./ImageResizerOverlay";
 import ImageResizerOutputPreview from "./ImageResizerOutputPreview";
+import ImageResizerToolbar from "./ImageResizerToolbar";
 
 const CANVAS_WIDTH = 700;
 const CANVAS_HEIGHT = 500;
@@ -51,40 +50,26 @@ const IconButton = ({
 	);
 };
 
-const ImageResizer = () => {
-	const imgRef = useRef<HTMLImageElement>(null); // used only for <ImageStaticPreview />
+type Props = {
+	width?: number | string;
+	height?: number | string;
+	file: File;
+};
+
+const ImageResizer = ({
+	width = CANVAS_WIDTH,
+	height = CANVAS_HEIGHT,
+	file,
+}: Props) => {
 	const gridRef = useRef<HTMLDivElement>(null); // resizer's parent container
 	const overlayRef = useRef<HTMLDivElement>(null); // resizer overlay
 	const sourceCanvasRef = useRef<HTMLCanvasElement>(null); // origin/source canvas
 	const destCanvasRef = useRef<HTMLCanvasElement>(null); // output/destination canvas
-	// uploaded file
-	const [userFile, setUserFile] = useState<File>();
-	// file-blob for static preview(s)
-	const userFileUrl: string = useMemo(() => {
-		if (!userFile) return "";
-		const url = createURL(userFile as Blob);
-
-		return url;
-	}, [userFile]);
-
-	const [resizedImg, setResizedImg] = useState<HTMLImageElement>();
-
-	const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		setUserFile(file);
-		drawSourcePreview(file as Blob);
-	};
-	const handleFileDrop = (e: DragEvent<HTMLInputElement>) => {
-		e.preventDefault();
-		const { files } = e.dataTransfer;
-		const file = files?.[0];
-		setUserFile(file);
-		drawSourcePreview(file as Blob);
-	};
-	const handleDragOver = (e: DragEvent<HTMLInputElement>) => {
-		e.preventDefault();
-		e.dataTransfer.dropEffect = "move";
-	};
+	// draw uploaded file
+	const drawOrigin = useCallback(() => {
+		if (!file) return;
+		return drawSourcePreview(file);
+	}, [file]);
 
 	// draws our source image to the origin canvas (eg. sourceCanvasRef)
 	const drawSourcePreview = (file: Blob) => {
@@ -118,25 +103,56 @@ const ImageResizer = () => {
 		drawCroppedImage(destCtx, originCanvas, croppedDims);
 	};
 
+	const saveCroppedImage = () => {
+		const canvas = destCanvasRef?.current as HTMLCanvasElement;
+		const filename = createFilename(file as Blob);
+		console.log("Creating file as...", filename);
+		console.log("file", file);
+		saveCanvasToImage(canvas, { filename, format: "webp" });
+	};
+
+	const sendUpload = async () => {
+		const { name } = file;
+		const noExt = name.split(".")[0];
+		const hash = Date.now().toString().slice(-5);
+		const canvas = destCanvasRef?.current as HTMLCanvasElement;
+		const filename = `${hash}__${noExt}.webp`;
+		saveCanvasToImage(canvas, { filename, format: "webp" });
+		const response = await convertImage(file as File, {
+			filename: name,
+			format: "webp",
+		});
+
+		console.log("response", response);
+	};
+
+	// draw our source image once a file is uploaded from the parent
+	useEffect(() => {
+		let isMounted = true;
+		if (!isMounted) {
+			return;
+		}
+
+		if (file) {
+			drawOrigin();
+		}
+
+		return () => {
+			isMounted = false;
+		};
+	}, [drawOrigin, file]);
+
 	return (
 		<div className={styles.ImageResizer}>
-			<div className={styles.ImageResizer_dropzone}>
-				<FileDropZone
-					id="userFile"
-					name="userFile"
-					hasFile={!!userFile}
-					onFile={handleFile}
-					onFileDrop={handleFileDrop}
-					onFileDragOver={handleDragOver}
-				/>
-			</div>
+			<ImageResizerToolbar />
 			<div className={styles.ImageResizer_inner}>
 				<ImageResizerGrid gridRef={gridRef}>
 					<ImageResizerOverlay overlayRef={overlayRef} />
 					<div className={styles.ImageResizer_inner_mask}>
 						<ImageCanvasPreview
 							previewRef={sourceCanvasRef}
-							src={userFileUrl}
+							width={width}
+							height={height}
 						/>
 					</div>
 				</ImageResizerGrid>
@@ -144,6 +160,9 @@ const ImageResizer = () => {
 			<div className={styles.ImageResizer_output}>
 				<IconButton icon="crop" onClick={updateOutputPreview}>
 					Crop Image
+				</IconButton>
+				<IconButton icon="save" onClick={sendUpload}>
+					Save Image
 				</IconButton>
 				<ImageResizerOutputPreview canvasRef={destCanvasRef} />
 			</div>

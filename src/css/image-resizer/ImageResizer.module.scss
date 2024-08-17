@@ -14,11 +14,14 @@ $mask: rgba(0, 0, 0, 1);
 		overflow: hidden;
 		min-width: 70rem;
 		min-height: 50rem;
+		border-radius: 0 0 1rem 1rem;
+		@include fill_container;
 		z-index: 1;
 
 		&_mask {
 			z-index: 1;
 			@include fill_container;
+			border-radius: 0 0 1rem 1rem;
 		}
 	}
 }

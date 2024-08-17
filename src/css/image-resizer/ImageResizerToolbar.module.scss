@@ -1,0 +1,12 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ImageResizerToolbar {
+	width: 100%;
+	height: 8rem;
+	border: 1px solid #ccc;
+	border-right: none;
+	// border-bottom: none;
+	border-radius: 1rem 0 0 0;
+}

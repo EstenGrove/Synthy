@@ -1,4 +1,6 @@
 import { RefObject } from "react";
+import { IDimensions } from "./utils_resizer";
+import { ConvertOpts } from "./utils_files";
 
 interface ElBounds {
 	left: number;
@@ -125,9 +127,26 @@ const saveFileFromUrl = (url: string, filename: string) => {
 	link.click();
 };
 
-const saveCanvasToImage = (canvas: HTMLCanvasElement, filename: string) => {
-	const srcUrl = canvas.toDataURL("image/png");
+const saveCanvasToImage = (canvas: HTMLCanvasElement, options: ConvertOpts) => {
+	const { filename, format } = options;
+	const srcUrl = canvas.toDataURL(`image/${format}`);
 	saveFileFromUrl(srcUrl, filename);
+};
+
+// Draw image to canvas with a promise
+const drawImageAsync = (
+	canvasCtx: CanvasRenderingContext2D,
+	imgEl: HTMLImageElement,
+	dimensions: IDimensions
+) => {
+	return new Promise((resolve, reject) => {
+		const { sx, sy, dWidth, dHeight } = dimensions;
+		imgEl.onload = () => {
+			resolve(canvasCtx.drawImage(imgEl, sx, sy, dWidth, dHeight));
+		};
+
+		imgEl.onerror = reject;
+	});
 };
 
 export {
@@ -145,4 +164,6 @@ export {
 	// canvas saving
 	saveCanvasToBlob,
 	saveCanvasToImage,
+	// Draw image to canvas with a promise
+	drawImageAsync,
 };

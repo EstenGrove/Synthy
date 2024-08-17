@@ -1,0 +1,29 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ImageConverter {
+	width: 100%;
+	height: auto;
+	display: block;
+	margin: 0 auto;
+
+	&_editor {
+		width: 100%;
+		max-width: 130rem;
+		height: 65rem;
+		@include flex_row(flex-start, flex-start, nowrap);
+
+		&_main {
+			width: 80%;
+			height: 100%;
+			min-height: 100%;
+			max-height: 100%;
+		}
+		&_settings {
+			width: 20%;
+			height: 100%;
+			min-height: 100%;
+		}
+	}
+}

@@ -2,7 +2,7 @@
 @import "../../sass/mixins";
 @import "../../sass/custom";
 
-.Canvas {
-	width: auto;
-	height: auto;
+.ImageEditorPlayground {
+	@include fill_container;
+	padding: 2rem;
 }

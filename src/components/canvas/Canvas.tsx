@@ -3,8 +3,8 @@ import styles from "../../css/canvas/Canvas.module.scss";
 
 type Props = {
 	canvasRef: RefObject<HTMLCanvasElement>;
-	width: number;
-	height: number;
+	width?: number | string;
+	height?: number | string;
 	handleMouseDown?: (e: MouseEvent<HTMLCanvasElement>) => void;
 	handleMouseUp?: (e: MouseEvent<HTMLCanvasElement>) => void;
 	handleTouchStart?: (e: UIEvent<HTMLCanvasElement>) => void;
@@ -13,8 +13,8 @@ type Props = {
 
 const Canvas = ({
 	canvasRef,
-	width = 600,
-	height = 600,
+	width = 500,
+	height = 500,
 	// mouse events
 	handleMouseDown,
 	handleMouseUp,
